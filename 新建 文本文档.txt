@@ -1,0 +1,13 @@
+要自定义此页面，请按以下说明修改：
+
+商品图片 - 将所有 src="https://via.placeholder.com/..." 替换为实际商品图片URL
+
+商品名称 - 将所有 <h3 class="product-card-title">...</h3> 中的文本替换为实际商品名称
+
+商品价格 - 将所有 <div class="product-card-price">...</div> 中的价格替换为实际价格
+
+商品描述 - 将所有 <p class="product-card-subtitle">...</p> 中的文本替换为实际商品描述
+
+商品链接 - 如果需要添加商品详情页链接，可以在每个商品卡片外部添加 <a href="商品详情页URL">...</a>
+
+这个页面设计保持了乐高官网的简洁奢华风格，同时提供了完整的商品浏览和筛选体验。

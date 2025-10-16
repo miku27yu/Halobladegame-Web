@@ -1,0 +1,2204 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>序章：转封之日 - 《众星之环》</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a365d;
+            --secondary-blue: #2d4a7a;
+            --accent-blue: #4a6fa5;
+            --light-blue: #a0c1d1;
+            --text-dark: #2d3748;
+            --text-light: #f7fafc;
+            --background-light: #f5f7fa;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+
+        /* 夜间模式变量 */
+        .dark-mode {
+            --primary-blue: #0f1a2f;
+            --secondary-blue: #1e2f4f;
+            --accent-blue: #3a5785;
+            --light-blue: #6a8ea8;
+            --text-dark: #e2e8f0;
+            --text-light: #f7fafc;
+            --background-light: #121826;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* 导航栏 */
+        .main-nav {
+            background-color: var(--primary-blue);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo h1 {
+                color: var(--text-light);
+                font-size: 24px;
+                margin-left: 10px;
+                font-weight: 300;
+                letter-spacing: 1px;
+                transition: color 0.3s ease;
+            }
+
+            .logo i {
+                color: var(--light-blue);
+                font-size: 28px;
+                transition: color 0.3s ease;
+            }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+            .nav-links a {
+                color: var(--text-light);
+                text-decoration: none;
+                font-weight: 400;
+                font-size: 16px;
+                position: relative;
+                transition: all 0.3s ease;
+                padding: 5px 0;
+            }
+
+                .nav-links a:hover {
+                    color: var(--light-blue);
+                }
+
+                .nav-links a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    height: 1px;
+                    background-color: var(--light-blue);
+                    transition: width 0.3s ease;
+                }
+
+                .nav-links a:hover::after {
+                    width: 100%;
+                }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .nav-icon:hover {
+                color: var(--light-blue);
+            }
+
+        /* 书签角标 */
+        .bookmark-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 章节标题区域 */
+        .chapter-header {
+            background: linear-gradient(rgba(26, 54, 93, 0.85), rgba(26, 54, 93, 0.9)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light);
+            padding: 80px 0 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .chapter-header {
+            background: linear-gradient(rgba(15, 26, 47, 0.85), rgba(15, 26, 47, 0.9)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        .chapter-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+        }
+
+        .chapter-title {
+            font-size: 42px;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .chapter-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 章节选择器 */
+        .chapter-selector-container {
+            margin: 25px auto 0;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .chapter-selector-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--light-blue);
+        }
+
+        .chapter-select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--primary-blue);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+            .chapter-select:hover {
+                background-color: white;
+                border-color: rgba(255, 255, 255, 0.8);
+            }
+
+            .chapter-select:focus {
+                outline: none;
+                border-color: var(--light-blue);
+                box-shadow: 0 0 0 2px rgba(160, 193, 209, 0.5);
+            }
+
+        .dark-mode .chapter-select {
+            background-color: rgba(26, 54, 93, 0.9);
+            color: var(--text-light);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0c1d1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        }
+
+            .dark-mode .chapter-select:hover {
+                background-color: rgba(26, 54, 93, 1);
+            }
+
+        /* 书签切换开关 */
+        .bookmark-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 8px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            color: var(--light-blue);
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+
+        input:checked + .toggle-slider {
+            background-color: var(--light-blue);
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(20px);
+            }
+
+        /* 章节内容 */
+        .chapter-content {
+            padding: 60px 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            padding: 50px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .content-container {
+            background-color: #1a2435;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+
+        .content-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-blue), var(--light-blue));
+        }
+
+        .chapter-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+            .chapter-text p {
+                margin-bottom: 24px;
+                text-align: justify;
+            }
+
+                .chapter-text p:first-child::first-letter {
+                    font-size: 48px;
+                    float: left;
+                    line-height: 1;
+                    margin-right: 8px;
+                    color: var(--accent-blue);
+                    font-weight: 300;
+                }
+
+        .quote {
+            border-left: 3px solid var(--light-blue);
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: var(--secondary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .quote {
+            color: #8fa8c7;
+        }
+
+        /* 章节导航 */
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+            .nav-btn:hover {
+                background-color: var(--secondary-blue);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        /* 书签弹窗 */
+        .bookmark-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bookmark-modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+
+        .dark-mode .bookmark-modal-content {
+            background-color: #1a2435;
+        }
+
+        .bookmark-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .bookmark-modal-header {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .bookmark-modal-title {
+            font-size: 20px;
+            color: var(--primary-blue);
+        }
+
+        .dark-mode .bookmark-modal-title {
+            color: var(--light-blue);
+        }
+
+        .bookmark-modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .dark-mode .bookmark-modal-close {
+            color: var(--text-light);
+        }
+
+        .bookmark-list {
+            list-style: none;
+        }
+
+        .bookmark-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .bookmark-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .bookmark-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .dark-mode .bookmark-item:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .bookmark-item:last-child {
+            border-bottom: none;
+        }
+
+        .bookmark-item-info {
+            flex: 1;
+        }
+
+        .bookmark-item-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .bookmark-item-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .dark-mode .bookmark-item-subtitle {
+            color: #aaa;
+        }
+
+        .bookmark-item-remove {
+            background: none;
+            border: none;
+            color: #e53e3e;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+            .bookmark-item-remove:hover {
+                background-color: rgba(229, 62, 62, 0.1);
+            }
+
+        .no-bookmarks {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .dark-mode .no-bookmarks {
+            color: #aaa;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 60px 0 20px;
+            margin-top: 60px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-blue);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #cbd5e0;
+                text-decoration: none;
+                transition: color 0.3s ease;
+                font-weight: 300;
+            }
+
+                .footer-links a:hover {
+                    color: var(--text-light);
+                }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+            .social-icons a {
+                color: var(--text-light);
+                font-size: 18px;
+                transition: color 0.3s ease;
+            }
+
+                .social-icons a:hover {
+                    color: var(--light-blue);
+                }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: #a0aec0;
+            font-weight: 300;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .chapter-title {
+                font-size: 32px;
+            }
+
+            .content-container {
+                padding: 30px 20px;
+            }
+
+            .chapter-text {
+                font-size: 16px;
+            }
+
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                justify-content: center;
+            }
+
+            .chapter-selector-container {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主导航 -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-stars"></i>
+                <h1>众星之环</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="./HTMLPage1.html#content">正文</a>
+                <a href="./HTMLPage1.html#setting">设定</a>
+                <a href="./HTMLPage1.html#characters">人物</a>
+                <a href="./HTMLPage1.html#stories">短篇</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="nav-icon" id="bookmark-toggle">
+                    <i class="far fa-bookmark"></i>
+                    <span class="bookmark-badge" id="bookmark-count">0</span>
+                </a>
+                <a href="#" class="nav-icon" id="theme-toggle"><i class="fas fa-sun"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 章节标题区域 -->
+    <section class="chapter-header">
+        <div class="container">
+            <h1 class="chapter-title" id="chapter-title">序章：转封之日</h1>
+            <p class="chapter-subtitle" id="chapter-subtitle">数千年前，乌提卡人相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中...</p>
+
+            <!-- 章节选择器 -->
+            <div class="chapter-selector-container">
+                <label for="chapter-select" class="chapter-selector-label">选择章节</label>
+                <select id="chapter-select" class="chapter-select" size="1">
+                    <!-- 章节选项将由JavaScript动态生成 -->
+                </select>
+
+                <!-- 书签章节切换开关 -->
+                <div class="bookmark-toggle">
+                    <span class="toggle-label">仅显示书签章节</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="bookmark-only-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 章节内容 -->
+    <section class="chapter-content">
+        <div class="container">
+            <div class="content-container">
+                <div class="chapter-text" id="chapter-content">
+                    <p>数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
+
+                    <p>而如今乌提卡人的信仰早已随着他们古老的帝国彻底消散在历史的烟海中……然而，倘若这支古老民族所说属实，那毫无疑问，这片大地也应该早已忘记了如今重归的这种喧嚣。</p>
+
+                    <p>庞大的阴影伴随着巨大的噪音，拦腰截断生长千万年的巨树，将其碾压进泥水，永远沉默在深深刻进大地的宽阔车辙中。足足三艘，陆行战舰(Land Cruiser)全功率行进的轰鸣彻底摧毁了整片荒野的寂静。对于徒步行人而言恶劣的路况在高速战舰的履带面前不值一提。艾卡纳罗沉默着站在舰首，任由略微寒冷的夜风吹起他的衣襟。</p>
+
+                    <p>他听见军官们在战舰下层紧张讨论着警戒工作。对于这些初入这片地区的桐国年轻人而言，眼下的状况的确让人有些许不安。然而艾卡纳罗并无这样的担心。他背着双手，佩剑安然挂在身体左侧。借助龙裔血统的种族优势，他的视线轻易穿透黑夜，看到远远的地平线上城市巨大的剪影。</p>
+
+                    <p>安卡隆德特区(S-district Ankrond)重镇，卡诺兰特(Kainorant)。当然这是这座城市多年前，安卡隆德仍旧是独立王国时的名字。</p>
+
+                    <p>塔尔家族(House of Tar)最早的封地安达洛斯堡(Fort Androze)就属于卡诺兰特的辖地……当然这一切都是"王国时代"的往事了。如今父系血脉的故乡，对于多年未归的艾卡纳罗而言破败而荒凉。</p>
+
+                    <div class="quote">
+                        "大人，"背后传来吴清参谋的声音："舰桥汇报，直线行进大约半小时后进入领地范围。就是可能影响到邻近市镇的居民。您看……"
+                    </div>
+
+                    <p>"走外环吧。"艾卡纳罗没有犹豫。现在是秋收季节，他不愿意破坏农田："这里的民众生活也不容易。"吴清闻言，沉重地点了点头。"也不容易"，艾卡纳罗没有过多描述具体情形。然而作为大桐陆军军官大学毕业的高材生，吴清对于安卡隆德王国解体后这片地区长达百年的混乱和危机深有了解。而那的确远非一句"也不容易"就能带过的历史。</p>
+
+                    <p>吴清正要离开，却被艾卡纳罗喊住："中明，陛下没有消息吗？"吴清愣了片刻，语气略微寒冷地回道:"没有。"艾卡纳罗一听便知道是怎么回事。他苦笑着说道："我早就说了和中央保持联系。你们终归是神皇(God Emperor)的军队。"</p>
+
+                    <p>桐明帝宇文成，"神皇"，东大陆翻手为云覆手成雨的伟大君主。艾卡纳罗没想到自己的近卫军团竟然为自己的境遇如此愤慨，乃至和如此强大的君王叫板。"这不是陛下的设计，中明……"艾卡纳罗扶额，"相反我们都该感谢陛下。若非如此我们都会在如今阅阳的政治泥潭里烂掉。"事实当然也是这样。</p>
+
+                    <div class="quote">
+                        "倘真如此，大人。"吴清挥臂划过面前冰冷的荒野。随后行礼告退。看似同意的言行里不忿未减分毫。
+                    </div>
+
+                    <p>诚然，处于忠诚执意追随他的军团如今不得不因一纸转封敕令背井离乡。任何人都不可能坦然接受。</p>
+
+                    <p>半个月前就预订的大批补给差不多明天中午抵达，官方委派的工程船队大概三天后到……那也就是城市重建的开始……艾卡纳罗按照已知信息粗略估计了一下。原本可以直接问吴清或者参谋部。但他方才大步离去，没有留下艾卡纳罗提问的时间。</p>
+
+                    <p>卡诺兰特城的剪影变得清晰。艾卡纳罗甚至隐约看到了星星点点的灯火。这便是他未来很久一段时间里，起码名义上的家园。他仿佛感知到战舰下层近卫军团辐射出的热量……相较大桐数千年缔造的那些大公，他现下所拥有的实力微不足道。然而一百余年的岁月告诉他，这片大地的历史，从来不是由既定的人群书写。</p>
+
+                    <p>这里是原安卡隆德王国重镇，卡诺兰特，如今桐帝国安卡隆德特别行政区执政核心，隶属帝国中央序列(Major Scale)。</p>
+
+                    <p>而他，塔尔-艾卡纳罗(Tar-Aikanaro)，是权力受封于宇文成神皇的，安卡隆德公爵(Duke of Ankrond)。</p>
+
+                    <p>他不禁想起许多年前的自己。如今贵为桐帝国大公的他，最大的愿望却是抛却权杖的重量，回到那最平凡不过的阳光和风雨之中……</p>
+                </div>
+            </div>
+
+            <!-- 章节导航 -->
+            <div class="chapter-nav">
+                <a href="#" class="nav-btn" id="prev-chapter">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>上一章</span>
+                </a>
+                <a href="#" class="nav-btn" id="next-chapter">
+                    <span>下一章</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 书签弹窗 -->
+    <div class="bookmark-modal" id="bookmark-modal">
+        <div class="bookmark-modal-content">
+            <div class="bookmark-modal-header">
+                <h3 class="bookmark-modal-title">书签章节</h3>
+                <button class="bookmark-modal-close" id="bookmark-modal-close">&times;</button>
+            </div>
+            <ul class="bookmark-list" id="bookmark-list">
+                <!-- 书签列表将由JavaScript动态生成 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">作品介绍</a></li>
+                        <li><a href="#">作者简介</a></li>
+                        <li><a href="#">创作历程</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>阅读资源</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">全部章节</a></li>
+                        <li><a href="#">设定集</a></li>
+                        <li><a href="#">角色图鉴</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>社区互动</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">读者讨论区</a></li>
+                        <li><a href="#">同人作品</a></li>
+                        <li><a href="#">读者问答</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关注我们</h4>
+                    <p>获取最新更新和创作幕后</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 《众星之环》官方小说站. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 章节数据
+        const chapters = {
+            "prologue": {
+                id: "prologue",
+                title: "序章：转封之日",
+                subtitle: "数千年前，乌提卡人相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中...",
+                content: `
+                        <p>数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
+                        <p>而如今乌提卡人的信仰早已随着他们古老的帝国彻底消散在历史的烟海中……然而，倘若这支古老民族所说属实，那毫无疑问，这片大地也应该早已忘记了如今重归的这种喧嚣。</p>
+                        <p>庞大的阴影伴随着巨大的噪音，拦腰截断生长千万年的巨树，将其碾压进泥水，永远沉默在深深刻进大地的宽阔车辙中。足足三艘，陆行战舰(Land Cruiser)全功率行进的轰鸣彻底摧毁了整片荒野的寂静。对于徒步行人而言恶劣的路况在高速战舰的履带面前不值一提。艾卡纳罗沉默着站在舰首，任由略微寒冷的夜风吹起他的衣襟。</p>
+                        <p>他听见军官们在战舰下层紧张讨论着警戒工作。对于这些初入这片地区的桐国年轻人而言，眼下的状况的确让人有些许不安。然而艾卡纳罗并无这样的担心。他背着双手，佩剑安然挂在身体左侧。借助龙裔血统的种族优势，他的视线轻易穿透黑夜，看到远远的地平线上城市巨大的剪影。</p>
+                        <p>安卡隆德特区(S-district Ankrond)重镇，卡诺兰特(Kainorant)。当然这是这座城市多年前，安卡隆德仍旧是独立王国时的名字。</p>
+                        <p>塔尔家族(House of Tar)最早的封地安达洛斯堡(Fort Androze)就属于卡诺兰特的辖地……当然这一切都是"王国时代"的往事了。如今父系血脉的故乡，对于多年未归的艾卡纳罗而言破败而荒凉。</p>
+                        <div class="quote">
+                            "大人，"背后传来吴清参谋的声音："舰桥汇报，直线行进大约半小时后进入领地范围。就是可能影响到邻近市镇的居民。您看……"
+                        </div>
+                        <p>"走外环吧。"艾卡纳罗没有犹豫。现在是秋收季节，他不愿意破坏农田："这里的民众生活也不容易。"吴清闻言，沉重地点了点头。"也不容易"，艾卡纳罗没有过多描述具体情形。然而作为大桐陆军军官大学毕业的高材生，吴清对于安卡隆德王国解体后这片地区长达百年的混乱和危机深有了解。而那的确远非一句"也不容易"就能带过的历史。</p>
+                        <p>吴清正要离开，却被艾卡纳罗喊住："中明，陛下没有消息吗？"吴清愣了片刻，语气略微寒冷地回道:"没有。"艾卡纳罗一听便知道是怎么回事。他苦笑着说道："我早就说了和中央保持联系。你们终归是神皇(God Emperor)的军队。"</p>
+                        <p>桐明帝宇文成，"神皇"，东大陆翻手为云覆手成雨的伟大君主。艾卡纳罗没想到自己的近卫军团竟然为自己的境遇如此愤慨，乃至和如此强大的君王叫板。"这不是陛下的设计，中明……"艾卡纳罗扶额，"相反我们都该感谢陛下。若非如此我们都会在如今阅阳的政治泥潭里烂掉。"事实当然也是这样。</p>
+                        <div class="quote">
+                            "倘真如此，大人。"吴清挥臂划过面前冰冷的荒野。随后行礼告退。看似同意的言行里不忿未减分毫。
+                        </div>
+                        <p>诚然，处于忠诚执意追随他的军团如今不得不因一纸转封敕令背井离乡。任何人都不可能坦然接受。</p>
+                        <p>半个月前就预订的大批补给差不多明天中午抵达，官方委派的工程船队大概三天后到……那也就是城市重建的开始……艾卡纳罗按照已知信息粗略估计了一下。原本可以直接问吴清或者参谋部。但他方才大步离去，没有留下艾卡纳罗提问的时间。</p>
+                        <p>卡诺兰特城的剪影变得清晰。艾卡纳罗甚至隐约看到了星星点点的灯火。这便是他未来很久一段时间里，起码名义上的家园。他仿佛感知到战舰下层近卫军团辐射出的热量……相较大桐数千年缔造的那些大公，他现下所拥有的实力微不足道。然而一百余年的岁月告诉他，这片大地的历史，从来不是由既定的人群书写。</p>
+                        <p>这里是原安卡隆德王国重镇，卡诺兰特，如今桐帝国安卡隆德特别行政区执政核心，隶属帝国中央序列(Major Scale)。</p>
+                        <p>而他，塔尔-艾卡纳罗(Tar-Aikanaro)，是权力受封于宇文成神皇的，安卡隆德公爵(Duke of Ankrond)。</p>
+                        <p>他不禁想起许多年前的自己。如今贵为桐帝国大公的他，最大的愿望却是抛却权杖的重量，回到那最平凡不过的阳光和风雨之中……</p>
+                    `
+            },
+            "chapter1": {
+                id: "chapter1",
+                title: "第一章：混血龙裔",
+                subtitle: "艾卡纳罗抵达了他的新领地，面对破败的城市和敌意的目光...",
+                content: `
+                        <p>塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下。天空的色彩像是混合在雨水中脱落了一般，只剩下朦胧的灰色。</p>
+
+<div class="quote">
+    "你的右眼看起来真是不同，就像你们安卡隆德人发怒的样子一样。"
+</div>
+
+<p>类似的问题出现在艾卡纳罗耳中早已不止一次两次了。安卡隆德的龙裔们……他很少谈论自己的血统。世人惧怕的东西多数不分好坏，只是那些与众不同的部分。</p>
+
+<div class="quote">
+    "这样啊，那是什么样子呢？"
+</div>
+
+<p>面对这样的问题，艾卡纳罗能做的，也只是装出一个困惑的微笑。</p>
+
+<div class="quote">
+    "让人不安的样子吧……"
+</div>
+
+<p>这样的回答后往往跟着疑问者语气友善的解释，但艾卡纳罗很清楚那一部分话并不反映真实的想法——恰恰相反，这反映出更高形式的恐惧，恐惧艾卡纳罗的愤怒，和随之而来的"后果"。</p>
+
+<div class="quote">
+    "艾卡纳罗？"
+</div>
+
+<p>站在他对面的年轻女孩不安地叫了他一声。他抬眼看了看她，低头整理着衣领，任凭窗外的雨声维持着让人尴尬的沉默。</p>
+
+<div class="quote">
+    "你叫什么名字？"
+</div>
+
+<p>将近三分钟后艾卡纳罗才缓缓开口，</p>
+
+<div class="quote">
+    "入学第一天，你叫我来就是为了问这样的问题？"
+</div>
+
+<div class="quote">
+    "解羽吟。我不是有意冒犯……"
+</div>
+
+<div class="quote">
+    "冒犯的人多半都会以这句话开头，省得事后遭人诘难。"
+</div>
+
+<p>艾卡纳罗的回复丝毫不带客气。解羽吟像是委屈一般，被呛得不知如何接话。</p>
+
+<div class="quote">
+    "这个名字……你是桐国贵族。"
+</div>
+
+<p>艾卡纳罗是纯粹的陈述。以飞鸟的羽翼或姿态命名，是桐帝国贵族的古老传统，某种意义上的特权。</p>
+
+<div class="quote">
+    "我是。你呢，艾卡纳罗？算了……我不用多问这些。安卡隆德人不愿意显得出众时，没法从桐国人中加以区分。"
+</div>
+
+<div class="quote">
+    "我不是安卡隆德人。我的身份和你一样。"
+</div>
+
+<p>艾卡纳罗不动声色地回驳道。</p>
+
+<div class="quote">
+    "追问无根之人的族类，不符合桐国贵族的礼节。"
+</div>
+
+<p>艾卡纳罗说罢，从窗沿边轻身跃下，径直撕开身边小门的维修封条，</p>
+
+<div class="quote">
+    "这个体育馆漏雨。不然也不会封闭。你尽早走吧。不要乱猜我们的事。"
+</div>
+
+<div class="quote">
+    "多虑了同学。只是单纯好奇未来几年身边会有一个怎样的……"
+</div>
+
+<p><strong>！！！！！！</strong></p>
+
+<p>解羽吟根本来不及作出反应，身边两米高的实木障碍墙就如同爆炸一般，整整半面寸寸碎裂。飞溅的木片若非剩下半面阻挡，早已将她的侧脸划得血肉模糊。</p>
+
+<p>整个过程中，她只捕捉到艾卡纳罗手中一闪而过的暗沉金属色光泽，在空气中划过简洁流畅至极的弧线。</p>
+
+<p>当她回过一丝神时，早已不见那东西的踪影。只有满面微笑的艾卡纳罗和他手里的雨伞：</p>
+
+<div class="quote">
+    "未来几年你身边会有一个普普通通的同学，解羽吟。"
+</div>
+
+<p>说着，他的右眼迅速变作正常的黑色，瞳孔也恢复原状，</p>
+
+<div class="quote">
+    "今天的事不必再多回忆了。我是谁，来阅阳大学做什么，你不能知道，所以也不会知道。"
+</div>
+
+<p>微微鞠躬，艾卡纳罗转身走进雨幕。</p>
+
+<div class="quote">
+    "啊哈……哈……哈……"
+</div>
+
+<p>解羽吟这时才缓过来，大口喘息着压抑迟来的恐惧。</p>
+
+<p>阅阳解氏，世袭武定君爵位，家族中出过高达四阶的栖桐台司桐使和大量翼卫司军官，解羽吟虽然并未向这一方向培养，但也是从小谙熟族中先辈的事迹。事实是……这个看似与自己同龄的神秘同学展现出的实力，已经隐隐有了压倒族谱中关于所有这些强悍先辈的记录的气势。</p>
+
+<p>作为一个桐国人，特别是有贵族背景的桐国人，解羽吟很清楚大桐千年国祚养造的奇人异士何其之多。只是……即便有这份认知，每每面对他们时，心中的讶异都分毫不减。</p>
+
+<p>正如艾卡纳罗离开时留下的话，偌大的阅阳大学，立刻便没了他的身影。</p>
+
+<p>被无关紧要的人物麻烦，对艾卡纳罗而言是司空见惯的情形。而他之所以会发火，也无非是因为他来到这里的原因。</p>
+
+<p>他决非出于任何崇高的目的远赴桐国。事实上，他是来此避难的。</p>
+
+<div class="quote">
+    "避难"。
+</div>
+
+<p>一个涵盖范围相当广泛的词。对于它的具体界定完全取决于不同人对于"灾难"一事的考量。而对于艾卡纳罗而言，他如今面临的"灾难"，就是自己的父邦——诸龙裔之国，安卡隆德。</p>
+
+<p>离开年轻人意外的纠缠后，艾卡纳罗撑起黑伞，默然走向社科院。邀请他前来的人也是如今他为一想到能找的人。沉默行路的艾卡纳罗就像之前许久一样，不受控制地紧绷着身体，打开所有感官警惕着四周完全没有理由警惕的事物。他用理智提醒自己这里是大桐阅阳的高等院校，不是卡诺兰特的下城区，一边尽可能不对偶尔路过的，在雨中嬉戏的年轻学生作出反应——他是塔尔-艾卡纳罗，他的反应带来的后果，这些年轻人经不起。想着这里艾卡纳罗自己也不由得想笑。在他的观念里，自己也还没有脱离"年轻人这一范畴"，而以真正的年轻为标准，已经见证过几十轮春秋的他也想不明白自己的定位。</p>
+
+<p>奔跑路过的人群是一回事，有意从背后袭来的抓手就是另一回事了。</p>
+
+<p>转身后撤，右手刺钉霎时出鞘，停在来人喉结前一寸的位置。</p>
+
+<div class="quote">
+    "艾卡纳罗，你告诉我这是我这辈子第几次差点被你戳死？"
+</div>
+
+<p>眼前的青年正用黑褐色的眼眸戏谑地盯着艾卡纳罗。黑色的防雨风衣下穿着精细的套装，领口却随意拉开，手里把玩着不知什么时候扯下的领带。此时他揣起手，耸耸双肩，眼神仿佛在说："你打算几时收起刀。"</p>
+
+<p>艾卡纳罗连忙收起武器，长舒一口气：</p>
+
+<div class="quote">
+    "呼……有几次吧。没想到会在路上遇见，我正去找你。"
+</div>
+
+<div class="quote">
+    "我也是来找你的。谅你也没处可去……"
+</div>
+
+<p>年轻人拍拍艾卡纳罗的肩头，</p>
+
+<div class="quote">
+    "走得很急？"
+</div>
+
+<div class="quote">
+    "很急……"
+</div>
+
+<p>艾卡纳罗尽量不去注意他眼神里的关切。他很清楚他说的什么意思。他如今一点也不愿回想起在卡诺兰特的最后一天……哪怕当初喘息片刻，他或许就再也无法冲出由大公爵亲自把守的边境隘口。</p>
+
+<p>注意到艾卡纳罗的神情，对方脸色微变，他压低声音道：</p>
+
+<div class="quote">
+    "所以他们真的调派了一个大公爵来拦你？是谁？"
+</div>
+
+<p>艾卡纳罗无奈地摇摇头：</p>
+
+<div class="quote">
+    "我们都错判了形势。他们根本没有商定协议的打算。一切的目的都是趁虚彻底摧毁塔尔家族。程云，是'黑死剑'瑟隆达斯-梅奥伦，卡诺兰特公爵。"
+</div>
+
+<div class="quote">
+    "你没认错？艾卡纳罗，这比你想的重要！"
+</div>
+
+<p>程云严肃地盯着他的脸。</p>
+
+<p>这的确很重要，艾卡纳罗心想，比他认为的更重要。瑟隆达斯-梅奥伦是卡诺兰特的本土封君，倘若安卡隆德王国不惜放弃一切托词，直接动用当地贵族截杀艾卡纳罗，那这几乎可以说是上升到国家层面的敌意。当然也并不排除瑟隆达斯家族借口寻仇这一可能。毕竟在安卡隆德王国近千年的贵族博弈中，作为梅尼珂家族的坚定盟友，塔尔家族没少招致瑟隆达斯人的憎恨。鸢尾花公爵和黑死剑公爵的对抗随着岁月流逝加深加剧，塔尔人难免夹在其中。</p>
+
+<p>但是是的。无论如何那都是瑟隆达斯-梅奥伦。他化成灰艾卡纳罗都能认得。那把狰狞的黑剑带来的恐惧让他至今难忘。于是艾卡纳罗对程云给出了肯定的回答。得到答复的程云眉头紧蹙。</p>
+
+<div class="quote">
+    "我知道你在担心什么。"
+</div>
+
+<div class="quote">
+    "卡铎公爵没有庇护你吗？"
+</div>
+
+<p>程云开口打断了艾卡纳罗的话。</p>
+
+<p>艾卡纳罗苦笑着摇摇头：</p>
+
+<div class="quote">
+    "我父亲远行本身就大大削弱了梅尼珂一派的北部防线，程云。在事变发生时瑟隆达斯家族对梅尼珂家族施加了前所未有的压力，而梅尼珂的军事实力本身就不如瑟隆达斯。卡铎公爵无法冲破封锁驰援。"
+</div>
+
+<div class="quote">
+    "听你的描述，安卡隆德的形式已经要上升到内战了。"
+</div>
+
+<p>程云沉声道。</p>
+
+<div class="quote">
+    "尚且不至于，"
+</div>
+
+<p>艾卡纳罗摇摇头，</p>
+
+<div class="quote">
+    "但的确剑拔弩张。刚才给你描述的情形里并没有发生交战，但如今就是牵一发而动全身的形势……谁都不敢妄动。"
+</div>
+
+<div class="quote">
+    "这么看来，塔伦魁尔瑅伯爵远行后你真的应该迅速接替伯爵权力，镇守梅尼珂家族的北方防线。"
+</div>
+
+<div class="quote">
+    "那也于事无补。倘若梅奥伦公爵的目的就在于击溃塔尔家族，你认为他不敢纠集重兵强攻我们的领地？"
+</div>
+
+<p>程云不再说话。艾卡纳罗是对的。自从王族式微后，瑟隆达斯家族就是安卡隆德权势滔天之至的军事贵族。就连其他大公爵也只能束手观望明哲保身，何况仅仅只是作为梅尼珂家族封臣的塔尔伯爵。</p>
+
+<p>更不用说……艾卡纳罗数十年来最不愿意做的，就是坐上那张名为"安卡隆德"的古老赌桌。</p>
+
+<div class="quote">
+    "这次来桐国，有什么打算？"
+</div>
+
+<p>程云拍拍艾卡纳罗，打破沉默。</p>
+
+<div class="quote">
+    "估计要住很久了。趁这段时间我需要调整状态，观望安卡隆德的情况……也好好转变一下自己的生活……"
+</div>
+
+<div class="quote">
+    "程云老弟，说实话我真的受够了安卡隆德。他们在我眼里就是一群老到掉渣的痴人，互相撕咬着去争抢龙王留下的宝座和权力。龙裔生性好战。倘若这些领袖，这些……大贵族乐见其成，我预感我这个父邦将会失去现有的和将有的一切，彻底沦于毁灭。"
+</div>
+
+<p>程云沉默地点点头：</p>
+
+<div class="quote">
+    "还记得那个古老的预言吗？诸龙之火启示……"
+</div>
+
+<div class="quote">
+    "龙裔之火终结……"
+</div>
+
+<p>艾卡纳罗不愿提起这个预言。这个不祥之至的，昭示着古老的龙裔王国注定毁于龙裔之手的诅咒预言……如今看来不无远见。</p>
+
+<div class="quote">
+    "那么先这样吧。"
+</div>
+
+<p>程云拉起兜帽，</p>
+
+<div class="quote">
+    "我给你安排了公寓，应该还是很舒适的……室友是一个学术疯子。高等神秘术专业。我想你们会有很多共同话题。你的公开身份是我的助教，阅阳大学社科院773届研究生。名字……还是本名。我想你也不愿意这么掩耳盗铃地躲避可能来自安卡隆德的报复。前提是'黑死剑'的手果真能伸到这么远的地方。"
+</div>
+
+<p>艾卡纳罗点点头：</p>
+
+<div class="quote">
+    "我还需要桐国的国民身份。我母亲是桐国永宁李氏出身，我有一半焱族血统，应该很好办。"
+</div>
+
+<div class="quote">
+    "好办。"
+</div>
+
+<p>程云挥手让他放心，</p>
+
+<div class="quote">
+    "艾卡纳罗，不要太担心了。你在桐国不只我一个朋友。但是我必须提醒一下你，大桐神皇陛下的统治比安卡隆德龙王更加稳定和细致。在这里遇到任何问题，尽可能联系官方协查，独立执行反而会有不必要的麻烦。"
+</div>
+
+<p>当然如此……艾卡纳罗暗自寻思，除非"黑死剑"假借安卡隆德国家之手先行与桐国联系。想到这里，艾卡纳罗不禁苦笑着提出质疑：</p>
+
+<div class="quote">
+    "不。你不会真的以为在国家舞台上我能和一个龙裔王国的大公爵掰手腕吧？算了……你不要过多操心我这边。你愿意接纳我来，我就已经感激不尽了。"
+</div>
+
+<div class="quote">
+    "如果我告诉你接纳你这事不是我拍的板，你怎么说？"
+</div>
+
+<p>程云故作神秘。</p>
+
+<div class="quote">
+    "你告诉别人我的事了？"
+</div>
+
+<p>艾卡纳罗骤然警惕。</p>
+
+<div class="quote">
+    "看样子你口口声声对我的信任也就那么点……放心！这件事是阅大主要领导拍的板，我只提到你是个安卡隆德和焱族混血。这放在如今桐国是个让人没得拒绝的理由。大桐官方尊重自己的血源，每一个因为两族联姻而复现乌提卡血统的个人都在神皇手下受到庇护。"
+</div>
+
+<div class="quote">
+    "所以，"
+</div>
+
+<p>程云使劲戳戳艾卡纳罗胸口，</p>
+
+<div class="quote">
+    "你提到的，在神皇手下和梅奥伦角力，我看也不见得会输。安卡隆德内部矛盾日益加剧，栖桐台乃至翼卫司都高度警惕。'黑死剑'这样的军事公爵，自然在大桐的远视之中。"
+</div>
+
+<p>闻言，艾卡纳罗无奈地叹气道：</p>
+
+<div class="quote">
+    "但愿是像你说的这样……至于把希望寄托于神皇的庇护……我还是觉得太过理想化了点……"
+</div>
+
+<p>曾几何时，安卡隆德的诸位龙王同样是威震大地的强权君主，与西方领域军事对峙的那数十年里，龙王的威势甚至远胜过三大帝国的皇帝，丝毫不亚于如今的大桐神皇宇文成。而后呢？艾卡纳罗眼见龙裔王国逐年式微，自我割裂。背负伟大国姓，继承古老血统的龙王们更是衰弱到韬略尽失。公爵群起觊觎王冠，不惜兵戈相向。殊不知在他们眼里万般光耀的权力圣战，终究沦为世人口中无聊之际的谈资和自毁长城的荒唐愚行。没有君主能永保大权，掌控一切。无非是换了个国家，当年的龙王如此，现在的神皇亦然。</p>
+
+<p>至少艾卡纳罗如此相信。</p>
+
+<p>如今他远遁大桐，撤出安卡隆德的漩涡，但这并不代表他已然妥协。他是塔尔-艾卡纳罗，安达洛斯堡和安塔洛奇领伯爵，如今他在域外依旧拥有六成的领地。龙王统治繁盛时期，塔尔家族是其麾下最强大的羽翼和猎杀大师。作为当前仅剩的塔尔血统，艾卡纳罗绝不允许瑟隆达斯-梅奥伦玷污其尊严。</p>
+
+<p>程云看出了艾卡纳罗的想法：</p>
+
+<div class="quote">
+    "所以你终究还是要反攻安卡隆德的。或早或晚……毕竟你也不像是会听任'黑死剑'就此取胜的人。"
+</div>
+
+<div class="quote">
+    "瑟隆达斯-梅奥伦如今在你们眼里尚且依旧是那个高贵而强悍的卡诺兰特公爵，让敌人胆寒的'黑死剑'。"
+</div>
+
+<p>这点艾卡纳罗心知肚明，</p>
+
+<div class="quote">
+    "这就是为什么我暂且在你眼里也同样是个争权夺利的贵族。但是没关系……当我再度找上梅奥伦的那一天，我会让全世界都看到他本身的模样。"
+</div>
+
+<p>程云温和地回应了艾卡纳罗略显生硬的言辞：</p>
+
+<div class="quote">
+    "你从来不必非要证明什么，老兄。哪怕你告诉我你要的是龙王的位置，我也不会觉得你疯了。我对'黑死剑'的人品没有了解。我只知道，我是你的朋友。"
+</div>
+
+<div class="quote">
+    "还龙王的位置……"
+</div>
+
+<p>艾卡纳罗不禁失笑，他推了朋友一把，</p>
+
+<div class="quote">
+    "以后少开这种扯淡玩笑啊你！行了……时候不早了。咱们之后有事再联系吧。"
+</div>
+
+<p>告别了朋友。艾卡纳罗也不再费力装出笑容。他尽可能隐藏起内心剧烈的不安，转身走进阅阳的夏雨之中……</p>
+                    `
+            },
+            "chapter2": {
+                id: "chapter2",
+                title: "第二章：“渎职之罪”",
+                subtitle: "裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。",
+                content: `
+                        <p>【安卡隆德王国，边境领首府伦瑅恩】</p>
+
+<p>裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。</p>
+
+<p>他不怪这些年纪尚轻的军官。他知道这些弟兄面对沙达尔人和凛吉亚特人时都曾是悍不畏死的英勇战士。安卡隆德王国内乱数十年，国土一寸不失，或许只有塔里楠本人知晓这是哪些人的功劳。他们的先辈都在沙达尔大公和凛吉尔冰帝手里流干了血，如今才轮到他们……</p>
+
+<p>他们都是好战士，不负龙裔之名。他希望所有人都能向当前的敌人投降，以此保全性命。</p>
+
+<div class="quote">
+    "伦瑅恩明明已经流了这么多血了啊……"
+</div>
+
+<p>塔里楠的喃喃自语声音不大，压不住窗外重炮和法术轰击城墙的巨响，盖不过对面愈发逼近的杀声，连自己都听不太清。或者说，连他自己都不知道这句话到底是在对谁倾诉和祈求。</p>
+
+<p>十二个小时的时间里，伦瑅恩城直接转入作战状态，快速反应面敌，高效组织兵力，组建前敌指挥部门。任何一个国家的将军都会对这次防御作战的过程打高分。只是，高分并没有替他们赢下这场战斗。</p>
+
+<p>塔里楠漠然整理好军装，从抽屉里取出这一生挣得的全部勋略，依次排开挂在略章架上。他取下红黑两色的华丽披风，细细拭去炮弹从天花板震落的尘土，擦亮喉头位置暗沉的奎隆钢徽记，随后将其认真披到身上……待到窗外炮弹声止息，他深吸一口气，抽出佩剑大步走出房门。</p>
+
+<p>确认周围已经没有生还的抵抗力量，先锋官下令成小队向城堡逼近。他们前进得不慢——按理说伦瑅恩已经不该再有还未投降也未被杀死的对手了。城堡大门洞开着，像是被迫屈膝的巨人，不得已敞开门户任由对手劫掠——虽然这显然并非来人的目的。</p>
+
+<p>打头的士兵望进大厅的黑暗……寒光一闪而过……先是颈部微凉，而后双眼失去了稳定的视野，天旋地转……一级级摔下台阶。</p>
+
+<p>随后的士兵来不及高喊，就被疾冲而来的剑士一击撕裂阵型。黑色的披风在他身后剧烈翻飞，剑身上显然施加了残酷的猎杀法术，闪烁着猩红色的暗纹。剑士高傲地蔑视着霎时慌乱的敌阵，灰黑色的发丝飘舞，双眼闪烁着高阶龙裔极端愤怒时特有的赤金色。</p>
+
+<p>安卡隆德王国边境领公爵—— 裴赫杜恩-塔里楠，最终独自面对着从背后生生刺来的利刃。</p>
+
+<div class="quote">
+    "黑死剑"瑟隆达斯-梅奥伦缓步踏出阵列，静静地，一步一步走近塔里楠。
+</div>
+
+<div class="quote">
+    "真是意外的来访。梅奥伦大公。"
+</div>
+
+<p>塔里楠丝毫不掩饰自己的嘲讽。</p>
+
+<div class="quote">
+    "晚上好。塔里楠大公。"
+</div>
+
+<p>梅奥伦轻轻拍掉肩上的灰尘，语气平淡的好像真的只是来赴一场晚宴，周围的尸体和军队都不存在，</p>
+
+<div class="quote">
+    "伦瑅恩还是……一如既往的坚固。"
+</div>
+
+<p>塔里楠冷笑一声：</p>
+
+<div class="quote">
+    "只可惜如您所见，这座城市没有为自己的后背设防。您觉得这算是疏漏吗？"
+</div>
+
+<p>话到这里，连他自己都不知道是不是含着悲哀。</p>
+
+<p>梅奥伦慢慢走近。塔里楠微微抬高手中剑尖：</p>
+
+<div class="quote">
+    "停，大人，我没有允许您走近裴赫杜恩的大厅。"
+</div>
+
+<p>梅奥伦耸耸肩，果真退回了原地，摊开双手仿佛没有恶意。</p>
+
+<div class="quote">
+    "咱们把话说开吧，塔里楠大公。我对边境领公爵家族满怀敬意，从来无意与您为敌。"
+</div>
+
+<div class="quote">
+    "我竟然听出了真诚。您说我是不是疯了？还是被您的舰炮轰到耳鸣？"
+</div>
+
+<p>塔里楠向远处的陆行战舰点点头，</p>
+
+<div class="quote">
+    "动用陆巡舰冲击本国的城市……您今天的确为安卡隆德开创了许多先例。"
+</div>
+
+<div class="quote">
+    "我是真诚的。龙王为证。"
+</div>
+
+<p>梅奥伦点点头。</p>
+
+<div class="quote">
+    "您也配提龙王。"
+</div>
+
+<p>塔里楠眼中全无笑意。</p>
+
+<p>梅奥伦的沉默似乎让周围的空气都骤然变冷了几分。但是这没有冲淡塔里楠眼神里的嘲讽，也没有压低他手里的利剑。梅奥伦看着他手里的寒光，冷冷地开口：</p>
+
+<div class="quote">
+    "我很清楚您有多反感我。而我一样，一如既往地厌烦您的固执，甚至是……愚蠢。当然这不重要……交出艾卡纳罗伯爵，塔里楠。交出艾卡纳罗，您将会一如既往地担任边境领公爵，王国之盾。交出艾卡纳罗，瑟隆达斯家族会在全国范围内向边境领致歉并敬献赔偿。我可以给您很长时间，前提是您正式接受这一提议。"
+</div>
+
+<div class="quote">
+    "倘若我拒绝呢？"
+</div>
+
+<p>塔里楠挑衅道。</p>
+
+<div class="quote">
+    "那么您会不声不响地死在这片台阶上。一百年后不会再有人记得边境领和裴赫杜恩-塔里楠公爵的存在，"
+</div>
+
+<p>梅奥伦拔出佩剑。不同于塔里楠所持之剑的强韧凶烈，剑锋出鞘之际一股微弱但难以名状的恶寒感便以他为圆心扩散开去。梅奥伦的佩剑剑身漆黑如墨，表面像是流动着诡异而不流畅的波纹。那像是液体吗……塔里楠不由得心想，倘若是，是怎样的液体才会流动着这样无望的波纹？泰莫斯尼尔，"黑色与死亡之铁"，这就是梅奥伦大公称号"黑死剑"的来历。</p>
+
+<div class="quote">
+    "您的荣誉不会受损。塔里楠大人。泰莫斯尼尔啜饮过无数人的血。您的也不会有什么不同。我将与您公平对决。倘若您得以取胜——虽然那不可能，那么瑟隆达斯家族将永远不再经由您彻查艾卡纳罗的下落，您也有权向卡诺兰特要求赔偿。"
+</div>
+
+<div class="quote">
+    "您是在等我感谢您的慷慨吗？不会有的。"
+</div>
+
+<p>塔里楠摆出架构，</p>
+
+<div class="quote">
+    "就用您的'黑死剑'——说来有点恶心……让我领教一下好了。"
+</div>
+
+<p>塔里楠剑身上的火焰骤然炽烈，映得他眼中一片橙红：</p>
+
+<div class="quote">
+    "至于边境领，瑟隆达斯。你不理解这片土地。你可以占有伦瑅恩乃至全境，你可以占有这里的每一个活人。但你永远都不会真正拥有它！"
+</div>
+
+<p>塔里楠收紧架构，剑尖前指。高阶龙裔贵族，边境领裴赫杜恩的古老剑术与魔法在这一刻暴涨到极限，以他为圆心甚至催刮起一股小型的炎流风暴。风暴周围几米，如今只有梅奥伦不为所动。他手握泰莫斯尼尔，静静等待着塔里楠的冲锋。</p>
+
+<p>此时的塔里楠视线里几乎已经看不清对手。他心里明白，对面的敌人是"黑死剑"，这几乎已经注定了结局。但他还是赌上龙裔血统的一切去燃烧。</p>
+
+<p>因为今天是边境领的末日。裴赫杜恩的末日。塔里楠不是为了胜利燃烧。他要完成最后的敬献——敬献终究没能无愧面对的先祖，敬献他终究辜负的龙王陛下和边境领人民，敬献自己终究高洁到最后的公爵之血。这就是塔里楠大公的绝唱。</p>
+
+<p>不知为何，模糊的视线前最后闪过的却是那个未留一言就此远去的年轻身影……是啊。他也辜负了他。</p>
+
+<p>火炎怒涨扬升，风暴前移。公爵冲破灰烬的帷幕。</p>
+                    `
+            },
+            "chapter3": {
+                id: "chapter3",
+                title: "第三章：高等神秘术",
+                subtitle: "谭祁信，这么一个简单的名字介绍是艾卡纳罗和他认识几个小时以来两人唯一的交流。",
+                content: `
+                        <p>谭祁信，这么一个简单的名字介绍是艾卡纳罗和他认识几个小时以来两人唯一的交流。不难看出这个年轻学者对新的乌提卡人同窗并无明显兴趣。就像程云早先和艾卡纳罗描述的样子，这位谭祁信确实是个高等神秘术疯子。杂乱的地板上甚至堆放着《"铁鹫"查约恩——古乌提卡神代魔法研究》、《强弱法与间变式》、《高等神秘术介质——六阶》这样价值不菲的重要资料。此时《强弱法与间变式》正摊开在他桌前。</p>
+
+<p>艾卡纳罗远远便看出了他正在写的文章遇到了瓶颈。强弱法和间变式都是最早由乌雷-撒·查约恩创制的尖端术式，然而千年时间过去，当下高等神秘术界对二者的界定越发模糊。至于尚且能使用它们的术师，更是寥寥无几。艾卡纳罗看不下去他绞尽脑汁研究这种过分的难题。</p>
+
+<div class="quote">
+    "间变式在实际运用时和强弱法最大的不同在于它的本质是同时调和两种及以上的高阶法术同时展开，而强弱法则是交替施展两种强度明显不同的法术，对二者互补增强。所以实际操作反映出来的结果是间变式难度和门槛比强弱法更高。"
+</div>
+
+<p>艾卡纳罗凑近他提示。</p>
+
+<div class="quote">
+    "你怎么知道？你会间变式？别开玩笑我忙着呢！"
+</div>
+
+<p>让艾卡纳罗格外意外的是，初次见面未做交流的谭祁信谈到神秘术专业竟然丝毫不见生分，</p>
+
+<div class="quote">
+    "多少年都没有研究间变式的实例了！"
+</div>
+
+<div class="quote">
+    "你也知道没有实例啊，"
+</div>
+
+<p>艾卡纳罗扶额苦笑，</p>
+
+<div class="quote">
+    "你那几本乌提卡神秘术资料我都看过，没见哪本能讲明白强弱法的，何谈间变式？"
+</div>
+
+<div class="quote">
+    "现在能研究清楚强弱法也够了！就算是强弱法也很难找到可考的实例！大学不批准我研究经费，没法打造层次更高的施术装备。不然我早都尝试了。所以说我很忙，你别烦我！"
+</div>
+
+<p>言罢，谭祁信立刻伏案奋笔疾书。但艾卡纳罗明白，要靠计算算出强弱法或间变式的源流，人力是远远不够的。</p>
+
+<div class="quote">
+    "谭祁信，我是塔尔-艾卡纳罗，安卡隆德和焱族混血。我的血管里就有古代乌提卡术师的源流。"
+</div>
+
+<p>这句话声音不大，但是落笔的刷刷声立刻消失，谭祁信第一次认真转头看向艾卡纳罗。很难说艾卡纳罗从那眼神里感受到的是什么——就好像他自己变成了一篇活的论文。而论文在学术疯子眼里总有被狩猎的不安和恐怖感。</p>
+
+<p>艾卡纳罗不再和他对视，转身扭开房门：</p>
+
+<div class="quote">
+    "现在你是继续埋头在这一大堆纸质垃圾了里头做那些体量离谱的计算，还是跟我到外面去，亲眼看我实操一次强弱法？"
+</div>
+
+<p>艾卡纳罗带着他绕了很远的路才终于找到一片四下无人的空地。一路上见到的师生无不用诡异的眼神看向他们窃窃私语。艾卡纳罗大概猜到了是为什么。</p>
+
+<div class="quote">
+    "能不能先告诉我你有多久没出过房门了？"
+</div>
+
+<p>一经停下，艾卡纳罗当即问道，</p>
+
+<div class="quote">
+    "他们看你的眼神就像看到尸体掀开棺材板从土里爬出来了。"
+</div>
+
+<p>事实也确实是这样，走到亮堂的室外，艾卡纳罗才发觉自己这位亲爱的同学衣着油污面容潦草，胡须头发杂乱地纠缠在一起。很难想象有多久没有打理过自己。在艾卡纳罗的印象里，似乎只有二百来年前西方领域防御战期间他组织镇守艾塞尔林德要塞战况最激烈的那段时间，自己才有过如此狼狈的样子。</p>
+
+<p>但艾卡纳罗立刻意识到自己白问了——谭祁信眼里闪着恶狼般的凶光盯着他。全然不像是会在此刻听进关于自己形象的建议。无奈，艾卡纳罗几步远离他：</p>
+
+<div class="quote">
+    "你认真看好，我只做一次。"
+</div>
+
+<p>抬手，一柄形貌简明的短手戟赫然在握——桐国古流武器范畴，但是大体采用了现代军事武器的制式。格外引人注目的则是它的材质——没有花纹，深邃沉稳的触感和观感。</p>
+
+<div class="quote">
+    "奎隆钢武器……"
+</div>
+
+<p>谭祁信理论知识深厚，立刻看出了正确结果，</p>
+
+<div class="quote">
+    "这是军事型的特别定制类！有趣……"
+</div>
+
+<div class="quote">
+    "强弱法。我就施展最简单的类型。"
+</div>
+
+<p>艾卡纳罗手抚戟柄，周围空气微动，戟首随之开始高频振动，</p>
+
+<div class="quote">
+    "基础气流法术，'锋度'，"
+</div>
+
+<p>谭祁信此时早已恢复了两眼金光的状态，他快速点头示意艾卡纳罗继续。</p>
+
+<p>艾卡纳罗放低手戟，另一股源流附加而上：</p>
+
+<div class="quote">
+    "基础增强型法术。没有具体名字。有些人叫'落锤'"
+</div>
+
+<p>谭祁信再次使劲点头。显然知道如今艾卡纳罗对应在强弱位上的这两种法术。</p>
+
+<p>一片梧桐叶在此时飘下。</p>
+
+<div class="quote">
+    "我当前的武器不是刀剑。理论上即便施加'锋度'也不至于凌空切叶。然而……"
+</div>
+
+<p>艾卡纳罗随手挥动武器，落叶悄无声息地分裂。</p>
+
+<div class="quote">
+    "这是弱法，或许不够清楚。现在看它作用在强法上的效果。基础增强术是常用的击退拦截用法术。打击力度是有限的。但正如你所见——"
+</div>
+
+<p>艾卡纳罗右手漂亮地转动武器，反手挥击向身边的大理石球。</p>
+
+<div class="quote">
+    "轰——"
+</div>
+
+<p>伴随着不亚于榴弹爆炸的声响，大理石球自心碎裂。</p>
+
+<div class="quote">
+    "两种最基础不过的法术，在强弱法的调和下，互相增强，能达到这样出乎意料的效果。但如果问是否能够在一个对象上同时展开这两种法术，那么是不可能的。那需要间变式。而我不会间变式，它太难了。"
+</div>
+
+<p>艾卡纳罗收起手戟。</p>
+
+<p>兴奋过后，谭祁信依旧意犹未尽：</p>
+
+<div class="quote">
+    "你知道吗艾卡纳罗……你是叫这个吧？算了。你要知道我根本不敢想象自己这么早就可以亲眼见证强弱法这样的术式！这就是乌提卡血统的种族优势？"
+</div>
+
+<div class="quote">
+    "我也不知道。可能会有点吧。当然我的施术武器也够趁手。乌提卡法术和术式是我一直都在留意研究的。我甚至试过间变式——因此我知道自己做不到这个……至少当前还不行。"
+</div>
+
+<p>艾卡纳罗实话实说。</p>
+
+<p>谭祁信似乎有些落寞：</p>
+
+<div class="quote">
+    "如果我老早就有你这种水平的支持，研究根本不至于落到现在这一步。"
+</div>
+
+<div class="quote">
+    "我才没做什么，"
+</div>
+
+<p>艾卡纳罗谦逊地摇摇头，</p>
+
+<div class="quote">
+    "只是顺手给你举个例子罢了。"
+</div>
+
+<div class="quote">
+    "你不简单啊……塔尔-艾卡纳罗。你的武器，战技和法术……除非乌提卡血统或者龙裔都是天生的精英。"
+</div>
+
+<div class="quote">
+    "并非如此。不过我相信你不会过分好奇我的情形。你是很有心的研究学者。我是看重这点才展示这些的。"
+</div>
+
+<p>艾卡纳罗解释道。</p>
+
+<div class="quote">
+    "你是程教授的助理？"
+</div>
+
+<div class="quote">
+    "是。我773年毕业后回安卡隆德呆了很久。前几天才在教授邀请下回桐国的。"
+</div>
+
+<p>艾卡纳罗点点头，</p>
+
+<div class="quote">
+    "程教授是个好老师，我很荣幸被他赏识。"
+</div>
+
+<div class="quote">
+    "程教授的话那就没任何问题了。一开始我还担心你会拖慢我的进度。现在看来……情况倒有可能反过来哈哈哈哈。"
+</div>
+
+<p>谭祁信自嘲地笑着。</p>
+
+<div class="quote">
+    "别开玩笑了。我可不是什么热情的研究疯子。真会拖慢你的进度的。"
+</div>
+
+<p>艾卡纳罗也微笑着调侃了一句。</p>
+
+<p>不难看出谭祁信兴致相比最初见面时大为高涨。不掩情绪、不做姿态，这样真实的家伙让艾卡纳罗不由得想起自己这个岁数的年代——许久以前，艾卡纳罗还把安卡隆德称为家的时候。</p>
+
+<div class="quote">
+    "总之，以后高等神秘术相关的问题，要是你不嫌弃，都可以找我，咱们一起解决。"
+</div>
+
+<p>艾卡纳罗拍拍谭祁信，</p>
+
+<div class="quote">
+    "我主要研究的是古流简体术的现实应用和法术媒介质。但是因为缺乏科学知识……所以研究遇到瓶颈。"
+</div>
+
+<div class="quote">
+    "当然没问题。是我的荣幸，阁下。"
+</div>
+
+<p>谭祁信此时再没有了先前的不耐烦。</p>
+
+<p>这一样的态度转变也在艾卡纳罗意料之中。就像各国的年轻贵族一样，谭祁信空有研究热情，却缺少高等神秘术施术经验。毕竟……原始的法术是战争技艺，桐帝国百年太平盛世，何来战争经验的积累呢。</p>
+
+<div class="quote">
+    "谭祁信，说到这里了我也必须提醒你一些事。"
+</div>
+
+<p>艾卡纳罗正色。</p>
+
+<div class="quote">
+    "不必了。"
+</div>
+
+<p>谭祁信摆摆手。这倒是出乎艾卡纳罗意料。</p>
+
+<div class="quote">
+    "怎么说？"
+</div>
+
+<p>艾卡纳罗疑惑道。</p>
+
+<div class="quote">
+    "你是安卡隆德人。那个国家的情况世人皆知……我大概猜得到你是怎么冲出来的。然而跳出泥潭者到底全身泥污，清洗需要时间。"
+</div>
+
+<p>艾卡纳罗讶异于他的生动比喻。</p>
+
+<div class="quote">
+    "至于这是个怎样的过程，外人当然不必过问。"
+</div>
+
+<p>谭祁信拍拍艾卡纳罗，示意他放心。</p>
+
+<p>艾卡纳罗点点头。他很欣慰谭祁信有这份领悟——如此便不辜负他心血来潮的热情……一个会施展强弱法的龙裔突然出现在阅阳大学，传扬开来是不小的麻烦。单是由此而来的拉拢和觊觎就足以给他带来困扰。当然，这也仅仅是由于那些人的短视。倘若亲眼见过瑟隆达斯-梅奥伦那个级别的力量爆发，他们就不会随意用"奇迹"形容许多作为。无奈，瑟隆达斯家族皆是传承有序的古裔，上溯至至高王时代的强劲高等血统流淌在他们，特别是那位黑死剑公爵体内。古裔与寻常龙裔的差别无异于龙裔和孱弱常人的差异。</p>
+
+<p>坦白说艾卡纳罗的家族亦是高贵的古裔家族。但是百余年来与寻常龙裔家族和桐国焱族的联姻已经大大削弱了他们身为龙裔古老血脉分支的强大力量。他永远无法遗忘梅奥伦在那晚说过的话。没有任何直白的侮辱，单单对事实的陈述就已经使他心如刀绞。</p>
+
+<div class="quote">
+    "如今你早已不是古裔了。塔尔家的年轻伯爵。我甚至不确定你还算不算龙裔。"
+</div>
+
+<p>他不愿意回想起那天。借助梅奥伦的轻敌，拼尽艾卡纳罗所掌握的一切底牌和家学，他才堪堪得以逃脱。他太害怕流言蜚语太早把那柄"黑死剑"招来——虽然他们终究是要再碰面的。</p>
+
+<p>告别谭祁信，艾卡纳罗的第一感觉是茫然无措。大桐是他的母邦，然而在这偌大的都城中他依旧感到无处可去。他不由得回想起不久前为他让开去路的边境领公爵。那个裴赫杜恩家族的老公爵用眼神告诉他："前路自由。"自由却并非顺利，现在想来他多半是这个用意。此时天色渐暗。这个季节的阅阳气候宜人，雨水浸湿洋灰地面散发出的土腥气息让他宁静下来。深吸一口气，他转身面向树林中的阴翳。</p>
+
+<div class="quote">
+    "青川弘一。"
+</div>
+
+<p>艾卡纳罗用龙裔贵族的语调开口。</p>
+
+<div class="quote">
+    "艾卡纳罗大人，"
+</div>
+
+<p>所谓的青川弘一并未现形，只有一丝飘渺的声音传来，</p>
+
+<div class="quote">
+    "安塔洛奇领代理，青川弘一，觐上。"
+</div>
+
+<p>艾卡纳罗点点头，稍稍安心。他明白塔尔家族的外领依旧在掌控之下：</p>
+
+<div class="quote">
+    "近期领内情况如何？附近地区可有相关异动？"
+</div>
+
+<div class="quote">
+    "并无，艾卡纳罗大人。在下将加派兵力，确保领内警戒无虞。"
+</div>
+
+<p>青川弘一还是如往常一样，话语干练，执行有力。艾卡纳罗点点头。</p>
+
+<div class="quote">
+    "收拢力量，近期不得与安卡隆德本土进行任何联系。包括……或者说尤其是和盟友。"
+</div>
+
+<p>艾卡纳罗叮嘱。他知道瑟隆达斯家族不可能不就他逃脱一事清算。任何此时和塔尔家族扯上联系者都或被殃及。</p>
+
+<div class="quote">
+    "是。大人，本土突遇事变，领内会议商讨后希望您能尽早回归，掌控大局。"
+</div>
+
+<p>青川弘一还是提出了建言。</p>
+
+<p>艾卡纳罗淡淡地看向青川弘一的方向：</p>
+
+<div class="quote">
+    "如果有什么必须我亲自解决的事务，那就是战争。针对瑟隆达斯，安卡隆德本土的战争。塔尔家族已经损失了四成实力。目前无法参与战争。"
+</div>
+
+<div class="quote">
+    "御意。"
+</div>
+
+<p>青川弘一简短的话语还是习惯丛云语，</p>
+
+<div class="quote">
+    "在下会确保领内运转正常。倘若您有任何命令，请召唤在下。"
+</div>
+
+<div class="quote">
+    "退下吧。"
+</div>
+
+<div class="quote">
+    "是。"
+</div>
+
+<p>言罢，一阵微风吹过，树林下的阴翳明亮了几分。</p>
+
+<p>艾卡纳罗不得不佩服先祖的远见。若非安塔洛奇领存在，塔尔家族的伯爵大位此时早该烟飞星散。</p>
+
+<p>当然谨慎的他也不会知道，他力图保护的盟友之中，有一位已经死在黑剑手里。梅奥伦用强权和恐惧封锁消息，确保外界无人得知边境领家族的崩毁。但除此之外他尚无流转的余地：边境领的异动太大，不可能完全隐瞒。意识到危机近在咫尺的大公爵们纷纷集结军队，四面盯防强大的黑死剑公爵，次级贵族各自站队，以裴赫杜恩-塔里楠的死为节点，安卡隆德局势迅速升温。</p>
+
+<p>艾卡纳罗仍对这一切一无所知。当前连基本的城际通信网络都还在试行阶段，安卡隆德的讯息要传到大桐，即便借助栖桐台的特等渠道也需要起码一周时间。但他知道，安塔洛奇领是自己作为塔尔家族继承人的最后一张底牌。倘若安塔洛奇领失守，那就连作为领主身份与桐国乃至任何国家合作的基础都不复存在。他的家族将会以一个历史概念消失。留下的只有一个名为塔尔-艾卡纳罗的人，毫无意义地过完漫长或短暂的一生。</p>
+
+<p>青川弘一代理希望自己回归领地。事实上恐怕就连他自己都很清楚目前还远不是时候。艾卡纳罗心想，借助程云为自己办理的桐国身份，他必须设法翻开崭新的一章。当他再度以塔尔-艾卡纳罗伯爵的身份出现时，他将不再仅仅是一个凭借血统继承大位的年轻贵族。至于这一切的开始，自然是程云给自己安排在大学的工作。阅大绝不仅仅是大桐的国府，当然这还有待艾卡纳罗发觉。</p>
+
+<p>艾卡纳罗踏着晚风轻快地走远。百米外的小丘上，黑影默默注视着君宰的背影，但丝毫看不清他脸上的神情……</p>
+                    `
+            },
+            "chapter4": {
+                id: "chapter4",
+                title: "第四章：渐进",
+                subtitle: "在重建的表面下，卡诺兰特的政治暗流开始涌动...",
+                content: `
+                        <p>艾卡纳罗倚靠着白色大理石窗沿，静静地看着在讲台上眉飞色舞的程云。不得不承认他讲的的确极佳，难怪当初选择了教育职业……艾卡纳罗稍不留神，手里的白咖啡已经凉了大半。他带着明显的沮丧一口喝干了逐渐发苦的褐色饮料。</p>
+
+<p>程云则是稍有些困惑。他清楚自己今天讲课发挥起码是正常水平。但是有三分之一人的注意力都在教室前端靠窗那一侧……程云反应过来，无奈地盯着专注咖啡的艾卡纳罗。</p>
+
+<div class="quote">
+    "爵士先生，方不方便翻一下幻灯片？"
+</div>
+
+<p>程云带着一丝揶揄打了个响指。艾卡纳罗突然意识到自己不是来听课的。他慌忙抽出信号笔，把电子讲义翻到下一页。</p>
+
+<p>教室里响起几声轻笑。但算是友善的。今天是高等神秘术系进阶班和新助教的首次见面。委实说程云的开场介绍有些吓到这些年轻人：</p>
+
+<div class="quote">
+    "塔尔-艾卡纳罗爵士，755年受封于安卡隆德王国。高等神秘术博士，构件特种术师，猎影者执行官，阅阳大学高等神秘术系773届，乌提卡血裔。也是大家的……新助教。"
+</div>
+
+<p>一个来自安卡隆德王国的执行官。这对于研一进阶班的学生而言并非一个熟悉的身份。至于艾卡纳罗本人，则只是淡淡地躬身，算是打了招呼。这样的问候或许不够亲切，但并没有多少同学因此心生反感——艾卡纳罗脸上始终挂着温和的微笑，坐到一边喝起了咖啡。这份淡定和从容，甚至是与世无争的出脱气息难免引起大家的兴趣。</p>
+
+<p>至于现在，程云觉得是时候让艾卡纳罗开开口了。若非如此，他拉不回学生的注意力：</p>
+
+<div class="quote">
+    "艾卡纳罗爵士，你看这一张讲义。"
+</div>
+
+<p>艾卡纳罗抬头阅读片刻道：</p>
+
+<div class="quote">
+    "法术源流与源质的显形处理……听起来有点像科学，但并非如此。"
+</div>
+
+<div class="quote">
+    "正是。"
+</div>
+
+<p>程云退下讲台，伸手邀请艾卡纳罗。</p>
+
+<p>艾卡纳罗点点头，飞快在脑海里整理了措辞。他登台时几乎无人鼓掌。但毫无疑问，此时上百双眼睛都追踪着他的一举一动。他在台中央站定，翻动手腕——</p>
+
+<div class="quote">
+    "啊！——"
+</div>
+
+<p>第一排最靠近讲台的地方传来惊呼，人群慌忙躲避暴涨的光与热。但那没有必要。因为火焰很快在艾卡纳罗掌心收束成微小但精纯的一簇。此时最优秀的学生无不暗自赞叹——火焰法术的原理极其简单，通用易解。然而其本身的性质却决定了它很难维持稳态。可看看艾卡纳罗施放的法术，火焰几乎是精准得维持呈圆锥体，就连移动手的位置时火焰也只是被风微微吹动。</p>
+
+<p>教室中间响起第一声掌声，随后群起应和，很快汇集成一片喧嚣的声浪。而艾卡纳罗的讲述尚未开始。</p>
+
+<p>程云看到第一个鼓掌的圆脸女孩，想起她叫杜钰忻。这个天赋甚高的清州姑娘对于法术应用颇有见解，在程云的第一节课上就曾向他提出质疑。很难想象她如今仅凭一个如此微妙的施术就对新来的"年轻助教"心悦诚服。但事实就是如此。杜钰忻的大眼睛里闪着兴奋的光芒，可见对于这一法术施放之精妙的认可。</p>
+
+<p>艾卡纳罗对台下学生们的反应毫无自觉。他只是挥手压下声浪：</p>
+
+<div class="quote">
+    "法术源流和源质孰轻孰重，多年来在神秘术界争议很大。当前的主流思想是源流重要性高于源质——从具体应用角度来看这一观点是正确的。"
+</div>
+
+<p>说到这里，艾卡纳罗停顿片刻，手中的火焰开始缓慢扩展：</p>
+
+<div class="quote">
+    "程教授希望我讲讲对于源质源流具象化的看法。但我更倾向于以应用阐释理论。以此为例，基于相同术式的火焰法术，源流的长短决定了其施放量和释放范围——用同样的力度，我或许只能点燃这个大阶梯室，"
+</div>
+
+<p>说到这里，教室里许多人不由得瑟缩了一下。这个动作艾卡纳罗察觉到了。他苦笑着继续道，</p>
+
+<div class="quote">
+    "放心。我不会做这个示范……或许这是我的极限，然而一位源流深远的安卡隆德古裔，或者大桐的古老焱族血脉施术者，用同样的力度，未必不可以炸毁整栋大楼，甚至波及更远。"
+</div>
+
+<p>倒抽凉气的声音在教室中清晰可闻。程云自己也听得入神。的确，艾卡纳罗讲述知识的方法并不正统。但毫无疑问他摄住了所有听众的注意力。</p>
+
+<div class="quote">
+    "现代法术应用体系呼唤效率，给源流优势较大的施术者留足了发展空间。"
+</div>
+
+<p>微微收拢五指，艾卡纳罗的火焰立刻又缩聚成食指长短的锥形，</p>
+
+<div class="quote">
+    "那么源质高低的意义体现在哪里呢？正如大家所见。源流引领法术扩张范围和规模。而在两名施术者皆可达到的范围内，源质高低则决定了施术者能将法术的精纯度和质量拉到怎样的程度。"
+</div>
+
+<p>火焰在艾卡纳罗掌心升温，直至色泽湛蓝。微微一簇火焰，却让数米外的第一排同学也感到了热量。就在升温达到极致时，艾卡纳罗放下左手，火焰霎时消失，仿佛从未存在。</p>
+
+<p>艾卡纳罗恢复了温和的笑容，无视超过一半同学目瞪口呆的神色，得体地躬身行礼：</p>
+
+<div class="quote">
+    "我是塔尔-艾卡纳罗爵士，父邦安卡隆德，母邦大桐，乌提卡血裔。安卡隆德特殊对策机构执行官。也是大家的助教。"
+</div>
+
+<p>教室里霎时欢呼声雷动。多数人热烈地鼓掌。程云没想到他会以这样的方式完成自我介绍，这让他不免有些担心——他了解自己的一些学生，特别是那些被称为"高阶生"的优秀者。他们拥有帝国军事背景，具备远超同龄人的作战能力和法术应用能力。杜钰忻就是其中之一，而她绝非最极端的。这些学生的进修多数是出于提升教育经验的目的。他们的的确确已经脱离了一般学者范畴。这些人性情各不相同，多数在平时看不出什么差别。然而这并不影响他们随力量而来的骄傲——他们会因此质疑艾卡纳罗的实力，并可能发生冲突。程云看向教室后端那个叫阿提拉克·库兹坦的费宁曼斯克人，发现这个拥有北庭翼卫司上尉军衔的学生确实如他所想，正眉头紧蹙，意味不明地盯着艾卡纳罗。阿提拉克的眼神如此锐利，以至于吸引了艾卡纳罗的注意力。当他们对视的瞬间，阿提拉克将自己最锋锐有力的目光投射向艾卡纳罗，这种眼神在带领连队迫使士兵服从时曾经格外有效……然而今天不同。今天阿提拉克的眼神对上艾卡纳罗，就像往深广大海中投射进两支箭簇，泛不起一丝波澜。几秒后，艾卡纳罗毫无感受地率先收回目光。</p>
+
+<p>艾卡纳罗只是不受威慑干扰。至于那个学生眼神里的敌意他自然可以读懂。倘若愿意，艾卡纳罗大可以点亮龙瞳，用那一瞬间来自古老生物的摄人威严吓得年轻人连做一周噩梦。但他选择了主动避开。艾卡纳罗微笑着向周围友善的面孔点头致意，在黑板上留下自己联系方式，踏着下课铃声跟着程云离开。</p>
+
+<p>教室很快变得空荡。为数不多留下的几个多数是高阶生。他们神情严肃仿佛在开作战会议，却又都沉默不语。阿提拉克双手交叉支撑着头。几分钟后，杜钰忻摇摇头，整理书包准备起身离开。</p>
+
+<div class="quote">
+    "稍等，"
+</div>
+
+<p>阿提拉克低沉的声音叫住在门边的杜钰忻，</p>
+
+<div class="quote">
+    "你确实不想探探这位爵士的虚实？"
+</div>
+
+<div class="quote">
+    "我觉得这节课足可以说明问题了，阿提拉克。"
+</div>
+
+<p>杜钰忻避开他的眼神，拍下黑板上艾卡纳罗的联系方式，</p>
+
+<div class="quote">
+    "这里毕竟不是你的翼卫司。我觉得最好学会用得体的手段寻求问题答案。"
+</div>
+
+<p>和阿提拉克相反，身材娇小，面容姣好的杜钰忻很难看出是一位强大的高阶生。但她此时认真扫视在座每一位同僚，</p>
+
+<div class="quote">
+    "各位也都一样，想想这个问题吧。"
+</div>
+
+<div class="quote">
+    "啪！——"
+</div>
+
+<p>一声恶作剧式的声响将所有人的注意力转移到了教室后门。最先转过头的高阶生无不顿时跳下座椅，挺身作戒备状。来者手握一簇火焰，正在阿提拉克的鼻尖前晃荡。可明眼人都看出他对火焰的精确控制竟丝毫不下艾卡纳罗。</p>
+
+<div class="quote">
+    "谭祁信学长。"
+</div>
+
+<p>阿提拉克的语气也有些紧张的生硬，他只是转头看了一眼那个恶搞的坏笑，</p>
+
+<div class="quote">
+    "没想到这两个月能见您下楼。有什么我们能做的？"
+</div>
+
+<div class="quote">
+    "不愧是你。一句话满含礼貌的嘲讽，让人没法接啊。"
+</div>
+
+<p>谭祁信此时倒是成了房间里最淡定的人。</p>
+
+<div class="quote">
+    "哪里敢。"
+</div>
+
+<p>阿提拉克摸不清这个疯子学长有何目的，又不敢贸然攀谈。</p>
+
+<div class="quote">
+    "嗷，说到下楼，要不是和亲爱的艾卡纳罗同学昨天聊了两句，我还真没有出门的心思。"
+</div>
+
+<p>谭祁信轻佻地拍拍阿提拉克，步履轻快地跃下一级级台阶，来到讲台，</p>
+
+<div class="quote">
+    "那家伙，确实不简单啊……"
+</div>
+
+<p>谭祁信仅仅只是收拾了一晚上，此时已经判若两人。一身整洁的黑色卫衣，发型一丝不苟就像每天都在用心打理。容光焕发的面孔也丝毫不像是在宿舍泡了两个月的样子。</p>
+
+<p>谭祁信收聚火焰法术，在极致高温时收手，一如艾卡纳罗的演示。他轻快地掸掸肩上的灰尘，看也不看高阶生们：</p>
+
+<div class="quote">
+    "给个建议吧，你们正策划的事情还是别做啦！就算是做，至少等我这样的有打算了再说吧？"
+</div>
+
+<p>谭祁信狡黠地笑笑，但眼神冰冷，</p>
+
+<div class="quote">
+    "各位，还不够格哦。"
+</div>
+
+<p>言毕，踏着轻快的步伐离去。走到门边又停下，转头看向呆滞的杜钰忻，毫无顾忌地捏了捏她的脸颊：</p>
+
+<div class="quote">
+    "还是可爱的女孩子头脑清醒嘛。他们真该听你的。"
+</div>
+
+<p>不待杜钰忻抗议，就已经闪身消失。</p>
+
+<p>确定谭祁信走远，阿提拉克愤然拍桌起身，几乎是眼神冒火。一天之内被两个高手接连"轻侮"，这让他恼羞成怒。他直指杜钰忻：</p>
+
+<div class="quote">
+    "想好要不要跟我们一起来！我不信清州公是打算把你培养成这么个书呆子！"
+</div>
+
+<p>杜钰忻意外地没有答话。</p>
+
+<p>阿提拉克飞身上讲台，取过一支红色粉笔，青风止羽第四型·断水——高阶剑术挥手释出，从"T"到"O"，精准地切过艾卡纳罗名字的每一个字母，留下凌厉的暗红痕迹。</p>
+                    `
+            }
+            // 可以继续添加更多章节...
+        };
+
+        // 章节顺序
+        const chapterOrder = ["prologue", "chapter1", "chapter2", "chapter3", "chapter4"];
+
+        // 书签管理
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        let currentChapterId = chapterOrder[0];
+
+        // 获取URL参数
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // 加载章节
+        function loadChapter(chapterId) {
+            const chapter = chapters[chapterId];
+            if (!chapter) {
+                // 如果没有找到章节，加载第一个章节
+                loadChapter(chapterOrder[0]);
+                return;
+            }
+
+            // 更新当前章节ID
+            currentChapterId = chapterId;
+
+            // 更新页面标题
+            document.title = `${chapter.title} - 《众星之环》`;
+
+            // 更新章节标题和副标题
+            document.getElementById('chapter-title').textContent = chapter.title;
+            document.getElementById('chapter-subtitle').textContent = chapter.subtitle;
+
+            // 更新章节内容
+            document.getElementById('chapter-content').innerHTML = chapter.content;
+
+            // 更新URL但不刷新页面
+            const newUrl = `${window.location.pathname}?chapter=${chapterId}`;
+            window.history.pushState({ chapterId }, chapter.title, newUrl);
+
+            // 更新章节选择框状态
+            updateChapterSelect(chapterId);
+
+            // 更新导航按钮
+            updateNavigation(chapterId);
+
+            // 更新书签图标状态
+            updateBookmarkIcon(chapterId);
+        }
+
+        // 更新章节选择框状态
+        function updateChapterSelect(currentChapterId) {
+            const select = document.getElementById('chapter-select');
+            select.value = currentChapterId;
+        }
+
+        // 更新导航按钮
+        function updateNavigation(currentChapterId) {
+            const currentIndex = chapterOrder.indexOf(currentChapterId);
+
+            // 更新上一章按钮
+            const prevBtn = document.getElementById('prev-chapter');
+            if (currentIndex > 0) {
+                prevBtn.href = `?chapter=${chapterOrder[currentIndex - 1]}`;
+                prevBtn.style.visibility = 'visible';
+            } else {
+                prevBtn.style.visibility = 'hidden';
+            }
+
+            // 更新下一章按钮
+            const nextBtn = document.getElementById('next-chapter');
+            if (currentIndex < chapterOrder.length - 1) {
+                nextBtn.href = `?chapter=${chapterOrder[currentIndex + 1]}`;
+                nextBtn.style.visibility = 'visible';
+            } else {
+                nextBtn.style.visibility = 'hidden';
+            }
+        }
+
+        // 更新书签图标状态
+        function updateBookmarkIcon(chapterId) {
+            const bookmarkIcon = document.querySelector('#bookmark-toggle i');
+            if (bookmarks.includes(chapterId)) {
+                bookmarkIcon.classList.remove('far');
+                bookmarkIcon.classList.add('fas');
+            } else {
+                bookmarkIcon.classList.remove('fas');
+                bookmarkIcon.classList.add('far');
+            }
+
+            // 更新书签数量角标
+            document.getElementById('bookmark-count').textContent = bookmarks.length;
+        }
+
+        // 切换书签状态
+        function toggleBookmark(chapterId) {
+            const index = bookmarks.indexOf(chapterId);
+            if (index > -1) {
+                // 如果已存在，则移除
+                bookmarks.splice(index, 1);
+            } else {
+                // 如果不存在，则添加
+                bookmarks.push(chapterId);
+            }
+
+            // 保存到本地存储
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+            // 更新UI
+            updateBookmarkIcon(chapterId);
+            updateBookmarkModal();
+
+            // 如果开启了"仅显示书签章节"模式，需要更新章节选择器
+            const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+            if (bookmarkOnlyToggle.checked) {
+                updateChapterSelectOptions(true);
+            }
+        }
+
+        // 移除书签
+        function removeBookmark(chapterId) {
+            const index = bookmarks.indexOf(chapterId);
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                updateBookmarkIcon(currentChapterId);
+                updateBookmarkModal();
+
+                // 如果开启了"仅显示书签章节"模式，需要更新章节选择器
+                const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+                if (bookmarkOnlyToggle.checked) {
+                    updateChapterSelectOptions(true);
+                }
+            }
+        }
+
+        // 更新书签弹窗内容
+        function updateBookmarkModal() {
+            const bookmarkList = document.getElementById('bookmark-list');
+            bookmarkList.innerHTML = '';
+
+            if (bookmarks.length === 0) {
+                bookmarkList.innerHTML = '<li class="no-bookmarks">暂无书签章节</li>';
+                return;
+            }
+
+            bookmarks.forEach(chapterId => {
+                const chapter = chapters[chapterId];
+                if (!chapter) return;
+
+                const bookmarkItem = document.createElement('li');
+                bookmarkItem.className = 'bookmark-item';
+                bookmarkItem.dataset.chapterId = chapterId;
+                bookmarkItem.innerHTML = `
+                        <div class="bookmark-item-info">
+                            <div class="bookmark-item-title">${chapter.title}</div>
+                            <div class="bookmark-item-subtitle">${chapter.subtitle}</div>
+                        </div>
+                        <button class="bookmark-item-remove" title="移除书签">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+
+                // 点击书签项跳转到对应章节
+                bookmarkItem.addEventListener('click', function (e) {
+                    // 如果点击的是移除按钮，不跳转
+                    if (e.target.closest('.bookmark-item-remove')) return;
+                    loadChapter(chapterId);
+                    closeBookmarkModal();
+                });
+
+                // 移除书签按钮事件
+                const removeBtn = bookmarkItem.querySelector('.bookmark-item-remove');
+                removeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    removeBookmark(chapterId);
+                });
+
+                bookmarkList.appendChild(bookmarkItem);
+            });
+        }
+
+        // 打开书签弹窗
+        function openBookmarkModal() {
+            document.getElementById('bookmark-modal').style.display = 'flex';
+        }
+
+        // 关闭书签弹窗
+        function closeBookmarkModal() {
+            document.getElementById('bookmark-modal').style.display = 'none';
+        }
+
+        // 更新章节选择器选项
+        function updateChapterSelectOptions(bookmarkOnly = false) {
+            const select = document.getElementById('chapter-select');
+            select.innerHTML = '';
+
+            const chaptersToShow = bookmarkOnly ?
+                chapterOrder.filter(id => bookmarks.includes(id)) :
+                chapterOrder;
+
+            chaptersToShow.forEach(chapterId => {
+                const chapter = chapters[chapterId];
+                const option = document.createElement('option');
+                option.value = chapterId;
+                option.textContent = chapter.title;
+                select.appendChild(option);
+            });
+
+            // 确保当前章节被选中
+            if (chaptersToShow.includes(currentChapterId)) {
+                select.value = currentChapterId;
+            } else if (chaptersToShow.length > 0) {
+                // 如果当前章节不在书签中，选择第一个书签章节
+                loadChapter(chaptersToShow[0]);
+            }
+        }
+
+        // 初始化章节选择框
+        function initChapterSelect() {
+            const select = document.getElementById('chapter-select');
+
+            // 初始填充所有章节
+            updateChapterSelectOptions();
+
+            // 添加change事件监听
+            select.addEventListener('change', function () {
+                loadChapter(this.value);
+            });
+
+            // 书签章节切换开关事件
+            const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+            bookmarkOnlyToggle.addEventListener('change', function () {
+                updateChapterSelectOptions(this.checked);
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化章节选择框
+            initChapterSelect();
+
+            // 从URL参数获取当前章节，如果没有则使用第一个章节
+            const chapterId = getUrlParameter('chapter') || chapterOrder[0];
+            loadChapter(chapterId);
+
+            // 初始化书签弹窗
+            updateBookmarkModal();
+
+            // 书签图标点击事件 - 切换当前章节的书签状态
+            document.getElementById('bookmark-toggle').addEventListener('click', function (e) {
+                e.preventDefault();
+                toggleBookmark(currentChapterId);
+            });
+
+            // 书签角标点击事件 - 打开书签弹窗
+            document.getElementById('bookmark-count').addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // 阻止事件冒泡到父元素
+                openBookmarkModal();
+            });
+
+            // 书签弹窗关闭事件
+            document.getElementById('bookmark-modal-close').addEventListener('click', closeBookmarkModal);
+
+            // 点击弹窗外部关闭
+            document.getElementById('bookmark-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeBookmarkModal();
+                }
+            });
+
+            // 监听浏览器前进后退事件
+            window.addEventListener('popstate', function (event) {
+                if (event.state && event.state.chapterId) {
+                    loadChapter(event.state.chapterId);
+                } else {
+                    const chapterId = getUrlParameter('chapter') || chapterOrder[0];
+                    loadChapter(chapterId);
+                }
+            });
+
+            // 主题切换功能
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+
+            themeToggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.body.classList.toggle('dark-mode');
+
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // 导航按钮悬停效果
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                btn.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // 为导航链接添加活跃状态
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.style.color = 'var(--light-blue)';
+                    link.style.fontWeight = '500';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

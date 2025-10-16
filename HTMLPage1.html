@@ -1,0 +1,988 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《众星之环》官方小说站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #006DB7; /* 与左上蓝色区域接近的色调 */
+            --secondary-blue: #4d9de0;
+            --light-blue: #a0d2ff;
+            --dark-blue: #0a4a7a;
+            --text-dark: #333;
+            --text-light: #fff;
+            --background-light: #f5f5f5;
+            --section-padding: 60px 20px;
+            --section-alt-bg: #f0f8ff;
+        }
+
+        /* 夜间模式变量 */
+        .dark-mode {
+            --primary-blue: #0a3a5c;
+            --secondary-blue: #2d6da3;
+            --light-blue: #5a8fc2;
+            --dark-blue: #051e33;
+            --text-dark: #e0e0e0;
+            --text-light: #f0f0f0;
+            --background-light: #121212;
+            --section-alt-bg: #1a2a3a;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* 导航栏样式 */
+        header {
+            background-color: var(--primary-blue);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo h1 {
+                color: var(--text-light);
+                font-size: 24px;
+                margin-left: 10px;
+                transition: color 0.3s ease;
+            }
+
+            .logo i {
+                color: var(--light-blue);
+                font-size: 28px;
+                transition: color 0.3s ease;
+            }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+            .nav-links a {
+                color: var(--text-light);
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 16px;
+                padding: 8px 12px;
+                border-radius: 4px;
+                transition: all 0.3s ease;
+            }
+
+                .nav-links a:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                /* 特殊样式：前往战旗按钮 */
+                .nav-links a.battle-flag {
+                    background-color: rgba(255, 255, 255, 0.15);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                }
+
+                    .nav-links a.battle-flag:hover {
+                        background-color: rgba(255, 255, 255, 0.25);
+                        transform: translateY(-2px);
+                    }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+            .search-bar input {
+                border: none;
+                background: transparent;
+                outline: none;
+                width: 180px;
+                color: var(--text-light);
+            }
+
+                .search-bar input::placeholder {
+                    color: rgba(255, 255, 255, 0.7);
+                }
+
+            .search-bar i {
+                color: rgba(255, 255, 255, 0.7);
+                cursor: pointer;
+            }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dark-mode .search-results {
+            background-color: #2a2a2a;
+            color: var(--text-dark);
+        }
+
+        .search-result-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dark-mode .search-result-item {
+            border-bottom: 1px solid #444;
+        }
+
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .dark-mode .search-result-item:hover {
+            background-color: #3a3a3a;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .search-result-preview {
+            font-size: 0.9em;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dark-mode .search-result-preview {
+            color: #aaa;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light);
+            padding: 100px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-blue);
+            color: var(--text-light);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+            .btn:hover {
+                background-color: var(--light-blue);
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        /* 内容区域样式 */
+        .content-section {
+            padding: var(--section-padding);
+            max-width: 1200px;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-alt-bg {
+            background-color: var(--section-alt-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            color: var(--dark-blue);
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .section-title {
+            color: var(--light-blue);
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-blue);
+            margin: 10px auto;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 章节网格样式 */
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chapter-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .dark-mode .chapter-card {
+            background-color: #2a2a2a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .chapter-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .chapter-content {
+            padding: 20px;
+        }
+
+            .chapter-content h3 {
+                margin-bottom: 10px;
+                font-size: 18px;
+                color: var(--dark-blue);
+                transition: color 0.3s ease;
+            }
+
+        .dark-mode .chapter-content h3 {
+            color: var(--light-blue);
+        }
+
+        .chapter-content p {
+            transition: color 0.3s ease;
+        }
+
+        /* 设定区域样式 */
+        .setting-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .setting-content {
+            background-color: #2a2a2a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .setting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-item {
+            background-color: var(--background-light);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-blue);
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .setting-item {
+            background-color: #333;
+        }
+
+        .setting-item h4 {
+            margin-bottom: 10px;
+            color: var(--dark-blue);
+            transition: color 0.3s ease;
+        }
+
+        .dark-mode .setting-item h4 {
+            color: var(--light-blue);
+        }
+
+        .setting-item p {
+            transition: color 0.3s ease;
+        }
+
+        /* 人物展示样式 */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .character-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .dark-mode .character-card {
+            background-color: #2a2a2a;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .character-img {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .character-content {
+            padding: 20px;
+        }
+
+            .character-content h3 {
+                margin-bottom: 10px;
+                color: var(--dark-blue);
+                transition: color 0.3s ease;
+            }
+
+        .dark-mode .character-content h3 {
+            color: var(--light-blue);
+        }
+
+        .character-content p {
+            transition: color 0.3s ease;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark-blue);
+            color: var(--text-light);
+            padding: 60px 20px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-blue);
+            transition: color 0.3s ease;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #ccc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+                .footer-links a:hover {
+                    color: white;
+                    text-decoration: underline;
+                }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+            .social-icons a {
+                color: white;
+                font-size: 20px;
+                transition: color 0.3s ease;
+            }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            font-size: 14px;
+            color: #999;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+                .nav-links a {
+                    font-size: 14px;
+                    padding: 6px 10px;
+                }
+
+            .search-bar input {
+                width: 120px;
+            }
+
+            .hero h2 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-stars"></i>
+                <h1>众星之环</h1>
+            </div>
+            <nav class="nav-links">
+                <a href="#content">正文</a>
+                <a href="#setting">设定</a>
+                <a href="#characters">人物</a>
+                <a href="#stories">短篇</a>
+                <!-- 新增的"前往战旗"链接 -->
+                <a href="./shoplist1.html" class="battle-flag">前往战旗</a>
+            </nav>
+            <div class="nav-actions">
+                <div class="search-container">
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="搜索...">
+                        <i class="fas fa-search" id="search-icon"></i>
+                    </div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                <a href="#" class="nav-icon" id="theme-toggle"><i class="fas fa-sun"></i></a>
+                <a href="#" class="nav-icon"><i class="far fa-user"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>众星之环</h2>
+            <p>大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
+            <a href="#content" class="btn">开始阅读</a>
+        </div>
+    </section>
+
+    <!-- 正文内容区域 -->
+    <section id="content" class="content-section">
+        <h2 class="section-title">小说正文</h2>
+        <div class="chapters-grid">
+            <div class="chapter-card">
+                <div class="chapter-img" style="background-image: url('./picture/zw10.png')"></div>
+                <div class="chapter-content">
+                    <h3>序章：转封之日</h3>
+                    <p>数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
+                    <a href="./chapter1.html" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <div class="chapter-img" style="background-image: url('./picture/zw11.png')"></div>
+                <div class="chapter-content">
+                    <h3>第一章：混血龙裔</h3>
+                    <p>塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下。天空的色彩像是混合在雨水中脱落了一般，只剩下朦胧的灰色。</p>
+                    <a href="./chapter1.html?chapter=chapter1" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <div class="chapter-img" style="background-image: url('./picture/zw12.png')"></div>
+                <div class="chapter-content">
+                    <h3>第二章："渎职之罪"</h3>
+                    <p>裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。</p>
+                    <a href="./chapter1.html?chapter=chapter2" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 设定区域 -->
+    <section id="setting" class="content-section section-alt-bg">
+        <h2 class="section-title">世界观设定</h2>
+        <div class="setting-content">
+            <h3>宇宙背景</h3>
+            <p>《众星之环》的故事发生在距今3000年的未来，人类已殖民多个星系，并建立了庞大的星际联邦。然而，宇宙中仍有许多未解之谜等待探索。</p>
+
+            <div class="setting-grid" style="margin-top: 30px;">
+                <div class="setting-item">
+                    <h4>星环文明</h4>
+                    <p>一个古老的先进文明，留下了遍布银河的神秘环状结构，这些结构似乎具有连接不同时空的能力。</p>
+                </div>
+                <div class="setting-item">
+                    <h4>星际联邦</h4>
+                    <p>由人类及其盟友组成的政治实体，统治着已知宇宙的大部分区域，致力于探索与发展。</p>
+                </div>
+                <div class="setting-item">
+                    <h4>异星种族</h4>
+                    <p>宇宙中存在着多种智慧生命形式，有些与人类友好共存，有些则充满敌意或神秘莫测。</p>
+                </div>
+                <div class="setting-item">
+                    <h4>超空间技术</h4>
+                    <p>基于星环原理开发的先进航行技术，使星际旅行成为可能，但也带来了未知的风险。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 人物介绍区域 -->
+    <section id="characters" class="content-section">
+        <h2 class="section-title">主要人物</h2>
+        <div class="characters-grid">
+            <div class="character-card">
+                <div class="character-img" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="character-content">
+                    <h3>李星辰</h3>
+                    <p>天体物理学家，星环现象的发现者，执着于揭开宇宙真相。</p>
+                </div>
+            </div>
+            <div class="character-card">
+                <div class="character-img" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="character-content">
+                    <h3>林晓月</h3>
+                    <p>外星语言学家，能够解读多种外星文明的文字与符号。</p>
+                </div>
+            </div>
+            <div class="character-card">
+                <div class="character-img" style="background-image: url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="character-content">
+                    <h3>陈刚</h3>
+                    <p>星际舰队指挥官，负责保护探索队的安全，经验丰富。</p>
+                </div>
+            </div>
+            <div class="character-card">
+                <div class="character-img" style="background-image: url('https://images.unsplash.com/photo-1508341591423-4347099e1f19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="character-content">
+                    <h3>诺瓦</h3>
+                    <p>神秘的外星向导，对星环文明有着深刻的理解。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 短篇故事区域 -->
+    <section id="stories" class="content-section section-alt-bg">
+        <h2 class="section-title">短篇故事</h2>
+        <div class="chapters-grid">
+            <div class="chapter-card">
+                <div class="chapter-img" style="background-image: url('https://images.unsplash.com/photo-1465101162946-4377e57745c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="chapter-content">
+                    <h3>星环前传：起源</h3>
+                    <p>讲述星环文明如何发现宇宙的终极秘密，以及他们为何消失...</p>
+                    <a href="#" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <div class="chapter-img" style="background-image: url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="chapter-content">
+                    <h3>边缘殖民地</h3>
+                    <p>在银河边缘的一个人类殖民地，居民们发现了异常现象...</p>
+                    <a href="#" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+                </div>
+            </div>
+            <div class="chapter-card">
+                <div class="chapter-img" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
+                <div class="chapter-content">
+                    <h3>异星日记</h3>
+                    <p>一位探险家在外星遗迹中的日记，记录了他的发现与思考...</p>
+                    <a href="#" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>关于我们</h4>
+                <ul class="footer-links">
+                    <li><a href="#">作品介绍</a></li>
+                    <li><a href="#">作者简介</a></li>
+                    <li><a href="#">创作历程</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>阅读资源</h4>
+                <ul class="footer-links">
+                    <li><a href="#">全部章节</a></li>
+                    <li><a href="#">设定集</a></li>
+                    <li><a href="#">角色图鉴</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>社区互动</h4>
+                <ul class="footer-links">
+                    <li><a href="#">读者讨论区</a></li>
+                    <li><a href="#">同人作品</a></li>
+                    <li><a href="#">读者问答</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>关注我们</h4>
+                <p>获取最新更新和创作幕后</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2023 《众星之环》官方小说站. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+
+            // 检查本地存储的主题偏好
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            // 应用保存的主题
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+
+            // 主题切换事件
+            themeToggle.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.body.classList.toggle('dark-mode');
+
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // 导航栏高亮
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            window.addEventListener('scroll', function () {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 100)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // 为"前往战旗"链接添加点击事件（如果需要特殊处理）
+            document.querySelector('a.battle-flag').addEventListener('click', function (e) {
+                // 可以在这里添加任何特殊逻辑
+                console.log('前往战旗链接被点击');
+                // 如果需要阻止默认行为并添加特殊逻辑，可以取消下面的注释
+                // e.preventDefault();
+                // 自定义逻辑...
+            });
+
+            // 搜索功能
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            const searchIcon = document.getElementById('search-icon');
+
+            // 搜索数据
+            const searchData = [
+                {
+                    title: "序章：转封之日",
+                    content: "数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。",
+                    url: "./chapter1.html",
+                    type: "章节"
+                },
+                {
+                    title: "第一章：混血龙裔",
+                    content: "塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下。天空的色彩像是混合在雨水中脱落了一般，只剩下朦胧的灰色。",
+                    url: "./chapter1.html?chapter=chapter1",
+                    type: "章节"
+                },
+                {
+                    title: "第二章：渎职之罪",
+                    content: "裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。",
+                    url: "./chapter1.html?chapter=chapter2",
+                    type: "章节"
+                },
+                {
+                    title: "星环文明",
+                    content: "一个古老的先进文明，留下了遍布银河的神秘环状结构，这些结构似乎具有连接不同时空的能力。",
+                    url: "#setting",
+                    type: "设定"
+                },
+                {
+                    title: "星际联邦",
+                    content: "由人类及其盟友组成的政治实体，统治着已知宇宙的大部分区域，致力于探索与发展。",
+                    url: "#setting",
+                    type: "设定"
+                },
+                {
+                    title: "异星种族",
+                    content: "宇宙中存在着多种智慧生命形式，有些与人类友好共存，有些则充满敌意或神秘莫测。",
+                    url: "#setting",
+                    type: "设定"
+                },
+                {
+                    title: "超空间技术",
+                    content: "基于星环原理开发的先进航行技术，使星际旅行成为可能，但也带来了未知的风险。",
+                    url: "#setting",
+                    type: "设定"
+                },
+                {
+                    title: "李星辰",
+                    content: "天体物理学家，星环现象的发现者，执着于揭开宇宙真相。",
+                    url: "#characters",
+                    type: "人物"
+                },
+                {
+                    title: "林晓月",
+                    content: "外星语言学家，能够解读多种外星文明的文字与符号。",
+                    url: "#characters",
+                    type: "人物"
+                },
+                {
+                    title: "陈刚",
+                    content: "星际舰队指挥官，负责保护探索队的安全，经验丰富。",
+                    url: "#characters",
+                    type: "人物"
+                },
+                {
+                    title: "诺瓦",
+                    content: "神秘的外星向导，对星环文明有着深刻的理解。",
+                    url: "#characters",
+                    type: "人物"
+                },
+                {
+                    title: "星环前传：起源",
+                    content: "讲述星环文明如何发现宇宙的终极秘密，以及他们为何消失...",
+                    url: "#stories",
+                    type: "短篇"
+                },
+                {
+                    title: "边缘殖民地",
+                    content: "在银河边缘的一个人类殖民地，居民们发现了异常现象...",
+                    url: "#stories",
+                    type: "短篇"
+                },
+                {
+                    title: "异星日记",
+                    content: "一位探险家在外星遗迹中的日记，记录了他的发现与思考...",
+                    url: "#stories",
+                    type: "短篇"
+                }
+            ];
+
+            // 搜索功能
+            function performSearch() {
+                const query = searchInput.value.trim().toLowerCase();
+
+                if (query.length === 0) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                const results = searchData.filter(item =>
+                    item.title.toLowerCase().includes(query) ||
+                    item.content.toLowerCase().includes(query)
+                );
+
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<div class="search-result-item">未找到相关结果</div>';
+                } else {
+                    searchResults.innerHTML = results.map(item => `
+                            <div class="search-result-item" data-url="${item.url}">
+                                <div class="search-result-title">${item.title} <span style="font-size: 0.8em; color: #888;">[${item.type}]</span></div>
+                                <div class="search-result-preview">${item.content}</div>
+                            </div>
+                        `).join('');
+                }
+
+                searchResults.style.display = 'block';
+
+                // 添加结果点击事件
+                document.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', function () {
+                        const url = this.getAttribute('data-url');
+                        if (url.startsWith('#')) {
+                            // 页面内跳转
+                            const targetElement = document.querySelector(url);
+                            if (targetElement) {
+                                window.scrollTo({
+                                    top: targetElement.offsetTop - 80,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        } else {
+                            // 外部链接
+                            window.location.href = url;
+                        }
+                        searchResults.style.display = 'none';
+                        searchInput.value = '';
+                    });
+                });
+            }
+
+            // 搜索事件监听
+            searchInput.addEventListener('input', performSearch);
+            searchIcon.addEventListener('click', performSearch);
+
+            // 点击搜索图标或按回车键执行搜索
+            searchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // 点击页面其他区域关闭搜索结果
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

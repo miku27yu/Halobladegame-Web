@@ -1,0 +1,1046 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>众星之环战旗乐高包 | 乐高官方商城</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 基础样式与变量 */
+        :root {
+            --primary-black: #1A1A1A;
+            --lego-red: #E60023;
+            --lego-yellow: #FFDE00;
+            --lego-blue: #006DB7;
+            --luxury-gold: #C9A96E;
+            --luxury-dark: #2D2D2D;
+            --luxury-light: #F8F5F0;
+            --text-dark: #333333;
+            --text-light: #777777;
+            --border-light: #E5E5E5;
+            --white: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--luxury-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 顶部导航 */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo img {
+                height: 40px;
+            }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+            .nav-links li {
+                margin-left: 30px;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--text-dark);
+                font-weight: 500;
+                font-size: 16px;
+                transition: var(--transition);
+            }
+
+                .nav-links a:hover {
+                    color: var(--lego-red);
+                }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+            .search-box input {
+                padding: 8px 15px 8px 35px;
+                border: 1px solid var(--border-light);
+                border-radius: 20px;
+                font-size: 14px;
+                width: 180px;
+                transition: var(--transition);
+            }
+
+                .search-box input:focus {
+                    width: 220px;
+                    outline: none;
+                    border-color: var(--lego-blue);
+                }
+
+            .search-box i {
+                position: absolute;
+                left: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-light);
+            }
+
+        .cart-icon {
+            position: relative;
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-left: 15px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--lego-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 产品展示区 */
+        .product-hero {
+            display: flex;
+            margin: 50px 0;
+            gap: 60px;
+        }
+
+        .product-gallery {
+            flex: 1;
+        }
+
+        .main-image {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+            .main-image img {
+                width: 100%;
+                display: block;
+            }
+
+        .image-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--lego-red);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+            .thumbnail.active {
+                border-color: var(--lego-blue);
+            }
+
+            .thumbnail img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .product-details {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .product-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .product-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .product-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .stars {
+            color: var(--lego-yellow);
+            margin-right: 8px;
+        }
+
+        .rating-value {
+            font-weight: 600;
+        }
+
+        .review-count {
+            color: var(--text-light);
+            margin-left: 5px;
+        }
+
+        .product-id {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .product-description {
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .current-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--lego-red);
+        }
+
+        .original-price {
+            font-size: 20px;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 15px;
+        }
+
+        .discount-badge {
+            background-color: var(--lego-red);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+
+        /* 购买选项 */
+        .purchase-options {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .option-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity-label {
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+            .quantity-btn:hover {
+                background-color: #f5f5f5;
+            }
+
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--lego-red);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: #c4001d;
+            }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--lego-blue);
+            color: var(--lego-blue);
+        }
+
+            .btn-secondary:hover {
+                background-color: rgba(0, 109, 183, 0.05);
+            }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* 产品特性 */
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+        }
+
+            .feature i {
+                font-size: 20px;
+                color: var(--lego-blue);
+                margin-right: 10px;
+            }
+
+        /* 标签页内容 */
+        .tabs-container {
+            margin: 60px 0;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+            .tab.active {
+                border-bottom-color: var(--lego-red);
+                color: var(--lego-red);
+            }
+
+        .tab-content {
+            display: none;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .specs-table tr {
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .specs-table td {
+                padding: 15px 10px;
+            }
+
+                .specs-table td:first-child {
+                    font-weight: 500;
+                    width: 30%;
+                }
+
+        /* 推荐产品 */
+        .recommendations {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+            .product-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+        .product-card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+            .product-card-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: var(--transition);
+            }
+
+        .product-card:hover .product-card-image img {
+            transform: scale(1.05);
+        }
+
+        .product-card-content {
+            padding: 20px;
+        }
+
+        .product-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--lego-red);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--luxury-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+            .footer-column h3::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 40px;
+                height: 2px;
+                background-color: var(--lego-red);
+            }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 12px;
+            }
+
+            .footer-links a {
+                color: #CCCCCC;
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+                .footer-links a:hover {
+                    color: var(--white);
+                    padding-left: 5px;
+                }
+
+        .newsletter p {
+            margin-bottom: 15px;
+            color: #CCCCCC;
+        }
+
+        .newsletter-form {
+            display: flex;
+        }
+
+            .newsletter-form input {
+                flex: 1;
+                padding: 12px;
+                border: none;
+                border-radius: 4px 0 0 4px;
+            }
+
+            .newsletter-form button {
+                background-color: var(--lego-red);
+                color: white;
+                border: none;
+                padding: 0 20px;
+                border-radius: 0 4px 4px 0;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+                .newsletter-form button:hover {
+                    background-color: #c4001d;
+                }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444444;
+            color: #999999;
+            font-size: 14px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .product-hero {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .product-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://www.lego.com/cdn/cs/set/assets/blt0a6c1aa9261c0645/lego_logo.png" alt="乐高官方商城">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">产品系列</a></li>
+                <li><a href="#">限定版</a></li>
+                <li><a href="#">众星之环</a></li>
+                <li><a href="#">礼品指南</a></li>
+                <li><a href="#">促销活动</a></li>
+            </ul>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索乐高产品...">
+                </div>
+                <div class="user-actions">
+                    <i class="far fa-user"></i>
+                </div>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 产品展示区 -->
+        <section class="product-hero">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <span class="image-badge">新品</span>
+                    <img src="https://via.placeholder.com/600x600/FFFFFF/006DB7?text=众星之环战旗乐高包" alt="众星之环战旗乐高包" id="main-product-image">
+                </div>
+                <div class="thumbnail-container">
+                    <div class="thumbnail active" data-image="https://via.placeholder.com/600x600/FFFFFF/006DB7?text=众星之环战旗乐高包">
+                        <img src="https://via.placeholder.com/100x100/FFFFFF/006DB7?text=主图" alt="产品主图">
+                    </div>
+                    <div class="thumbnail" data-image="https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=细节展示">
+                        <img src="https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=细节" alt="细节展示">
+                    </div>
+                    <div class="thumbnail" data-image="https://via.placeholder.com/600x600/FFFFFF/E60023?text=搭建过程">
+                        <img src="https://via.placeholder.com/100x100/FFFFFF/E60023?text=搭建" alt="搭建过程">
+                    </div>
+                    <div class="thumbnail" data-image="https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=成品展示">
+                        <img src="https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=成品" alt="成品展示">
+                    </div>
+                </div>
+            </div>
+            <div class="product-details">
+                <h1 class="product-title">众星之环战旗乐高包</h1>
+                <p class="product-subtitle">星际探索系列 · 限量版收藏品</p>
+                <div class="product-meta">
+                    <div class="rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-value">4.7</span>
+                        <span class="review-count">(128 条评价)</span>
+                    </div>
+                    <div class="product-id">产品编号: 75321</div>
+                </div>
+                <p class="product-description">
+                    这款众星之环战旗乐高包是星际探索系列的巅峰之作，专为资深乐高收藏家和太空探险爱好者设计。套装包含1,250个精密零件，重现了标志性的环形空间站与星际战旗的壮丽场景。每个细节都经过精心设计，从可旋转的环形结构到可调节的战旗展示架，无不体现乐高工程与美学的完美结合。
+                </p>
+                <div class="price-container">
+                    <div class="current-price">¥1,299</div>
+                    <div class="original-price">¥1,599</div>
+                    <div class="discount-badge">节省19%</div>
+                </div>
+                <div class="purchase-options">
+                    <h3 class="option-title">购买选项</h3>
+                    <div class="quantity-selector">
+                        <span class="quantity-label">数量:</span>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="text" class="quantity-input" value="1" readonly>
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-shopping-cart"></i> 加入购物车
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="far fa-heart"></i> 收藏
+                        </button>
+                    </div>
+                </div>
+                <div class="product-features">
+                    <div class="feature">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>免费配送 (订单满¥399)</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-undo-alt"></i>
+                        <span>90天无忧退货</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-gift"></i>
+                        <span>适合12岁以上玩家</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-cubes"></i>
+                        <span>1,250个零件</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 标签页内容 -->
+        <section class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="description">产品描述</div>
+                <div class="tab" data-tab="specs">规格参数</div>
+                <div class="tab" data-tab="reviews">用户评价</div>
+                <div class="tab" data-tab="shipping">配送信息</div>
+            </div>
+            <div class="tab-content active" id="description">
+                <h3>产品故事</h3>
+                <p>众星之环战旗乐高包灵感来源于人类对深空探索的无限憧憬。这款精致的模型再现了未来空间站的环形设计与星际舰队战旗的壮丽场景，每个细节都经过乐高设计师团队的精心打磨。</p>
+                <p>环形空间站采用独特的可旋转设计，配有可调节的太阳能板与对接端口。战旗部分使用特殊镀金零件，彰显尊贵与荣耀。套装还包含两个独家迷你人仔：太空指挥官与星际工程师，均配有专属印刷与装备。</p>
+
+                <h3>产品特点</h3>
+                <ul>
+                    <li>可旋转的环形空间站结构，直径达28厘米</li>
+                    <li>可调节战旗展示架，多角度展示星际战旗</li>
+                    <li>包含两个独家迷你人仔与微型探测车</li>
+                    <li>使用特殊镀金零件与透明蓝色零件增强视觉效果</li>
+                    <li>附带专属展示底座与产品信息牌</li>
+                </ul>
+            </div>
+            <div class="tab-content" id="specs">
+                <table class="specs-table">
+                    <tr>
+                        <td>产品名称</td>
+                        <td>众星之环战旗乐高包</td>
+                    </tr>
+                    <tr>
+                        <td>产品编号</td>
+                        <td>75321</td>
+                    </tr>
+                    <tr>
+                        <td>年龄范围</td>
+                        <td>12岁以上</td>
+                    </tr>
+                    <tr>
+                        <td>零件数量</td>
+                        <td>1,250个</td>
+                    </tr>
+                    <tr>
+                        <td>成品尺寸</td>
+                        <td>高15cm × 宽28cm × 深28cm</td>
+                    </tr>
+                    <tr>
+                        <td>重量</td>
+                        <td>1.8kg</td>
+                    </tr>
+                    <tr>
+                        <td>系列</td>
+                        <td>星际探索系列</td>
+                    </tr>
+                    <tr>
+                        <td>包装尺寸</td>
+                        <td>48cm × 38cm × 9cm</td>
+                    </tr>
+                    <tr>
+                        <td>发布日期</td>
+                        <td>2023年10月</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab-content" id="reviews">
+                <h3>用户评价 (4.7/5)</h3>
+                <div class="review">
+                    <div class="review-header">
+                        <div class="reviewer">星空探索者</div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p>这款乐高包超出了我的预期！环形空间站的细节处理非常精致，战旗部分的设计尤其出色。搭建过程大约花了6个小时，每一步都充满乐趣。</p>
+                    <div class="review-date">发布于 2023年11月5日</div>
+                </div>
+                <div class="review">
+                    <div class="review-header">
+                        <div class="reviewer">乐高收藏家</div>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p>作为乐高老玩家，这款产品在设计上确实很有创新。零件质量一如既往地优秀，说明书清晰易懂。唯一的小缺点是某些连接处稍微有点松动，但不影响整体展示效果。</p>
+                    <div class="review-date">发布于 2023年10月28日</div>
+                </div>
+            </div>
+            <div class="tab-content" id="shipping">
+                <h3>配送信息</h3>
+                <p>我们提供全国范围内的配送服务：</p>
+                <ul>
+                    <li><strong>标准配送:</strong> 3-5个工作日，运费¥25 (订单满¥399免运费)</li>
+                    <li><strong>加急配送:</strong> 1-2个工作日，运费¥50</li>
+                    <li><strong>次日达:</strong> 下单后次日送达，运费¥80 (仅限主要城市)</li>
+                </ul>
+                <p>所有订单从上海仓库发货，发货后您将收到包含物流追踪信息的电子邮件。</p>
+            </div>
+        </section>
+
+        <!-- 推荐产品 -->
+        <section class="recommendations">
+            <h2 class="section-title">您可能也会喜欢</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://via.placeholder.com/300x300/FFFFFF/006DB7?text=星际飞船" alt="星际飞船乐高包">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">深空探索者星际飞船</h3>
+                        <div class="product-card-price">¥899</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=月球基地" alt="月球基地乐高包">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">月球科研基地套装</h3>
+                        <div class="product-card-price">¥1,099</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://via.placeholder.com/300x300/FFFFFF/E60023?text=火星车" alt="火星探测车乐高包">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">火星探测车与营地</h3>
+                        <div class="product-card-price">¥759</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=空间站" alt="深空空间站乐高包">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">深空轨道空间站</h3>
+                        <div class="product-card-price">¥1,499</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>乐高商城</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">所有产品系列</a></li>
+                        <li><a href="#">新品上市</a></li>
+                        <li><a href="#">限定版与收藏品</a></li>
+                        <li><a href="#">促销与优惠</a></li>
+                        <li><a href="#">乐高礼品卡</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>客户服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">配送信息</a></li>
+                        <li><a href="#">退货政策</a></li>
+                        <li><a href="#">支付方式</a></li>
+                        <li><a href="#">常见问题</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>关于乐高</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">品牌故事</a></li>
+                        <li><a href="#">可持续发展</a></li>
+                        <li><a href="#">乐高基金会</a></li>
+                        <li><a href="#">职业发展</a></li>
+                        <li><a href="#">乐高新闻</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <div class="newsletter">
+                        <h3>订阅资讯</h3>
+                        <p>订阅我们的新闻通讯，获取最新产品发布和独家优惠信息。</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="您的电子邮箱" required>
+                            <button type="submit">订阅</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 乐高集团。LEGO、乐高标志、积木配置与乐高小人仔均为乐高集团的商标。版权所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 缩略图切换
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // 移除所有active类
+                document.querySelectorAll('.thumbnail').forEach(t => {
+                    t.classList.remove('active');
+                });
+                // 为当前缩略图添加active类
+                this.classList.add('active');
+                // 更新主图
+                const newImageSrc = this.getAttribute('data-image');
+                document.getElementById('main-product-image').src = newImageSrc;
+            });
+        });
+
+        // 数量选择器
+        document.querySelector('.quantity-btn.minus').addEventListener('click', function() {
+            const input = document.querySelector('.quantity-input');
+            let value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        });
+
+        document.querySelector('.quantity-btn.plus').addEventListener('click', function() {
+            const input = document.querySelector('.quantity-input');
+            let value = parseInt(input.value);
+            input.value = value + 1;
+        });
+
+        // 标签页切换
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 移除所有active类
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                // 为当前标签添加active类
+                this.classList.add('active');
+                // 显示对应内容
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // 添加到购物车功能
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            const quantity = document.querySelector('.quantity-input').value;
+            const productName = document.querySelector('.product-title').textContent;
+            alert(`已添加 ${quantity} 件 ${productName} 到购物车`);
+
+            // 更新购物车数量
+            const cartCount = document.querySelector('.cart-count');
+            cartCount.textContent = parseInt(cartCount.textContent) + parseInt(quantity);
+        });
+    </script>
+</body>
+</html>
