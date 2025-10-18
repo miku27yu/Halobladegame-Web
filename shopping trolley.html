@@ -1,0 +1,1100 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 乐高官方商城</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 基础样式与变量 - 与商品详情页保持一致 */
+        :root {
+            --primary-black: #1A1A1A;
+            --lego-red: #E60023;
+            --lego-yellow: #FFDE00;
+            --lego-blue: #006DB7;
+            --luxury-gold: #C9A96E;
+            --luxury-dark: #2D2D2D;
+            --luxury-light: #F8F5F0;
+            --text-dark: #333333;
+            --text-light: #777777;
+            --border-light: #E5E5E5;
+            --white: #FFFFFF;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--luxury-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 顶部导航 */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo img {
+                height: 40px;
+            }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+            .nav-links li {
+                margin-left: 30px;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: var(--text-dark);
+                font-weight: 500;
+                font-size: 16px;
+                transition: var(--transition);
+            }
+
+                .nav-links a:hover {
+                    color: var(--lego-red);
+                }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+            .search-box input {
+                padding: 8px 15px 8px 35px;
+                border: 1px solid var(--border-light);
+                border-radius: 20px;
+                font-size: 14px;
+                width: 180px;
+                transition: var(--transition);
+            }
+
+                .search-box input:focus {
+                    width: 220px;
+                    outline: none;
+                    border-color: var(--lego-blue);
+                }
+
+            .search-box i {
+                position: absolute;
+                left: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-light);
+            }
+
+        .cart-icon {
+            position: relative;
+            font-size: 20px;
+            color: var(--text-dark);
+            margin-left: 15px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--lego-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 页面标题和面包屑 */
+        .page-header {
+            margin: 40px 0 30px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+            .breadcrumb li {
+                margin-right: 10px;
+            }
+
+                .breadcrumb li:after {
+                    content: ">";
+                    margin-left: 10px;
+                }
+
+                .breadcrumb li:last-child:after {
+                    content: "";
+                }
+
+            .breadcrumb a {
+                color: var(--text-light);
+                text-decoration: none;
+            }
+
+                .breadcrumb a:hover {
+                    color: var(--lego-red);
+                }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* 购物车内容 */
+        .cart-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .cart-items {
+            flex: 2;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .cart-summary {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .cart-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .clear-cart {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+            .clear-cart:hover {
+                color: var(--lego-red);
+            }
+
+        .cart-item {
+            display: flex;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+            .cart-item:last-child {
+                border-bottom: none;
+            }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+            .cart-item-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: var(--transition);
+            }
+
+            .cart-item-image:hover img {
+                transform: scale(1.05);
+            }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+            .cart-item-title:hover {
+                color: var(--lego-blue);
+            }
+
+        .cart-item-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .cart-item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--lego-red);
+            margin-bottom: 15px;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+            .quantity-btn:hover {
+                background-color: #f5f5f5;
+            }
+
+        .quantity-input {
+            width: 50px;
+            height: 36px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+            .remove-item:hover {
+                color: var(--lego-red);
+            }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-cart-icon {
+            font-size: 64px;
+            color: var(--border-light);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart-text {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--lego-red);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: #c4001d;
+            }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--lego-blue);
+            color: var(--lego-blue);
+        }
+
+            .btn-secondary:hover {
+                background-color: rgba(0, 109, 183, 0.05);
+            }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .summary-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .summary-label {
+            color: var(--text-light);
+        }
+
+        .summary-value {
+            font-weight: 500;
+        }
+
+        .summary-total {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+
+            .summary-total .summary-value {
+                color: var(--lego-red);
+                font-size: 22px;
+            }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--lego-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+            .continue-shopping:hover {
+                text-decoration: underline;
+            }
+
+        /* 推荐产品 */
+        .recommendations {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+            .product-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+        .product-card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+            .product-card-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: var(--transition);
+            }
+
+        .product-card:hover .product-card-image img {
+            transform: scale(1.05);
+        }
+
+        .product-card-content {
+            padding: 20px;
+        }
+
+        .product-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--lego-red);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--luxury-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+            .footer-column h3::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 40px;
+                height: 2px;
+                background-color: var(--lego-red);
+            }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 12px;
+            }
+
+            .footer-links a {
+                color: #CCCCCC;
+                text-decoration: none;
+                transition: var(--transition);
+            }
+
+                .footer-links a:hover {
+                    color: var(--white);
+                    padding-left: 5px;
+                }
+
+        .newsletter p {
+            margin-bottom: 15px;
+            color: #CCCCCC;
+        }
+
+        .newsletter-form {
+            display: flex;
+        }
+
+            .newsletter-form input {
+                flex: 1;
+                padding: 12px;
+                border: none;
+                border-radius: 4px 0 0 4px;
+            }
+
+            .newsletter-form button {
+                background-color: var(--lego-red);
+                color: white;
+                border: none;
+                padding: 0 20px;
+                border-radius: 0 4px 4px 0;
+                cursor: pointer;
+                transition: var(--transition);
+            }
+
+                .newsletter-form button:hover {
+                    background-color: #c4001d;
+                }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444444;
+            color: #999999;
+            font-size: 14px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .cart-container {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cart-item {
+                flex-direction: column;
+            }
+
+            .cart-item-image {
+                width: 100%;
+                height: 200px;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .cart-item-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://www.lego.com/cdn/cs/set/assets/blt0a6c1aa9261c0645/lego_logo.png" alt="乐高官方商城">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">产品系列</a></li>
+                <li><a href="#">限定版</a></li>
+                <li><a href="./HTMLPage1.html">官方小说</a></li>
+                <li><a href="#">礼品指南</a></li>
+                <li><a href="#">促销活动</a></li>
+            </ul>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索乐高产品...">
+                </div>
+                <div class="user-actions">
+                    <i class="far fa-user"></i>
+                </div>
+                <a href="#" class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="header-cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="container">
+        <!-- 页面标题和面包屑 -->
+        <section class="page-header">
+            <ul class="breadcrumb">
+                <li><a href="#">首页</a></li>
+                <li>购物车</li>
+            </ul>
+            <h1 class="page-title">购物车</h1>
+        </section>
+
+        <!-- 购物车内容 -->
+        <section class="cart-container">
+            <div class="cart-items">
+                <div class="cart-header">
+                    <h2 class="cart-title">购物车商品</h2>
+                    <button class="clear-cart" id="clear-cart">
+                        <i class="fas fa-trash"></i> 清空购物车
+                    </button>
+                </div>
+                <div id="cart-items-container">
+                    <!-- 购物车商品将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            <div class="cart-summary">
+                <h3 class="summary-title">订单摘要</h3>
+                <div class="summary-row">
+                    <span class="summary-label">商品小计</span>
+                    <span class="summary-value" id="subtotal">¥0</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">配送费用</span>
+                    <span class="summary-value" id="shipping">¥0</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">优惠折扣</span>
+                    <span class="summary-value" id="discount">-¥0</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span class="summary-label">总计</span>
+                    <span class="summary-value" id="total">¥0</span>
+                </div>
+                <button class="btn btn-primary checkout-btn" id="checkout-btn">
+                    <i class="fas fa-credit-card"></i> 前往结算
+                </button>
+                <a href="javascript:history.back(-1)" class="continue-shopping">
+                    <i class="fas fa-arrow-left"></i> 继续购物
+                </a>
+            </div>
+        </section>
+
+        <!-- 推荐产品 -->
+        <section class="recommendations">
+            <h2 class="section-title">您可能也会喜欢</h2>
+            <div class="products-grid" id="recommended-products">
+                <!-- 推荐产品将通过JavaScript动态生成 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>乐高商城</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">所有产品系列</a></li>
+                        <li><a href="#">新品上市</a></li>
+                        <li><a href="#">限定版与收藏品</a></li>
+                        <li><a href="#">促销与优惠</a></li>
+                        <li><a href="#">乐高礼品卡</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>客户服务</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">配送信息</a></li>
+                        <li><a href="#">退货政策</a></li>
+                        <li><a href="#">支付方式</a></li>
+                        <li><a href="#">常见问题</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>关于乐高</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">品牌故事</a></li>
+                        <li><a href="#">可持续发展</a></li>
+                        <li><a href="#">乐高基金会</a></li>
+                        <li><a href="#">职业发展</a></li>
+                        <li><a href="#">乐高新闻</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <div class="newsletter">
+                        <h3>订阅资讯</h3>
+                        <p>订阅我们的新闻通讯，获取最新产品发布和独家优惠信息。</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="您的电子邮箱" required>
+                            <button type="submit">订阅</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 乐高集团。LEGO、乐高标志、积木配置与乐高小人仔均为乐高集团的商标。版权所有。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 商品数据 - 与商品详情页保持一致
+        const productsData = {
+            "star-ring-banner": {
+                id: "star-ring-banner",
+                title: "众星之环战旗乐高包",
+                subtitle: "星际探索系列 · 限量版收藏品",
+                price: 1299,
+                image: "https://via.placeholder.com/300x300/FFFFFF/006DB7?text=众星之环战旗乐高包"
+            },
+            "deep-space-ship": {
+                id: "deep-space-ship",
+                title: "深空探索者星际飞船",
+                subtitle: "星际探索系列 · 旗舰飞船",
+                price: 899,
+                image: "https://via.placeholder.com/300x300/FFFFFF/006DB7?text=深空探索者星际飞船"
+            },
+            "moon-base": {
+                id: "moon-base",
+                title: "月球科研基地套装",
+                subtitle: "星际探索系列 · 科研前哨",
+                price: 1099,
+                image: "https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=月球科研基地"
+            },
+            "mars-rover": {
+                id: "mars-rover",
+                title: "火星探测车与营地",
+                subtitle: "星际探索系列 · 火星任务",
+                price: 759,
+                image: "https://via.placeholder.com/300x300/FFFFFF/E60023?text=火星探测车"
+            },
+            "space-station": {
+                id: "space-station",
+                title: "深空轨道空间站",
+                subtitle: "星际探索系列 · 轨道前哨",
+                price: 1499,
+                image: "https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=深空轨道空间站"
+            }
+        };
+
+        // 购物车功能
+        class ShoppingCart {
+            constructor() {
+                this.cartItems = JSON.parse(localStorage.getItem('legoCart')) || [];
+                this.init();
+            }
+
+            init() {
+                this.renderCartItems();
+                this.updateCartSummary();
+                this.setupEventListeners();
+                this.renderRecommendedProducts();
+            }
+
+            // 渲染购物车商品
+            renderCartItems() {
+                const container = document.getElementById('cart-items-container');
+
+                if (this.cartItems.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-cart">
+                            <div class="empty-cart-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3 class="empty-cart-title">购物车为空</h3>
+                            <p class="empty-cart-text">您的购物车中还没有商品，快去挑选您喜欢的乐高产品吧！</p>
+                            <a href="shoplist1.html" class="btn btn-primary">
+                                <i class="fas fa-shopping-bag"></i> 立即购物
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                this.cartItems.forEach(item => {
+                    const product = productsData[item.id];
+                    if (product) {
+                        html += `
+                            <div class="cart-item" data-id="${item.id}">
+                                <div class="cart-item-image" onclick="window.location.href='product.html?id=${item.id}'">
+                                    <img src="${product.image}" alt="${product.title}">
+                                </div>
+                                <div class="cart-item-details">
+                                    <h3 class="cart-item-title" onclick="window.location.href='product.html?id=${item.id}'">${product.title}</h3>
+                                    <p class="cart-item-subtitle">${product.subtitle}</p>
+                                    <div class="cart-item-price">¥${product.price}</div>
+                                    <div class="cart-item-controls">
+                                        <div class="quantity-controls">
+                                            <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                            <input type="text" class="quantity-input" value="${item.quantity}" data-id="${item.id}" readonly>
+                                            <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                                        </div>
+                                        <button class="remove-item" data-id="${item.id}">
+                                            <i class="fas fa-trash"></i> 删除
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                container.innerHTML = html;
+                this.updateHeaderCartCount();
+            }
+
+            // 更新购物车摘要
+            updateCartSummary() {
+                const subtotal = this.cartItems.reduce((total, item) => {
+                    const product = productsData[item.id];
+                    return total + (product ? product.price * item.quantity : 0);
+                }, 0);
+
+                // 计算配送费（满399免运费）
+                const shipping = subtotal >= 399 ? 0 : 25;
+
+                // 计算折扣（满1000减50，满2000减150）
+                let discount = 0;
+                if (subtotal >= 2000) {
+                    discount = 150;
+                } else if (subtotal >= 1000) {
+                    discount = 50;
+                }
+
+                const total = subtotal + shipping - discount;
+
+                document.getElementById('subtotal').textContent = `¥${subtotal}`;
+                document.getElementById('shipping').textContent = `¥${shipping}`;
+                document.getElementById('discount').textContent = `-¥${discount}`;
+                document.getElementById('total').textContent = `¥${total}`;
+            }
+
+            // 更新头部购物车数量
+            updateHeaderCartCount() {
+                const totalItems = this.cartItems.reduce((total, item) => total + item.quantity, 0);
+                document.getElementById('header-cart-count').textContent = totalItems;
+            }
+
+            // 增加商品数量
+            increaseQuantity(productId) {
+                const item = this.cartItems.find(item => item.id === productId);
+                if (item) {
+                    item.quantity += 1;
+                    this.saveCart();
+                    this.renderCartItems();
+                    this.updateCartSummary();
+                }
+            }
+
+            // 减少商品数量
+            decreaseQuantity(productId) {
+                const item = this.cartItems.find(item => item.id === productId);
+                if (item) {
+                    if (item.quantity > 1) {
+                        item.quantity -= 1;
+                    } else {
+                        // 如果数量为1，减少则删除商品
+                        this.removeItem(productId);
+                        return;
+                    }
+                    this.saveCart();
+                    this.renderCartItems();
+                    this.updateCartSummary();
+                }
+            }
+
+            // 删除商品
+            removeItem(productId) {
+                this.cartItems = this.cartItems.filter(item => item.id !== productId);
+                this.saveCart();
+                this.renderCartItems();
+                this.updateCartSummary();
+            }
+
+            // 清空购物车
+            clearCart() {
+                this.cartItems = [];
+                this.saveCart();
+                this.renderCartItems();
+                this.updateCartSummary();
+            }
+
+            // 保存购物车到localStorage
+            saveCart() {
+                localStorage.setItem('legoCart', JSON.stringify(this.cartItems));
+            }
+
+            // 设置事件监听器
+            setupEventListeners() {
+                // 增加数量按钮
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('plus')) {
+                        const productId = e.target.getAttribute('data-id');
+                        this.increaseQuantity(productId);
+                    }
+                });
+
+                // 减少数量按钮
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('minus')) {
+                        const productId = e.target.getAttribute('data-id');
+                        this.decreaseQuantity(productId);
+                    }
+                });
+
+                // 删除商品按钮
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('remove-item') ||
+                        e.target.parentElement.classList.contains('remove-item')) {
+                        const button = e.target.classList.contains('remove-item') ? e.target : e.target.parentElement;
+                        const productId = button.getAttribute('data-id');
+                        this.removeItem(productId);
+                    }
+                });
+
+                // 清空购物车按钮
+                document.getElementById('clear-cart').addEventListener('click', () => {
+                    if (this.cartItems.length > 0) {
+                        if (confirm('确定要清空购物车吗？此操作不可撤销。')) {
+                            this.clearCart();
+                        }
+                    }
+                });
+
+                // 结算按钮
+                document.getElementById('checkout-btn').addEventListener('click', () => {
+                    if (this.cartItems.length === 0) {
+                        alert('购物车为空，无法结算');
+                        return;
+                    }
+                    alert('结算功能正在开发中，敬请期待！');
+                });
+            }
+
+            // 渲染推荐产品
+            renderRecommendedProducts() {
+                const container = document.getElementById('recommended-products');
+                let html = '';
+
+                // 获取购物车中不包含的商品作为推荐
+                const cartProductIds = this.cartItems.map(item => item.id);
+                const recommendedProducts = Object.values(productsData)
+                    .filter(product => !cartProductIds.includes(product.id))
+                    .slice(0, 4);
+
+                if (recommendedProducts.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; width: 100%;">暂无推荐商品</p>';
+                    return;
+                }
+
+                recommendedProducts.forEach(product => {
+                    html += `
+                        <div class="product-card" onclick="window.location.href='product.html?id=${product.id}'">
+                            <div class="product-card-image">
+                                <img src="${product.image}" alt="${product.title}">
+                            </div>
+                            <div class="product-card-content">
+                                <h3 class="product-card-title">${product.title}</h3>
+                                <div class="product-card-price">¥${product.price}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            }
+        }
+
+        // 页面加载完成后初始化购物车
+        document.addEventListener('DOMContentLoaded', () => {
+            const cart = new ShoppingCart();
+
+            // 搜索功能
+            document.querySelector('.search-box input').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    alert('搜索功能: ' + this.value);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1394 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>短篇 - 《众星之环》</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a365d;
+            --secondary-blue: #2d4a7a;
+            --accent-blue: #4a6fa5;
+            --light-blue: #a0c1d1;
+            --text-dark: #2d3748;
+            --text-light: #f7fafc;
+            --background-light: #f5f7fa;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+
+        /* 夜间模式变量 */
+        .dark-mode {
+            --primary-blue: #0f1a2f;
+            --secondary-blue: #1e2f4f;
+            --accent-blue: #3a5785;
+            --light-blue: #6a8ea8;
+            --text-dark: #e2e8f0;
+            --text-light: #f7fafc;
+            --background-light: #121826;
+            --gold: #d4af37;
+            --silver: #c0c0c0;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* 导航栏 */
+        .main-nav {
+            background-color: var(--primary-blue);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .main-nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+            .logo h1 {
+                color: var(--text-light);
+                font-size: 24px;
+                margin-left: 10px;
+                font-weight: 300;
+                letter-spacing: 1px;
+                transition: color 0.3s ease;
+            }
+
+            .logo i {
+                color: var(--light-blue);
+                font-size: 28px;
+                transition: color 0.3s ease;
+            }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+            .nav-links a {
+                color: var(--text-light);
+                text-decoration: none;
+                font-weight: 400;
+                font-size: 16px;
+                position: relative;
+                transition: all 0.3s ease;
+                padding: 5px 0;
+            }
+
+                .nav-links a:hover {
+                    color: var(--light-blue);
+                }
+
+                .nav-links a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    height: 1px;
+                    background-color: var(--light-blue);
+                    transition: width 0.3s ease;
+                }
+
+                .nav-links a:hover::after {
+                    width: 100%;
+                }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .nav-icon:hover {
+                color: var(--light-blue);
+            }
+
+        /* 书签角标 */
+        .bookmark-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e53e3e;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 章节标题区域 */
+        .chapter-header {
+            background: linear-gradient(rgba(26, 54, 93, 0.85), rgba(26, 54, 93, 0.9)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-light);
+            padding: 80px 0 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .chapter-header {
+            background: linear-gradient(rgba(15, 26, 47, 0.85), rgba(15, 26, 47, 0.9)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        .chapter-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+        }
+
+        .chapter-title {
+            font-size: 42px;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .chapter-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 章节选择器 */
+        .chapter-selector-container {
+            margin: 25px auto 0;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .chapter-selector-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--light-blue);
+        }
+
+        .chapter-select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--primary-blue);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+
+            .chapter-select:hover {
+                background-color: white;
+                border-color: rgba(255, 255, 255, 0.8);
+            }
+
+            .chapter-select:focus {
+                outline: none;
+                border-color: var(--light-blue);
+                box-shadow: 0 0 0 2px rgba(160, 193, 209, 0.5);
+            }
+
+        .dark-mode .chapter-select {
+            background-color: rgba(26, 54, 93, 0.9);
+            color: var(--text-light);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0c1d1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        }
+
+            .dark-mode .chapter-select:hover {
+                background-color: rgba(26, 54, 93, 1);
+            }
+
+        /* 书签切换开关 */
+        .bookmark-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 8px;
+        }
+
+        .toggle-label {
+            font-size: 14px;
+            color: var(--light-blue);
+            cursor: pointer;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+            .toggle-switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+            .toggle-slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+
+        input:checked + .toggle-slider {
+            background-color: var(--light-blue);
+        }
+
+            input:checked + .toggle-slider:before {
+                transform: translateX(20px);
+            }
+
+        /* 章节内容 */
+        .chapter-content {
+            padding: 60px 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            padding: 50px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .content-container {
+            background-color: #1a2435;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+
+        .content-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-blue), var(--light-blue));
+        }
+
+        .chapter-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+            .chapter-text p {
+                margin-bottom: 24px;
+                text-align: justify;
+            }
+
+                .chapter-text p:first-child::first-letter {
+                    font-size: 48px;
+                    float: left;
+                    line-height: 1;
+                    margin-right: 8px;
+                    color: var(--accent-blue);
+                    font-weight: 300;
+                }
+
+        .quote {
+            border-left: 3px solid var(--light-blue);
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: var(--secondary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .quote {
+            color: #8fa8c7;
+        }
+
+        /* 章节导航 */
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+            .nav-btn:hover {
+                background-color: var(--secondary-blue);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+        /* 书签弹窗 */
+        .bookmark-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bookmark-modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+
+        .dark-mode .bookmark-modal-content {
+            background-color: #1a2435;
+        }
+
+        .bookmark-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .bookmark-modal-header {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .bookmark-modal-title {
+            font-size: 20px;
+            color: var(--primary-blue);
+        }
+
+        .dark-mode .bookmark-modal-title {
+            color: var(--light-blue);
+        }
+
+        .bookmark-modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .dark-mode .bookmark-modal-close {
+            color: var(--text-light);
+        }
+
+        .bookmark-list {
+            list-style: none;
+        }
+
+        .bookmark-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode .bookmark-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .bookmark-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        .dark-mode .bookmark-item:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .bookmark-item:last-child {
+            border-bottom: none;
+        }
+
+        .bookmark-item-info {
+            flex: 1;
+        }
+
+        .bookmark-item-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .bookmark-item-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .dark-mode .bookmark-item-subtitle {
+            color: #aaa;
+        }
+
+        .bookmark-item-remove {
+            background: none;
+            border: none;
+            color: #e53e3e;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+            .bookmark-item-remove:hover {
+                background-color: rgba(229, 62, 62, 0.1);
+            }
+
+        .no-bookmarks {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .dark-mode .no-bookmarks {
+            color: #aaa;
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--text-light);
+            padding: 60px 0 20px;
+            margin-top: 60px;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--light-blue);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #cbd5e0;
+                text-decoration: none;
+                transition: color 0.3s ease;
+                font-weight: 300;
+            }
+
+                .footer-links a:hover {
+                    color: var(--text-light);
+                }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+            .social-icons a {
+                color: var(--text-light);
+                font-size: 18px;
+                transition: color 0.3s ease;
+            }
+
+                .social-icons a:hover {
+                    color: var(--light-blue);
+                }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: #a0aec0;
+            font-weight: 300;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .chapter-title {
+                font-size: 32px;
+            }
+
+            .content-container {
+                padding: 30px 20px;
+            }
+
+            .chapter-text {
+                font-size: 16px;
+            }
+
+            .chapter-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                justify-content: center;
+            }
+
+            .chapter-selector-container {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主导航 -->
+    <nav class="main-nav">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-stars"></i>
+                <h1>众星之环</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="./HTMLPage1.html#content">正文</a>
+                <a href="./HTMLPage1.html#setting">设定</a>
+                <a href="./HTMLPage1.html#characters">人物</a>
+                <a href="./HTMLPage1.html#stories">短篇</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="nav-icon" id="bookmark-toggle">
+                    <i class="far fa-bookmark"></i>
+                    <span class="bookmark-badge" id="bookmark-count">0</span>
+                </a>
+                <a href="#" class="nav-icon" id="theme-toggle"><i class="fas fa-sun"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 章节标题区域 -->
+    <section class="chapter-header">
+        <div class="container">
+            <h1 class="chapter-title" id="chapter-title">序章：转封之日</h1>
+            <p class="chapter-subtitle" id="chapter-subtitle">数千年前，乌提卡人相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中...</p>
+
+            <!-- 章节选择器 -->
+            <div class="chapter-selector-container">
+                <label for="chapter-select" class="chapter-selector-label">选择章节</label>
+                <select id="chapter-select" class="chapter-select" size="1">
+                    <!-- 章节选项将由JavaScript动态生成 -->
+                </select>
+
+                <!-- 书签章节切换开关 -->
+                <div class="bookmark-toggle">
+                    <span class="toggle-label">仅显示书签章节</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="bookmark-only-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 章节内容 -->
+    <section class="chapter-content">
+        <div class="container">
+            <div class="content-container">
+                <div class="chapter-text" id="chapter-content">
+                    <p>数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
+
+                    <p>而如今乌提卡人的信仰早已随着他们古老的帝国彻底消散在历史的烟海中……然而，倘若这支古老民族所说属实，那毫无疑问，这片大地也应该早已忘记了如今重归的这种喧嚣。</p>
+
+                    <p>庞大的阴影伴随着巨大的噪音，拦腰截断生长千万年的巨树，将其碾压进泥水，永远沉默在深深刻进大地的宽阔车辙中。足足三艘，陆行战舰(Land Cruiser)全功率行进的轰鸣彻底摧毁了整片荒野的寂静。对于徒步行人而言恶劣的路况在高速战舰的履带面前不值一提。艾卡纳罗沉默着站在舰首，任由略微寒冷的夜风吹起他的衣襟。</p>
+
+                    <p>他听见军官们在战舰下层紧张讨论着警戒工作。对于这些初入这片地区的桐国年轻人而言，眼下的状况的确让人有些许不安。然而艾卡纳罗并无这样的担心。他背着双手，佩剑安然挂在身体左侧。借助龙裔血统的种族优势，他的视线轻易穿透黑夜，看到远远的地平线上城市巨大的剪影。</p>
+
+                    <p>安卡隆德特区(S-district Ankrond)重镇，卡诺兰特(Kainorant)。当然这是这座城市多年前，安卡隆德仍旧是独立王国时的名字。</p>
+
+                    <p>塔尔家族(House of Tar)最早的封地安达洛斯堡(Fort Androze)就属于卡诺兰特的辖地……当然这一切都是"王国时代"的往事了。如今父系血脉的故乡，对于多年未归的艾卡纳罗而言破败而荒凉。</p>
+
+                    <div class="quote">
+                        "大人，"背后传来吴清参谋的声音："舰桥汇报，直线行进大约半小时后进入领地范围。就是可能影响到邻近市镇的居民。您看……"
+                    </div>
+
+                    <p>"走外环吧。"艾卡纳罗没有犹豫。现在是秋收季节，他不愿意破坏农田："这里的民众生活也不容易。"吴清闻言，沉重地点了点头。"也不容易"，艾卡纳罗没有过多描述具体情形。然而作为大桐陆军军官大学毕业的高材生，吴清对于安卡隆德王国解体后这片地区长达百年的混乱和危机深有了解。而那的确远非一句"也不容易"就能带过的历史。</p>
+
+                    <p>吴清正要离开，却被艾卡纳罗喊住："中明，陛下没有消息吗？"吴清愣了片刻，语气略微寒冷地回道:"没有。"艾卡纳罗一听便知道是怎么回事。他苦笑着说道："我早就说了和中央保持联系。你们终归是神皇(God Emperor)的军队。"</p>
+
+                    <p>桐明帝宇文成，"神皇"，东大陆翻手为云覆手成雨的伟大君主。艾卡纳罗没想到自己的近卫军团竟然为自己的境遇如此愤慨，乃至和如此强大的君王叫板。"这不是陛下的设计，中明……"艾卡纳罗扶额，"相反我们都该感谢陛下。若非如此我们都会在如今阅阳的政治泥潭里烂掉。"事实当然也是这样。</p>
+
+                    <div class="quote">
+                        "倘真如此，大人。"吴清挥臂划过面前冰冷的荒野。随后行礼告退。看似同意的言行里不忿未减分毫。
+                    </div>
+
+                    <p>诚然，处于忠诚执意追随他的军团如今不得不因一纸转封敕令背井离乡。任何人都不可能坦然接受。</p>
+
+                    <p>半个月前就预订的大批补给差不多明天中午抵达，官方委派的工程船队大概三天后到……那也就是城市重建的开始……艾卡纳罗按照已知信息粗略估计了一下。原本可以直接问吴清或者参谋部。但他方才大步离去，没有留下艾卡纳罗提问的时间。</p>
+
+                    <p>卡诺兰特城的剪影变得清晰。艾卡纳罗甚至隐约看到了星星点点的灯火。这便是他未来很久一段时间里，起码名义上的家园。他仿佛感知到战舰下层近卫军团辐射出的热量……相较大桐数千年缔造的那些大公，他现下所拥有的实力微不足道。然而一百余年的岁月告诉他，这片大地的历史，从来不是由既定的人群书写。</p>
+
+                    <p>这里是原安卡隆德王国重镇，卡诺兰特，如今桐帝国安卡隆德特别行政区执政核心，隶属帝国中央序列(Major Scale)。</p>
+
+                    <p>而他，塔尔-艾卡纳罗(Tar-Aikanaro)，是权力受封于宇文成神皇的，安卡隆德公爵(Duke of Ankrond)。</p>
+
+                    <p>他不禁想起许多年前的自己。如今贵为桐帝国大公的他，最大的愿望却是抛却权杖的重量，回到那最平凡不过的阳光和风雨之中……</p>
+                </div>
+            </div>
+
+            <!-- 章节导航 -->
+            <div class="chapter-nav">
+                <a href="#" class="nav-btn" id="prev-chapter">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>上一篇</span>
+                </a>
+                <a href="#" class="nav-btn" id="next-chapter">
+                    <span>下一篇</span>
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 书签弹窗 -->
+    <div class="bookmark-modal" id="bookmark-modal">
+        <div class="bookmark-modal-content">
+            <div class="bookmark-modal-header">
+                <h3 class="bookmark-modal-title">书签章节</h3>
+                <button class="bookmark-modal-close" id="bookmark-modal-close">&times;</button>
+            </div>
+            <ul class="bookmark-list" id="bookmark-list">
+                <!-- 书签列表将由JavaScript动态生成 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">作品介绍</a></li>
+                        <li><a href="#">作者简介</a></li>
+                        <li><a href="#">创作历程</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>阅读资源</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">全部章节</a></li>
+                        <li><a href="#">设定集</a></li>
+                        <li><a href="#">角色图鉴</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>社区互动</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">读者讨论区</a></li>
+                        <li><a href="#">同人作品</a></li>
+                        <li><a href="#">读者问答</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关注我们</h4>
+                    <p>获取最新更新和创作幕后</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2023 《众星之环》官方小说站. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 章节数据
+        const chapters = {
+            "s1": {
+                id: "sbslsjsz",
+                title: "短篇：不是历史教授者",
+                subtitle: "“历史也是随着潮流变化的，纪小姐。”",
+                content: `
+                        <p>“艾卡纳罗教授评的实在是太严了！”纪遥昕甚至忍不住拍了一下信息平台的屏幕，这突兀的喧闹让一向文静的王娴也大乱阵脚，因为这个颇具桐国氛围的大厅不仅仅是货真价实的古建筑，更是岳阳大学中央图书馆的前厅——遥昕的大喊大叫无疑违反了图书馆的规定。
+                        </p>
+                        <div class="quote"> "你…你你小，小声一点！"
+                        </div>
+                        <p>王娴忙不迭想抓住纪遥昕的双手，又着急堵住她的嘴巴，伸出的两条胳膊竟一时不知朝上朝下，反倒是把自己急得满面通红。纪遥昕的脸色同样很差，作为岳阳大学古典魔法系的尖子生，她还从未在专业课上取得如此低的绩点——这意味着她的古代史期考仅仅取得了一半的分数——即使纪遥昕认为自己的回答与标准所差无几。
+                        </p>
+                        <div class="quote"> "怎么了，是古代史吗？"
+                        </div>
+                        <p>王娴终于握住了纪遥昕的双手，悄咪咪地问到。
+                        </p>
+                        <div class="quote"> "我看他魔法课讲的不错，上历史时也蛮有见解，怎么阅卷如此刁钻！学校怎么会选他代上历史课！"
+                        </div>
+                        <p>纪遥昕气愤地说着，仿佛怒火会随着上扬的音调一样发泄出来。
+                        </p>
+                        <div class="quote"> "他代课也是没办法的事…毕竟现在世界局势复杂嘛，"
+                        </div>
+                        <p>王娴紧张地盯着纪遥昕的嘴唇，很轻很快地说，
+                        </p>
+                        <div class="quote"> "宋教授也是出国研究才会让人代课……"
+                        </div>
+                        <div class="quote"> "那也不应该让他代，"
+                        </div> <p>纪遥昕立刻回应道，
+                        </p>
+                        <div class="quote"> "听班长说本来学校打算让他去，是他硬推给宋老师的。"
+                        </div>
+                        <div class="quote"> "啊，这可能是谣言…"
+                        </div>
+                        <div class="quote"> "才不是呢！我一会儿就去质问他，要是改不了卷子，就别代课了！"
+                        </div>
+                        <p>二十几米高的偌大前厅，只是放下这么几句话就被塞满，石兽负屃凝视的碑文也随回音产生了微弱的共振。纪遥昕的指尖使劲在屏幕上划动，录入的考卷接二连三地被拖走，不一会儿就铺满了整个屏幕。她戳着一道简答题皱起眉头，
+                        </p>
+                        <div class="quote"> "西大陆最终同盟的历史影响…啊？笼统的条款为战后利益划分造成矛盾，是二次战争的诱因，这怎么会不对？"
+                        </div>
+                        <p>纪遥昕几乎咬碎了牙齿，
+                        </p>
+                        <div class="quote"> "他把几条负面影响都判了零分，难以置信！"
+                        </div>
+                        <p>她旋即扫了一遍其他题目，大抵都是一些莫名其妙的扣分，纪遥昕只觉得头晕目眩，好像看到自己的绩点在被该死的艾卡纳罗教授当面刺杀。眼见同伴先是做出不适宜呆在图书馆的举动，又展现出更适合校医院的神情，王娴似乎想起了还有成绩申诉的流程，连忙出声提醒纪遥昕：
+                        </p>
+                        <div class="quote"> "学校规定两周内还可以申诉，最快的话三天就能出结果…"
+                        </div>
+                        <div class="quote"> "三天？"
+                        </div>
+                        <p>信息平台又被狠狠拍了一下，
+                        </p>
+                        <div class="quote"> "我说过马上就去找他，不不不，我实在是忍不了了！"
+                        </div>
+                        <p>言毕纪遥昕扭头便走，剩下王娴一人在信息平台旁不知所措。
+                        </p>
+                        <div class="quote"> "别，你这样太冒失了！"
+                        </div>
+                        <p>王娴试图尽力劝阻伙伴的无礼行为，但架不住纪遥昕大踏步地跨出图书馆，径直向办公楼冲去。
+                        </p>
+                        <p>等到王娴从校园轻轨上下来的时候，纪遥昕早已靠两条腿飞进了办公楼的大门，与在图书馆不同的是，她正框框敲响的可能不是信息平台，而是一位岳阳大学外籍教授的桌子。王娴哒哒哒地赶上三楼，穿过整个回形走廊，略过许多明灯和几副塑像，终于在最末的房门前停住。这个最深处的房间丝毫不显得幽暗，走廊上两扇双开的大窗投射出阳光，窗沿外还有触手可及的雪松，那是桐国北方的特产，在林业系学生的看护下四季都将光景映得青翠。艾卡纳罗教授门前还有一盆泷香竹，是一种生长于西方的长寿植物，似乎有很美好的寓意。王娴快速地平复着急促的呼吸，为了让自己听清楚门内的交谈——好在双方都比她想象中理智，没有出现不合时宜的敲打声。
+                        </p>
+                        <div class="quote"> "……，这题又是什么意思？这几点，哪里有问题？"
+                        </div>
+                        <p>明显是遥昕的声音。
+                        </p>
+                        <div class="quote"> "我想你还是不了解西方最终同盟的背景……这不是笼统，而是各方早已舍弃一己私利。"
+                        </div>
+                        <div class="quote"> "课本上可不是这样写的！教授先生，您怎么得来的结论？"
+                        </div>
+                        <div class="quote"> "学校已经告诉你们了，老师所讲与教材冲突时，以老师所讲为准。"
+                        </div>
+                        <p>……
+                        </p>
+                        <p>房间内一时没有了声音，似乎陷入了思考的沉默。
+                        </p>
+                        <p>王娴能够想象出艾卡纳罗教授沉静的眼神，紧接着又看到了纪遥昕眯起来的双目……
+                        </p>
+                        <div class="quote"> "那是技术课的规定，教授。那是因为科学和魔法的前沿随着潮流变化，教材要花费时间编撰，而学生们需要新兴的知识。可是这是历史，它是一成不变的，教授先生。"
+                        </div>
+                        <p>……
+                        </p>
+                        <p>更持久的沉默蔓延了，让门外的王娴也慌了神。除了远处时有几声鸟鸣，自己的脉搏声才能度量这长久的沉寂。
+                        </p>
+                        <p>如同冻结法术被破解一般，门后终于传出令人安心又沉重的话语：
+                        </p>
+                        <div class="quote"> "历史也是随着潮流变化的，纪小姐。"
+                        </div>
+                        <p>纪遥昕这次又把自己关在了寝室里。只要不理会王娴不停息地敲门关心，她足可以在公寓里呆上几个月，毕竟这是岳阳大学的二人间公寓，更是配备独立卧室和卫浴，只要同寝的王娴捎一份饭放在门口，她就可以自给自足地蜗居几个月。何况她几次闭关复习都这么干，只要通过学校分发的法术装备，很轻易就能留影课堂内容，考勤更不是难事，自从搬到这个寝室以来，她的学生卡一直都不是在自己的包里，而是王娴的。只是这次她实在待不下去，她没有什么需要学习的知识点，而是缺乏对那位教授眼神中莫名光彩的理解——课本上只是一种观点，是编者的，教育家的，或者桐国的；而艾卡纳罗是另一种。因为拖后腿的绩点，纪遥昕本来已经足够头疼，她实在不想去思考其他事，学生明明只负责应试，实验，实习和少量科研魔研。疲惫的她干脆躺在床上，迷迷糊糊地望着天花板，思考起一些更不着边际乱七八糟的事情。
+                        </p>
+                        <p>“咚！”
+                        </p>
+                        <div class="quote"> "图书馆收了新魔典，你不去看吗？"
+                        </div>
+                        <p>纪遥昕惊醒过来，
+                        </p>
+                        <div class="quote"> "嗯？不去。"
+                        </div>
+                        <p>她在梦里梦见了不得了的东西。
+                        </p>
+                        <div class="quote"> "那晚上吃什么？我要去食堂。"
+                        </div>
+                        <div class="quote"> "和你一样。"
+                        </div>
+                        <p>很平常的对话。
+                        </p>
+                        <div class="quote"> "哦哦，那我先去了……"
+                        </div>
+                        <div class="quote"> "等等，王娴！我也一起，我必须去问一件事！"
+                        </div>
+                        <p>纪遥昕飞快地翻身下床，踩上一双鞋子：
+                        </p>
+                        <div class="quote"> "为什么学校会优先选择艾卡纳罗教授外访呢？因为他是外籍吗？"
+                        </div>
+                        <p>她快速带好手表，挂上家传的宝石吊坠。
+                        </p>
+                        <p>她当然不指望了解教授的心里世界，但她逐渐理解艾卡纳罗教授对某些事物的坚持。刚刚有一个无源之梦暗示着她，岳阳大学不仅是桐国最高等的学府，更是各国凝视之地，无数时代与历史，利益与正义正在地下暗流汹涌。
+                        </p>
+                        <p>纪遥昕拉开大门向东方走去，迎面是一列列雪松和软绵的春风。她依然相信那个梦是艾卡纳罗的心灵暗示或其他什么人的精神术法——因为她梦见无数赴死之人一个一个戴上那顶满是鲜血的战盔，燃尽生命的元素来展现无畏者的怒火。梦见燃烧的血色将冰雪消融，就在迎面而来的雪松林中。</p>
+                    `
+            }, "s2": {
+                id: "szgddf",
+                title: "短篇：走过的地方",
+                subtitle: "青川弘一终于回到了那条石子路。他此前刻意把速度放的很慢",
+                content: `
+            <p> 雨停了一会儿，才愣愣地收起了油纸伞。空气里已没有烟尘和各色绚丽的灯光，青绿色草坡一路延伸到云际。一片片矮篱笆扎在泥路的一边，弯弯绕绕，青玉上系着一条棕色的丝带。
+            </p>
+            <div class="quote">"呼————"
+            </div>
+            <p>即使定心之法早已成为呼吸一般自然的存在，但此刻，任谁来都免不了彻底放空精神。雨后水潭的磷光，泥土被新阳烘暖的气息，山尾雉一步一跳地啄食的啪嗒声——多么熟悉的情景。此时风起，偏偏又裹挟走眼中的水汽。
+            </p>
+            <p>那是当然，
+            </p>
+            <p>当然啊，
+            </p>
+            <p>疲惫的战士回归了故乡。
+            </p>
+            <p>青川弘一顺着伞骨将伞收好，系上后斜挎在腰边。还湿润着的油纸遮住了龙主獠牙，青川弘一甚至没有对伞面使用避水，仿佛毫不在乎它在行走间轻轻蹭湿了褐衣。
+            </p>
+            <p>远处已出现寥寥人烟，青川弘一却放慢了脚步。晓是在岳阳最热闹的街市，他也没有这样闲庭信步过。太阳走的远比他更快一筹，抢在青川弘一到达村镇前便已落在了村后。一家又一户点起了灯，黄昏时分还有孩童嬉闹声和小巷里远远传来的犬吠。这说明很久都没有恶鬼出现了，青川弘一轻松地想，好似自己在外的付出获得了对等的回报。
+            </p>
+            <p>军靴踏过石子路，许多木石混合的斜顶构成了小镇起伏的线条。家乡的景致此刻具象在眼前，青川弘一不用抬头也能找到那些熟悉的屋子。
+            </p>
+            <div class="quote">"泷川智也……夜鳥……我回来了。"
+            </div>
+            <p>他自言自语着前进，右手轻抚背上的包袱。走过有着高高石墙的行道，青川弘一拐了一个弯——他顿了一下，抬起头深深地看了一眼一路的树影和建筑，便回到原来的石子路上去了。
+            </p>
+            <p>他无数次走过这里，或挎着买菜的篮子，或与好友结伴而行。即使名义上这整个镇子都只是他祖上领地的一片微不足道的附庸地——那他也确确实实是这里的居民，生活在这个镇子的一份子。
+            </p>
+            <p>这样的家室也促使他离开了这里，数不清的事情等着他去处理，即便如今，青川弘一也只能像现在这样远远地驻足。丛云的大祭司正要组织闻所未闻的可怕献祭，他必须在午夜前与同伴在城外汇合。因此留给青川弘一的没有什么回家吃饭过夜的机会。
+            </p>
+            <p>时间像磨盘一样压着他走，青川弘一终于回到了那条石子路。他此前刻意把速度放的很慢，让他数过了童年种的小树，一望现在布满青苔的井底。
+            </p>
+            <div class="quote">"天要黑了。"
+            </div>
+            <p>青川弘一回想着路途，笑了一下。他把已经干了的伞别在包袱上，重新露出了入鞘的獠牙。
+            </p>
+        `
+            }, "s3": {
+                id: "ssysd",
+                title: "断章：上一世代",
+                subtitle: "央都国际执行官联合会，全球巡查第一小组。",
+                content: `
+            <p>“萨米基纳…拥灵之主…”艾卡纳罗被恐怖的气息压倒在地，憎恨的眼神如同匕首般刺向眼前的阴影——当然这也是他如今唯一能做到的事了。
+            </p>
+            <div class="quote">"区区公爵一阶的年轻执行官，何必自取灭亡？"
+            </div>
+            <p>令人意外的是，那具恶心躯体发出的并非是萨米基纳的声音。黑暗异端的拥灵之主化名古老传说中的恶鬼，其腐朽声带发出的音色足以令无数世人恐惧癫狂，但那绝不是如今这个声音。这句叹息清澈透亮，艾卡纳罗甚至还隐约听出了一丝哀伤一般的情绪。
+            </p>
+            <p>随着声音入耳，周边的气势威压也略微减弱，艾卡纳罗趁机强撑着拄刀起身：
+            </p>
+            <div class="quote">"执行官安能没有同异端拼死的觉悟？你在说笑…躲在萨米基纳身后的大能。"
+            </div>
+            <div class="quote">"你能看出我是谁？"
+            </div>
+            <p>庞大的黑影继续收缩，终至能看清面孔。其人确为拥灵之主，但艾卡纳罗强大的精神力也让他确定，如今操控这具身体的绝非本人。随之而来的则是巨大的绝望——如今艾卡纳罗的小队只剩自己还勉力支撑，这样的情况下即便只是面对萨米基纳本人他也毫无胜算。更何况眼前之人能够绕开一切生命屏障，直接接管这个王爵级中阶术师的身体。
+            </p>
+            <div class="quote">"高阶王爵…"
+            </div>
+            <p>艾卡纳罗心已经凉了半截。这样的存在纵然在王爵级中间也是绝对的高手，相比之下不到三个月前才突破公爵级的他根本不可能是其一合之敌。
+            </p>
+            <div class="quote">"这样的奴仆之身真是让人不快…但眼下也没有别的选择。"
+            </div>
+            <p>黑暗大能举起拥灵之主的长剑，原本已经寂静的死灵气息转瞬间又大肆升腾起来：
+            </p>
+            <div class="quote">"年轻的执行官，英勇无畏，技艺高超，我很想和你多聊聊。然而你的援军不到五分钟就会赶到这里，我不得不确保在这之前你已经死去。"
+            </div>
+            <p>言罢，长剑高举。还未感受到锋刃的寒冷，浓郁的死亡气息就将艾卡纳罗彻底笼罩…
+            </p>
+            <div class="quote">"大人，恼羞成怒何必拿小辈撒气？"
+            </div>
+            <p>随着朗声击碎沉寂，一股同样强势的力场自艾卡纳罗身后铺展开来，硬生生将来自黑暗大能的威压逼退至场地中线。此时艾卡纳罗视线已经不再清晰，但几双战靴砸击地面产生的振动依旧可以感知到。待他竭力聚拢视线，看到挡在面前的是六名身着一式披风的背影。他们性别身形不一，却毫无例外地辐射着惊人的力量。
+            </p>
+            <div class="quote">"央都国际执行官联合会，全球巡查第一小组。"
+            </div>
+            <p>就在如此紧凑的力量对峙下，为首的执行官竟然不紧不慢地取出皮夹，向对面的黑暗大能出示了证件。艾卡纳罗看呆了。自问也是一名精英执行官的他意识到自己和这样的前辈之间所拥有的差距绝不是几个鸿沟可以形容的距离。
+            </p>
+            <div class="quote">"原来是全球巡查组。"
+            </div>
+            <p>黑暗大能抬起双臂检视着萨米基纳的躯壳，
+            </p>
+            <div class="quote">"看来今天不太走运啊。单凭这个身体，怎么击败六名高贵的五阶执行官？"
+            </div>
+            <p>五阶执行官！闻言，艾卡纳罗登时清醒了不少。原来前来援护他的竟然是足足六名五阶执行官！
+            </p>
+            <div class="quote">"哼。"
+            </div>
+            <p>另一顶兜帽下传来悦耳的女声冷笑，
+            </p>
+            <div class="quote">"原来大人这样的大能者也不敢以真名现世啊。躲在奴仆的躯壳后面徒然说些大空话，黑暗异端的强者如今已经沦落到这步田地了？"
+            </div>
+            <div class="quote">"我若真名现世，你等如今早该是尸体了。更别提你们身后的小孩。"
+            </div>
+            <p>黑暗大能显然对女执行官的嘲讽感到不快。语气中的阴冷即便隔着前辈高手们的屏障也让艾卡纳罗窒息。
+            </p>
+            <div class="quote">"真的有那个能耐，就下次决战。既然今天没有打算开战，那就滚！"
+            </div>
+            <p>低哑的声音带着极度的自信和凌厉，丝毫不受威胁影响地自第三位前辈处发出。霎时，全部六名五阶执行官气势剧增，强大的气流甚至吹动了他们修长的披风，连被护在身后的艾卡纳罗都不免压低了身形。伴随着执行官们升腾的怒火，对面的黑暗大能操控着萨米基纳，最后不甘地看了一眼艾卡纳罗，随后便驱策黑雾消失在了暮色中。
+            </p>
+            <div class="quote">"艾卡纳罗，你怎么样？"
+            </div>
+            <p>见对峙结束，为首的五阶官立刻奔过去扶起艾卡纳罗，随着肾上腺素注入，其体内混乱的状态总算是彻底稳定下来。
+            </p>
+            <div class="quote">"大人…您认识我？"
+            </div>
+            <p>艾卡纳罗声音还有些颤抖，但总算是恢复了气力。
+            </p>
+            <div class="quote">"你不认识我。但我听说过你。我们也很意外在这里遇到你。你才新晋四阶，怎么会出现在这么危险的地方？"
+            </div>
+            <p>虽然看不清面孔，但艾卡纳罗能听出他话语里的关切。
+            </p>
+            <div class="quote">"算你小子命大。除了我们，哪有联合会巡查组会天天在这样荒僻的地方乱跑。"
+            </div>
+            <p>那个悦耳的女声在艾卡纳罗身侧传来。他如今当然早已清楚来帮忙的是何等强者——五阶执行官代表着王爵级的门槛，这六位前辈再弱也和对面的黑暗大能处在同一位阶。
+            </p>
+            <div class="quote">"是啊…不过今天幸运的不止你。我们也是。哪怕这个黑主操控的躯体并不比我们强很多，我都能感到其身上散发的浓烈的危险气息。倘若真的是本体现世…只怕不一定是我们兜得住的…"
+            </div>
+            <p>领头五阶官说着。然而此时艾卡纳罗的神经已经到了崩断边缘，听清不到半数便彻底失去了意识。
+            </p>
+        `
+            },
+
+            
+
+            // 可以继续添加更多章节...
+        };
+
+        // 章节顺序
+        const chapterOrder = ["s1","s2","s3"];
+
+        // 书签管理
+        let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+        let currentChapterId = chapterOrder[0];
+
+        // 获取URL参数
+        function getUrlParameter(name) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(window.location.href);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // 加载章节
+        function loadChapter(chapterId) {
+            const chapter = chapters[chapterId];
+            if (!chapter) {
+                // 如果没有找到章节，加载第一个章节
+                loadChapter(chapterOrder[0]);
+                return;
+            }
+
+            // 更新当前章节ID
+            currentChapterId = chapterId;
+
+            // 更新页面标题
+            document.title = `${chapter.title} - 《众星之环》`;
+
+            // 更新章节标题和副标题
+            document.getElementById('chapter-title').textContent = chapter.title;
+            document.getElementById('chapter-subtitle').textContent = chapter.subtitle;
+
+            // 更新章节内容
+            document.getElementById('chapter-content').innerHTML = chapter.content;
+
+            // 更新URL但不刷新页面
+            const newUrl = `${window.location.pathname}?chapter=${chapterId}`;
+            window.history.pushState({ chapterId }, chapter.title, newUrl);
+
+            // 更新章节选择框状态
+            updateChapterSelect(chapterId);
+
+            // 更新导航按钮
+            updateNavigation(chapterId);
+
+            // 更新书签图标状态
+            updateBookmarkIcon(chapterId);
+        }
+
+        // 更新章节选择框状态
+        function updateChapterSelect(currentChapterId) {
+            const select = document.getElementById('chapter-select');
+            select.value = currentChapterId;
+        }
+
+        // 更新导航按钮
+        function updateNavigation(currentChapterId) {
+            const currentIndex = chapterOrder.indexOf(currentChapterId);
+
+            // 更新上一章按钮
+            const prevBtn = document.getElementById('prev-chapter');
+            if (currentIndex > 0) {
+                prevBtn.href = `?chapter=${chapterOrder[currentIndex - 1]}`;
+                prevBtn.style.visibility = 'visible';
+            } else {
+                prevBtn.style.visibility = 'hidden';
+            }
+
+            // 更新下一章按钮
+            const nextBtn = document.getElementById('next-chapter');
+            if (currentIndex < chapterOrder.length - 1) {
+                nextBtn.href = `?chapter=${chapterOrder[currentIndex + 1]}`;
+                nextBtn.style.visibility = 'visible';
+            } else {
+                nextBtn.style.visibility = 'hidden';
+            }
+        }
+
+        // 更新书签图标状态
+        function updateBookmarkIcon(chapterId) {
+            const bookmarkIcon = document.querySelector('#bookmark-toggle i');
+            if (bookmarks.includes(chapterId)) {
+                bookmarkIcon.classList.remove('far');
+                bookmarkIcon.classList.add('fas');
+            } else {
+                bookmarkIcon.classList.remove('fas');
+                bookmarkIcon.classList.add('far');
+            }
+
+            // 更新书签数量角标
+            document.getElementById('bookmark-count').textContent = bookmarks.length;
+        }
+
+        // 切换书签状态
+        function toggleBookmark(chapterId) {
+            const index = bookmarks.indexOf(chapterId);
+            if (index > -1) {
+                // 如果已存在，则移除
+                bookmarks.splice(index, 1);
+            } else {
+                // 如果不存在，则添加
+                bookmarks.push(chapterId);
+            }
+
+            // 保存到本地存储
+            localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+            // 更新UI
+            updateBookmarkIcon(chapterId);
+            updateBookmarkModal();
+
+            // 如果开启了"仅显示书签章节"模式，需要更新章节选择器
+            const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+            if (bookmarkOnlyToggle.checked) {
+                updateChapterSelectOptions(true);
+            }
+        }
+
+        // 移除书签
+        function removeBookmark(chapterId) {
+            const index = bookmarks.indexOf(chapterId);
+            if (index > -1) {
+                bookmarks.splice(index, 1);
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                updateBookmarkIcon(currentChapterId);
+                updateBookmarkModal();
+
+                // 如果开启了"仅显示书签章节"模式，需要更新章节选择器
+                const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+                if (bookmarkOnlyToggle.checked) {
+                    updateChapterSelectOptions(true);
+                }
+            }
+        }
+
+        // 更新书签弹窗内容
+        function updateBookmarkModal() {
+            const bookmarkList = document.getElementById('bookmark-list');
+            bookmarkList.innerHTML = '';
+
+            if (bookmarks.length === 0) {
+                bookmarkList.innerHTML = '<li class="no-bookmarks">暂无书签章节</li>';
+                return;
+            }
+
+            bookmarks.forEach(chapterId => {
+                const chapter = chapters[chapterId];
+                if (!chapter) return;
+
+                const bookmarkItem = document.createElement('li');
+                bookmarkItem.className = 'bookmark-item';
+                bookmarkItem.dataset.chapterId = chapterId;
+                bookmarkItem.innerHTML = `
+                        <div class="bookmark-item-info">
+                            <div class="bookmark-item-title">${chapter.title}</div>
+                            <div class="bookmark-item-subtitle">${chapter.subtitle}</div>
+                        </div>
+                        <button class="bookmark-item-remove" title="移除书签">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+
+                // 点击书签项跳转到对应章节
+                bookmarkItem.addEventListener('click', function (e) {
+                    // 如果点击的是移除按钮，不跳转
+                    if (e.target.closest('.bookmark-item-remove')) return;
+                    loadChapter(chapterId);
+                    closeBookmarkModal();
+                });
+
+                // 移除书签按钮事件
+                const removeBtn = bookmarkItem.querySelector('.bookmark-item-remove');
+                removeBtn.addEventListener('click', function (e) {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    removeBookmark(chapterId);
+                });
+
+                bookmarkList.appendChild(bookmarkItem);
+            });
+        }
+
+        // 打开书签弹窗
+        function openBookmarkModal() {
+            document.getElementById('bookmark-modal').style.display = 'flex';
+        }
+
+        // 关闭书签弹窗
+        function closeBookmarkModal() {
+            document.getElementById('bookmark-modal').style.display = 'none';
+        }
+
+        // 更新章节选择器选项
+        function updateChapterSelectOptions(bookmarkOnly = false) {
+            const select = document.getElementById('chapter-select');
+            select.innerHTML = '';
+
+            const chaptersToShow = bookmarkOnly ?
+                chapterOrder.filter(id => bookmarks.includes(id)) :
+                chapterOrder;
+
+            chaptersToShow.forEach(chapterId => {
+                const chapter = chapters[chapterId];
+                const option = document.createElement('option');
+                option.value = chapterId;
+                option.textContent = chapter.title;
+                select.appendChild(option);
+            });
+
+            // 确保当前章节被选中
+            if (chaptersToShow.includes(currentChapterId)) {
+                select.value = currentChapterId;
+            } else if (chaptersToShow.length > 0) {
+                // 如果当前章节不在书签中，选择第一个书签章节
+                loadChapter(chaptersToShow[0]);
+            }
+        }
+
+        // 初始化章节选择框
+        function initChapterSelect() {
+            const select = document.getElementById('chapter-select');
+
+            // 初始填充所有章节
+            updateChapterSelectOptions();
+
+            // 添加change事件监听
+            select.addEventListener('change', function () {
+                loadChapter(this.value);
+            });
+
+            // 书签章节切换开关事件
+            const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+            bookmarkOnlyToggle.addEventListener('change', function () {
+                updateChapterSelectOptions(this.checked);
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化章节选择框
+            initChapterSelect();
+
+            // 从URL参数获取当前章节，如果没有则使用第一个章节
+            const chapterId = getUrlParameter('chapter') || chapterOrder[0];
+            loadChapter(chapterId);
+
+            // 初始化书签弹窗
+            updateBookmarkModal();
+
+            // 书签图标点击事件 - 切换当前章节的书签状态
+            document.getElementById('bookmark-toggle').addEventListener('click', function (e) {
+                e.preventDefault();
+                toggleBookmark(currentChapterId);
+            });
+
+            // 书签角标点击事件 - 打开书签弹窗
+            document.getElementById('bookmark-count').addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // 阻止事件冒泡到父元素
+                openBookmarkModal();
+            });
+
+            // 书签弹窗关闭事件
+            document.getElementById('bookmark-modal-close').addEventListener('click', closeBookmarkModal);
+
+            // 点击弹窗外部关闭
+            document.getElementById('bookmark-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeBookmarkModal();
+                }
+            });
+
+            // 监听浏览器前进后退事件
+            window.addEventListener('popstate', function (event) {
+                if (event.state && event.state.chapterId) {
+                    loadChapter(event.state.chapterId);
+                } else {
+                    const chapterId = getUrlParameter('chapter') || chapterOrder[0];
+                    loadChapter(chapterId);
+                }
+            });
+
+            // 主题切换功能
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = themeToggle.querySelector('i');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+
+            themeToggle.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.body.classList.toggle('dark-mode');
+
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // 导航按钮悬停效果
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                btn.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // 为导航链接添加活跃状态
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.style.color = 'var(--light-blue)';
+                    link.style.fontWeight = '500';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

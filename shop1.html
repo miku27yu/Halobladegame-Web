@@ -121,14 +121,21 @@
                 color: var(--text-light);
             }
 
-        .cart-icon {
+        .cart-icon, .favorites-icon {
             position: relative;
             font-size: 20px;
             color: var(--text-dark);
             margin-left: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
         }
 
-        .cart-count {
+            .cart-icon:hover, .favorites-icon:hover {
+                color: var(--lego-red);
+            }
+
+        .cart-count, .favorites-count {
             position: absolute;
             top: -8px;
             right: -8px;
@@ -141,6 +148,71 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* 返回按钮 */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 8px 16px;
+            background-color: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+            .back-button:hover {
+                background-color: #f5f5f5;
+                border-color: var(--lego-blue);
+            }
+
+            .back-button i {
+                margin-right: 8px;
+            }
+
+        /* 页面标题和面包屑 */
+        .page-header {
+            margin: 40px 0 30px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            list-style: none;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+            .breadcrumb li {
+                margin-right: 10px;
+            }
+
+                .breadcrumb li:after {
+                    content: ">";
+                    margin-left: 10px;
+                }
+
+                .breadcrumb li:last-child:after {
+                    content: "";
+                }
+
+            .breadcrumb a {
+                color: var(--text-light);
+                text-decoration: none;
+            }
+
+                .breadcrumb a:hover {
+                    color: var(--lego-red);
+                }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
         /* 产品展示区 */
@@ -348,6 +420,24 @@
             font-weight: 500;
         }
 
+        .total-price-container {
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .total-price-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .total-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--lego-red);
+        }
+
         .action-buttons {
             display: flex;
             gap: 15px;
@@ -385,6 +475,17 @@
             .btn-secondary:hover {
                 background-color: rgba(0, 109, 183, 0.05);
             }
+
+            .btn-secondary.favorited {
+                background-color: var(--lego-red);
+                color: white;
+                border-color: var(--lego-red);
+            }
+
+                .btn-secondary.favorited:hover {
+                    background-color: #c4001d;
+                    border-color: #c4001d;
+                }
 
         .btn i {
             margin-right: 8px;
@@ -525,6 +626,146 @@
             color: var(--lego-red);
         }
 
+        /* 收藏模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+            .modal-close:hover {
+                color: var(--lego-red);
+            }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .favorites-list {
+            margin-bottom: 30px;
+        }
+
+        .favorite-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+            .favorite-item:last-child {
+                border-bottom: none;
+            }
+
+        .favorite-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+            .favorite-item-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .favorite-item-details {
+            flex: 1;
+        }
+
+        .favorite-item-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .favorite-item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--lego-red);
+            margin-bottom: 10px;
+        }
+
+        .favorite-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-danger {
+            background-color: var(--lego-red);
+            color: white;
+            border: none;
+        }
+
+            .btn-danger:hover {
+                background-color: #c4001d;
+            }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--lego-blue);
+            color: var(--lego-blue);
+        }
+
+            .btn-outline:hover {
+                background-color: rgba(0, 109, 183, 0.05);
+            }
+
+        .empty-favorites {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+        }
+
+            .empty-favorites i {
+                font-size: 48px;
+                margin-bottom: 15px;
+                color: var(--border-light);
+            }
+
         /* 页脚 */
         footer {
             background-color: var(--luxury-dark);
@@ -646,6 +887,17 @@
             .product-features {
                 grid-template-columns: 1fr;
             }
+
+            .favorite-item {
+                flex-direction: column;
+            }
+
+            .favorite-item-image {
+                width: 100%;
+                height: 150px;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -673,74 +925,77 @@
             <ul class="nav-links">
                 <li><a href="#">产品系列</a></li>
                 <li><a href="#">限定版</a></li>
-                <li><a href="#">众星之环</a></li>
+                <li><a href="./HTMLPage1.html">官方小说</a></li>
                 <li><a href="#">礼品指南</a></li>
                 <li><a href="#">促销活动</a></li>
             </ul>
             <div class="header-actions">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="搜索乐高产品...">
+                    <input type="text" placeholder="搜索乐高产品..." id="search-input">
                 </div>
                 <div class="user-actions">
                     <i class="far fa-user"></i>
                 </div>
-                <div class="cart-icon">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">3</span>
+                <div class="favorites-icon" id="header-favorites-btn">
+                    <i class="far fa-heart"></i>
+                    <span class="favorites-count">0</span>
                 </div>
+                <a href="shopping trolley.html" class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="header-cart-count">0</span>
+                </a>
             </div>
         </div>
     </header>
 
     <!-- 主要内容区 -->
     <main class="container">
+        <!-- 页面标题和面包屑 -->
+        <section class="page-header">
+            <a href="javascript:history.back()" class="back-button">
+                <i class="fas fa-arrow-left"></i> 返回上一页
+            </a>
+            <ul class="breadcrumb">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">产品系列</a></li>
+                <li><a href="#">众星之环</a></li>
+                <li id="current-product-crumb">产品名称</li>
+            </ul>
+            <h1 class="page-title" id="page-title">产品标题</h1>
+        </section>
+
         <!-- 产品展示区 -->
         <section class="product-hero">
             <div class="product-gallery">
                 <div class="main-image">
-                    <span class="image-badge">新品</span>
-                    <img src="https://via.placeholder.com/600x600/FFFFFF/006DB7?text=众星之环战旗乐高包" alt="众星之环战旗乐高包" id="main-product-image">
+                    <span class="image-badge" id="product-badge">新品</span>
+                    <img src="" alt="" id="main-product-image">
                 </div>
-                <div class="thumbnail-container">
-                    <div class="thumbnail active" data-image="https://via.placeholder.com/600x600/FFFFFF/006DB7?text=众星之环战旗乐高包">
-                        <img src="https://via.placeholder.com/100x100/FFFFFF/006DB7?text=主图" alt="产品主图">
-                    </div>
-                    <div class="thumbnail" data-image="https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=细节展示">
-                        <img src="https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=细节" alt="细节展示">
-                    </div>
-                    <div class="thumbnail" data-image="https://via.placeholder.com/600x600/FFFFFF/E60023?text=搭建过程">
-                        <img src="https://via.placeholder.com/100x100/FFFFFF/E60023?text=搭建" alt="搭建过程">
-                    </div>
-                    <div class="thumbnail" data-image="https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=成品展示">
-                        <img src="https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=成品" alt="成品展示">
-                    </div>
+                <div class="thumbnail-container" id="thumbnail-container">
+                    <!-- 缩略图将通过JavaScript动态生成 -->
                 </div>
             </div>
             <div class="product-details">
-                <h1 class="product-title">众星之环战旗乐高包</h1>
-                <p class="product-subtitle">星际探索系列 · 限量版收藏品</p>
+                <h1 class="product-title" id="product-title">产品标题</h1>
+                <p class="product-subtitle" id="product-subtitle">产品副标题</p>
                 <div class="product-meta">
                     <div class="rating">
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                        <div class="stars" id="product-rating">
+                            <!-- 星星将通过JavaScript动态生成 -->
                         </div>
-                        <span class="rating-value">4.7</span>
-                        <span class="review-count">(128 条评价)</span>
+                        <span class="rating-value" id="rating-value">4.7</span>
+                        <span class="review-count" id="review-count">(128 条评价)</span>
                     </div>
-                    <div class="product-id">产品编号: 75321</div>
+                    <div class="product-id" id="product-id">产品编号: 75321</div>
                 </div>
-                <p class="product-description">
-                    这款众星之环战旗乐高包是星际探索系列的巅峰之作，专为资深乐高收藏家和太空探险爱好者设计。套装包含1,250个精密零件，重现了标志性的环形空间站与星际战旗的壮丽场景。每个细节都经过精心设计，从可旋转的环形结构到可调节的战旗展示架，无不体现乐高工程与美学的完美结合。
+                <p class="product-description" id="product-description">
+                    产品描述将在这里显示...
                 </p>
                 <div class="price-container">
-                    <div class="current-price">¥1,299</div>
-                    <div class="original-price">¥1,599</div>
-                    <div class="discount-badge">节省19%</div>
+                    <div class="current-price" id="current-price">¥0</div>
+                    <div class="original-price" id="original-price">¥0</div>
+                    <div class="discount-badge" id="discount-badge">节省0%</div>
                 </div>
                 <div class="purchase-options">
                     <h3 class="option-title">购买选项</h3>
@@ -752,32 +1007,21 @@
                             <button class="quantity-btn plus">+</button>
                         </div>
                     </div>
+                    <div class="total-price-container">
+                        <div class="total-price-label">总价:</div>
+                        <div class="total-price" id="total-price">¥0</div>
+                    </div>
                     <div class="action-buttons">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" id="add-to-cart-btn">
                             <i class="fas fa-shopping-cart"></i> 加入购物车
                         </button>
-                        <button class="btn btn-secondary">
+                        <button class="btn btn-secondary" id="favorite-btn">
                             <i class="far fa-heart"></i> 收藏
                         </button>
                     </div>
                 </div>
-                <div class="product-features">
-                    <div class="feature">
-                        <i class="fas fa-shipping-fast"></i>
-                        <span>免费配送 (订单满¥399)</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-undo-alt"></i>
-                        <span>90天无忧退货</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-gift"></i>
-                        <span>适合12岁以上玩家</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-cubes"></i>
-                        <span>1,250个零件</span>
-                    </div>
+                <div class="product-features" id="product-features">
+                    <!-- 产品特性将通过JavaScript动态生成 -->
                 </div>
             </div>
         </section>
@@ -792,87 +1036,21 @@
             </div>
             <div class="tab-content active" id="description">
                 <h3>产品故事</h3>
-                <p>众星之环战旗乐高包灵感来源于人类对深空探索的无限憧憬。这款精致的模型再现了未来空间站的环形设计与星际舰队战旗的壮丽场景，每个细节都经过乐高设计师团队的精心打磨。</p>
-                <p>环形空间站采用独特的可旋转设计，配有可调节的太阳能板与对接端口。战旗部分使用特殊镀金零件，彰显尊贵与荣耀。套装还包含两个独家迷你人仔：太空指挥官与星际工程师，均配有专属印刷与装备。</p>
-
+                <p id="product-story">产品故事将在这里显示...</p>
                 <h3>产品特点</h3>
-                <ul>
-                    <li>可旋转的环形空间站结构，直径达28厘米</li>
-                    <li>可调节战旗展示架，多角度展示星际战旗</li>
-                    <li>包含两个独家迷你人仔与微型探测车</li>
-                    <li>使用特殊镀金零件与透明蓝色零件增强视觉效果</li>
-                    <li>附带专属展示底座与产品信息牌</li>
+                <ul id="product-features-list">
+                    <!-- 产品特点将通过JavaScript动态生成 -->
                 </ul>
             </div>
             <div class="tab-content" id="specs">
-                <table class="specs-table">
-                    <tr>
-                        <td>产品名称</td>
-                        <td>众星之环战旗乐高包</td>
-                    </tr>
-                    <tr>
-                        <td>产品编号</td>
-                        <td>75321</td>
-                    </tr>
-                    <tr>
-                        <td>年龄范围</td>
-                        <td>12岁以上</td>
-                    </tr>
-                    <tr>
-                        <td>零件数量</td>
-                        <td>1,250个</td>
-                    </tr>
-                    <tr>
-                        <td>成品尺寸</td>
-                        <td>高15cm × 宽28cm × 深28cm</td>
-                    </tr>
-                    <tr>
-                        <td>重量</td>
-                        <td>1.8kg</td>
-                    </tr>
-                    <tr>
-                        <td>系列</td>
-                        <td>星际探索系列</td>
-                    </tr>
-                    <tr>
-                        <td>包装尺寸</td>
-                        <td>48cm × 38cm × 9cm</td>
-                    </tr>
-                    <tr>
-                        <td>发布日期</td>
-                        <td>2023年10月</td>
-                    </tr>
+                <table class="specs-table" id="specs-table">
+                    <!-- 规格参数将通过JavaScript动态生成 -->
                 </table>
             </div>
             <div class="tab-content" id="reviews">
-                <h3>用户评价 (4.7/5)</h3>
-                <div class="review">
-                    <div class="review-header">
-                        <div class="reviewer">星空探索者</div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <p>这款乐高包超出了我的预期！环形空间站的细节处理非常精致，战旗部分的设计尤其出色。搭建过程大约花了6个小时，每一步都充满乐趣。</p>
-                    <div class="review-date">发布于 2023年11月5日</div>
-                </div>
-                <div class="review">
-                    <div class="review-header">
-                        <div class="reviewer">乐高收藏家</div>
-                        <div class="review-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                    <p>作为乐高老玩家，这款产品在设计上确实很有创新。零件质量一如既往地优秀，说明书清晰易懂。唯一的小缺点是某些连接处稍微有点松动，但不影响整体展示效果。</p>
-                    <div class="review-date">发布于 2023年10月28日</div>
+                <h3 id="reviews-title">用户评价 (4.7/5)</h3>
+                <div id="reviews-container">
+                    <!-- 用户评价将通过JavaScript动态生成 -->
                 </div>
             </div>
             <div class="tab-content" id="shipping">
@@ -890,46 +1068,25 @@
         <!-- 推荐产品 -->
         <section class="recommendations">
             <h2 class="section-title">您可能也会喜欢</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-card-image">
-                        <img src="https://via.placeholder.com/300x300/FFFFFF/006DB7?text=星际飞船" alt="星际飞船乐高包">
-                    </div>
-                    <div class="product-card-content">
-                        <h3 class="product-card-title">深空探索者星际飞船</h3>
-                        <div class="product-card-price">¥899</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-image">
-                        <img src="https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=月球基地" alt="月球基地乐高包">
-                    </div>
-                    <div class="product-card-content">
-                        <h3 class="product-card-title">月球科研基地套装</h3>
-                        <div class="product-card-price">¥1,099</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-image">
-                        <img src="https://via.placeholder.com/300x300/FFFFFF/E60023?text=火星车" alt="火星探测车乐高包">
-                    </div>
-                    <div class="product-card-content">
-                        <h3 class="product-card-title">火星探测车与营地</h3>
-                        <div class="product-card-price">¥759</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-card-image">
-                        <img src="https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=空间站" alt="深空空间站乐高包">
-                    </div>
-                    <div class="product-card-content">
-                        <h3 class="product-card-title">深空轨道空间站</h3>
-                        <div class="product-card-price">¥1,499</div>
-                    </div>
-                </div>
+            <div class="products-grid" id="recommended-products">
+                <!-- 推荐产品将通过JavaScript动态生成 -->
             </div>
         </section>
     </main>
+
+    <!-- 收藏模态框 -->
+    <div class="modal-overlay" id="favorites-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title">我的收藏</h2>
+            <div class="favorites-list" id="favorites-list">
+                <!-- 收藏列表将通过JavaScript动态生成 -->
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="close-modal-btn">关闭</button>
+            </div>
+        </div>
+    </div>
 
     <!-- 页脚 -->
     <footer>
@@ -983,63 +1140,860 @@
     </footer>
 
     <script>
-        // 缩略图切换
-        document.querySelectorAll('.thumbnail').forEach(thumb => {
-            thumb.addEventListener('click', function() {
-                // 移除所有active类
-                document.querySelectorAll('.thumbnail').forEach(t => {
-                    t.classList.remove('active');
-                });
-                // 为当前缩略图添加active类
-                this.classList.add('active');
-                // 更新主图
-                const newImageSrc = this.getAttribute('data-image');
-                document.getElementById('main-product-image').src = newImageSrc;
-            });
-        });
-
-        // 数量选择器
-        document.querySelector('.quantity-btn.minus').addEventListener('click', function() {
-            const input = document.querySelector('.quantity-input');
-            let value = parseInt(input.value);
-            if (value > 1) {
-                input.value = value - 1;
+        // 商品数据存储
+        const productsData = {
+            "star-ring-banner": {
+                id: "star-ring-banner",
+                title: "众星之环战旗乐高包",
+                subtitle: "星际探索系列 · 限量版收藏品",
+                description: "这款众星之环战旗乐高包是星际探索系列的巅峰之作，专为资深乐高收藏家和太空探险爱好者设计。套装包含1,250个精密零件，重现了标志性的环形空间站与星际战旗的壮丽场景。每个细节都经过精心设计，从可旋转的环形结构到可调节的战旗展示架，无不体现乐高工程与美学的完美结合。",
+                rating: 4.7,
+                reviewCount: 128,
+                productId: "75321",
+                currentPrice: 1299,
+                originalPrice: 1599,
+                badge: "新品",
+                images: [
+                    "https://via.placeholder.com/600x600/FFFFFF/006DB7?text=众星之环战旗乐高包",
+                    "https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=细节展示",
+                    "https://via.placeholder.com/600x600/FFFFFF/E60023?text=搭建过程",
+                    "https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=成品展示"
+                ],
+                thumbnails: [
+                    "https://via.placeholder.com/100x100/FFFFFF/006DB7?text=主图",
+                    "https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=细节",
+                    "https://via.placeholder.com/100x100/FFFFFF/E60023?text=搭建",
+                    "https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=成品"
+                ],
+                features: [
+                    { icon: "fas fa-shipping-fast", text: "免费配送 (订单满¥399)" },
+                    { icon: "fas fa-undo-alt", text: "90天无忧退货" },
+                    { icon: "fas fa-gift", text: "适合12岁以上玩家" },
+                    { icon: "fas fa-cubes", text: "1,250个零件" }
+                ],
+                story: "众星之环战旗乐高包灵感来源于人类对深空探索的无限憧憬。这款精致的模型再现了未来空间站的环形设计与星际舰队战旗的壮丽场景，每个细节都经过乐高设计师团队的精心打磨。环形空间站采用独特的可旋转设计，配有可调节的太阳能板与对接端口。战旗部分使用特殊镀金零件，彰显尊贵与荣耀。套装还包含两个独家迷你人仔：太空指挥官与星际工程师，均配有专属印刷与装备。",
+                featureList: [
+                    "可旋转的环形空间站结构，直径达28厘米",
+                    "可调节战旗展示架，多角度展示星际战旗",
+                    "包含两个独家迷你人仔与微型探测车",
+                    "使用特殊镀金零件与透明蓝色零件增强视觉效果",
+                    "附带专属展示底座与产品信息牌"
+                ],
+                specifications: [
+                    { name: "产品名称", value: "众星之环战旗乐高包" },
+                    { name: "产品编号", value: "75321" },
+                    { name: "年龄范围", value: "12岁以上" },
+                    { name: "零件数量", value: "1,250个" },
+                    { name: "成品尺寸", value: "高15cm × 宽28cm × 深28cm" },
+                    { name: "重量", value: "1.8kg" },
+                    { name: "系列", value: "星际探索系列" },
+                    { name: "包装尺寸", value: "48cm × 38cm × 9cm" },
+                    { name: "发布日期", value: "2023年10月" }
+                ],
+                reviews: [
+                    {
+                        reviewer: "星空探索者",
+                        rating: 5,
+                        comment: "这款乐高包超出了我的预期！环形空间站的细节处理非常精致，战旗部分的设计尤其出色。搭建过程大约花了6个小时，每一步都充满乐趣。",
+                        date: "2023年11月5日"
+                    },
+                    {
+                        reviewer: "乐高收藏家",
+                        rating: 4.5,
+                        comment: "作为乐高老玩家，这款产品在设计上确实很有创新。零件质量一如既往地优秀，说明书清晰易懂。唯一的小缺点是某些连接处稍微有点松动，但不影响整体展示效果。",
+                        date: "2023年10月28日"
+                    }
+                ],
+                relatedProducts: ["deep-space-ship", "moon-base", "mars-rover", "space-station"]
+            },
+            "deep-space-ship": {
+                id: "deep-space-ship",
+                title: "深空探索者星际飞船",
+                subtitle: "星际探索系列 · 旗舰飞船",
+                description: "这款深空探索者星际飞船是乐高星际探索系列的旗舰产品，拥有流线型设计和精密的内部结构。飞船配备可伸缩起落架、可开启驾驶舱和可旋转引擎，为太空探险爱好者带来无限乐趣。",
+                rating: 4.5,
+                reviewCount: 89,
+                productId: "75322",
+                currentPrice: 899,
+                originalPrice: null,
+                badge: "热卖",
+                images: [
+                    "https://via.placeholder.com/600x600/FFFFFF/006DB7?text=深空探索者星际飞船",
+                    "https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=飞船细节",
+                    "https://via.placeholder.com/600x600/FFFFFF/E60023?text=内部结构",
+                    "https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=展示效果"
+                ],
+                thumbnails: [
+                    "https://via.placeholder.com/100x100/FFFFFF/006DB7?text=主图",
+                    "https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=细节",
+                    "https://via.placeholder.com/100x100/FFFFFF/E60023?text=内部",
+                    "https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=展示"
+                ],
+                features: [
+                    { icon: "fas fa-shipping-fast", text: "免费配送 (订单满¥399)" },
+                    { icon: "fas fa-undo-alt", text: "90天无忧退货" },
+                    { icon: "fas fa-gift", text: "适合10岁以上玩家" },
+                    { icon: "fas fa-cubes", text: "980个零件" }
+                ],
+                story: "深空探索者星际飞船设计灵感来源于未来太空探索任务，飞船采用流线型空气动力学设计，即使在太空中也能高效航行。飞船内部设有详细的驾驶舱、生活区和货物舱，完美再现了长期太空任务所需的各项功能。",
+                featureList: [
+                    "可伸缩起落架与可开启驾驶舱",
+                    "可旋转引擎与可调节机翼",
+                    "详细内部结构，包含驾驶舱与生活区",
+                    "附带三个独家太空人仔与探测机器人",
+                    "使用特殊透明零件与金属质感零件"
+                ],
+                specifications: [
+                    { name: "产品名称", value: "深空探索者星际飞船" },
+                    { name: "产品编号", value: "75322" },
+                    { name: "年龄范围", value: "10岁以上" },
+                    { name: "零件数量", value: "980个" },
+                    { name: "成品尺寸", value: "高12cm × 宽38cm × 深28cm" },
+                    { name: "重量", value: "1.5kg" },
+                    { name: "系列", value: "星际探索系列" },
+                    { name: "包装尺寸", value: "42cm × 32cm × 8cm" },
+                    { name: "发布日期", value: "2023年9月" }
+                ],
+                reviews: [
+                    {
+                        reviewer: "太空爱好者",
+                        rating: 5,
+                        comment: "飞船设计非常精美，细节处理到位。特别喜欢可开启的驾驶舱和内部结构，让玩耍更有趣味性。",
+                        date: "2023年10月15日"
+                    }
+                ],
+                relatedProducts: ["star-ring-banner", "moon-base", "mars-rover", "space-station"]
+            },
+            "moon-base": {
+                id: "moon-base",
+                title: "月球科研基地套装",
+                subtitle: "星际探索系列 · 科研前哨",
+                description: "月球科研基地套装再现了人类在月球建立的第一个永久科研前哨。基地包含居住舱、实验室、能源站和月球车车库，为太空探索爱好者提供完整的月球基地搭建体验。",
+                rating: 4.3,
+                reviewCount: 67,
+                productId: "75323",
+                currentPrice: 1099,
+                originalPrice: null,
+                badge: null,
+                images: [
+                    "https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=月球科研基地",
+                    "https://via.placeholder.com/600x600/FFFFFF/006DB7?text=基地内部",
+                    "https://via.placeholder.com/600x600/FFFFFF/E60023?text=月球车",
+                    "https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=整体展示"
+                ],
+                thumbnails: [
+                    "https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=主图",
+                    "https://via.placeholder.com/100x100/FFFFFF/006DB7?text=内部",
+                    "https://via.placeholder.com/100x100/FFFFFF/E60023?text=月球车",
+                    "https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=展示"
+                ],
+                features: [
+                    { icon: "fas fa-shipping-fast", text: "免费配送 (订单满¥399)" },
+                    { icon: "fas fa-undo-alt", text: "90天无忧退货" },
+                    { icon: "fas fa-gift", text: "适合12岁以上玩家" },
+                    { icon: "fas fa-cubes", text: "1,450个零件" }
+                ],
+                story: "月球科研基地套装再现了人类在月球建立的第一个永久科研前哨。基地包含居住舱、实验室、能源站和月球车车库，为太空探索爱好者提供完整的月球基地搭建体验。",
+                featureList: [
+                    "完整的月球基地结构，包含居住舱、实验室和能源站",
+                    "可移动月球车与探测设备",
+                    "包含四个独家太空人仔与科研设备",
+                    "使用特殊发光零件模拟月球环境",
+                    "附带月球表面展示底座"
+                ],
+                specifications: [
+                    { name: "产品名称", value: "月球科研基地套装" },
+                    { name: "产品编号", value: "75323" },
+                    { name: "年龄范围", value: "12岁以上" },
+                    { name: "零件数量", value: "1,450个" },
+                    { name: "成品尺寸", value: "高18cm × 宽32cm × 深28cm" },
+                    { name: "重量", value: "2.1kg" },
+                    { name: "系列", value: "星际探索系列" },
+                    { name: "包装尺寸", value: "48cm × 38cm × 12cm" },
+                    { name: "发布日期", value: "2023年8月" }
+                ],
+                reviews: [
+                    {
+                        reviewer: "月球探险家",
+                        rating: 4.0,
+                        comment: "基地设计很有创意，特别是居住舱的内部细节。不过搭建过程有点复杂，建议有经验的玩家尝试。",
+                        date: "2023年9月20日"
+                    }
+                ],
+                relatedProducts: ["star-ring-banner", "deep-space-ship", "mars-rover", "space-station"]
+            },
+            "mars-rover": {
+                id: "mars-rover",
+                title: "火星探测车与营地",
+                subtitle: "星际探索系列 · 火星任务",
+                description: "火星探测车与营地套装让玩家体验火星探索任务的全过程。探测车配备可伸缩机械臂、科学仪器和全景摄像头，营地则包含居住舱和实验设施，完美再现火星任务场景。",
+                rating: 4.6,
+                reviewCount: 94,
+                productId: "75324",
+                currentPrice: 759,
+                originalPrice: 899,
+                badge: "促销",
+                images: [
+                    "https://via.placeholder.com/600x600/FFFFFF/E60023?text=火星探测车",
+                    "https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=探测车细节",
+                    "https://via.placeholder.com/600x600/FFFFFF/006DB7?text=营地内部",
+                    "https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=任务场景"
+                ],
+                thumbnails: [
+                    "https://via.placeholder.com/100x100/FFFFFF/E60023?text=主图",
+                    "https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=细节",
+                    "https://via.placeholder.com/100x100/FFFFFF/006DB7?text=营地",
+                    "https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=场景"
+                ],
+                features: [
+                    { icon: "fas fa-shipping-fast", text: "免费配送 (订单满¥399)" },
+                    { icon: "fas fa-undo-alt", text: "90天无忧退货" },
+                    { icon: "fas fa-gift", text: "适合10岁以上玩家" },
+                    { icon: "fas fa-cubes", text: "1,120个零件" }
+                ],
+                story: "火星探测车与营地套装让玩家体验火星探索任务的全过程。探测车配备可伸缩机械臂、科学仪器和全景摄像头，营地则包含居住舱和实验设施，完美再现火星任务场景。",
+                featureList: [
+                    "可移动火星探测车，配备可伸缩机械臂",
+                    "详细的火星营地，包含居住舱和实验设施",
+                    "包含三个独家太空人仔与科学仪器",
+                    "使用特殊红色零件模拟火星地表",
+                    "附带火星岩石与地形展示底座"
+                ],
+                specifications: [
+                    { name: "产品名称", value: "火星探测车与营地" },
+                    { name: "产品编号", value: "75324" },
+                    { name: "年龄范围", value: "10岁以上" },
+                    { name: "零件数量", value: "1,120个" },
+                    { name: "成品尺寸", value: "高14cm × 宽36cm × 深24cm" },
+                    { name: "重量", value: "1.7kg" },
+                    { name: "系列", value: "星际探索系列" },
+                    { name: "包装尺寸", value: "45cm × 35cm × 10cm" },
+                    { name: "发布日期", value: "2023年7月" }
+                ],
+                reviews: [
+                    {
+                        reviewer: "火星爱好者",
+                        rating: 4.5,
+                        comment: "探测车的设计非常精细，机械臂可以灵活操作。营地部分也很完整，整体搭建体验很好。",
+                        date: "2023年8月12日"
+                    }
+                ],
+                relatedProducts: ["star-ring-banner", "deep-space-ship", "moon-base", "space-station"]
+            },
+            "space-station": {
+                id: "space-station",
+                title: "深空轨道空间站",
+                subtitle: "星际探索系列 · 轨道前哨",
+                description: "深空轨道空间站是乐高星际探索系列中最复杂的模型之一，再现了未来深空轨道上的科研与居住设施。空间站包含多个可连接模块、太阳能帆板和对接端口，提供无限的搭建与玩耍可能性。",
+                rating: 4.8,
+                reviewCount: 112,
+                productId: "75325",
+                currentPrice: 1499,
+                originalPrice: null,
+                badge: "新品",
+                images: [
+                    "https://via.placeholder.com/600x600/FFFFFF/FFDE00?text=深空轨道空间站",
+                    "https://via.placeholder.com/600x600/FFFFFF/006DB7?text=模块细节",
+                    "https://via.placeholder.com/600x600/FFFFFF/1A1A1A?text=内部结构",
+                    "https://via.placeholder.com/600x600/FFFFFF/E60023?text=对接场景"
+                ],
+                thumbnails: [
+                    "https://via.placeholder.com/100x100/FFFFFF/FFDE00?text=主图",
+                    "https://via.placeholder.com/100x100/FFFFFF/006DB7?text=模块",
+                    "https://via.placeholder.com/100x100/FFFFFF/1A1A1A?text=内部",
+                    "https://via.placeholder.com/100x100/FFFFFF/E60023?text=对接"
+                ],
+                features: [
+                    { icon: "fas fa-shipping-fast", text: "免费配送 (订单满¥399)" },
+                    { icon: "fas fa-undo-alt", text: "90天无忧退货" },
+                    { icon: "fas fa-gift", text: "适合14岁以上玩家" },
+                    { icon: "fas fa-cubes", text: "2,150个零件" }
+                ],
+                story: "深空轨道空间站是乐高星际探索系列中最复杂的模型之一，再现了未来深空轨道上的科研与居住设施。空间站包含多个可连接模块、太阳能帆板和对接端口，提供无限的搭建与玩耍可能性。",
+                featureList: [
+                    "模块化空间站设计，包含科研舱、居住舱和控制中心",
+                    "可展开太阳能帆板与可旋转对接端口",
+                    "包含六个独家太空人仔与科研设备",
+                    "使用特殊透明零件与金属质感零件",
+                    "附带专用展示支架与信息牌"
+                ],
+                specifications: [
+                    { name: "产品名称", value: "深空轨道空间站" },
+                    { name: "产品编号", value: "75325" },
+                    { name: "年龄范围", value: "14岁以上" },
+                    { name: "零件数量", value: "2,150个" },
+                    { name: "成品尺寸", value: "高22cm × 宽42cm × 深32cm" },
+                    { name: "重量", value: "2.8kg" },
+                    { name: "系列", value: "星际探索系列" },
+                    { name: "包装尺寸", value: "52cm × 42cm × 14cm" },
+                    { name: "发布日期", value: "2023年11月" }
+                ],
+                reviews: [
+                    {
+                        reviewer: "空间站爱好者",
+                        rating: 5.0,
+                        comment: "这是我见过最复杂的乐高模型之一，每个细节都令人惊叹。搭建过程充满挑战但非常有成就感。",
+                        date: "2023年12月5日"
+                    }
+                ],
+                relatedProducts: ["star-ring-banner", "deep-space-ship", "moon-base", "mars-rover"]
             }
-        });
+        };
 
-        document.querySelector('.quantity-btn.plus').addEventListener('click', function() {
-            const input = document.querySelector('.quantity-input');
-            let value = parseInt(input.value);
-            input.value = value + 1;
-        });
+        // 获取URL参数
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
-        // 标签页切换
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                // 移除所有active类
-                document.querySelectorAll('.tab').forEach(t => {
-                    t.classList.remove('active');
+        // 购物车功能
+        class ShoppingCart {
+            constructor() {
+                this.cartItems = JSON.parse(localStorage.getItem('legoCart')) || [];
+                this.updateHeaderCartCount();
+            }
+
+            // 添加商品到购物车
+            addToCart(productId, quantity = 1) {
+                const existingItem = this.cartItems.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.quantity += parseInt(quantity);
+                } else {
+                    this.cartItems.push({
+                        id: productId,
+                        quantity: parseInt(quantity)
+                    });
+                }
+
+                this.saveCart();
+                this.updateHeaderCartCount();
+            }
+
+            // 更新头部购物车数量
+            updateHeaderCartCount() {
+                const totalItems = this.cartItems.reduce((total, item) => total + item.quantity, 0);
+                document.getElementById('header-cart-count').textContent = totalItems;
+            }
+
+            // 保存购物车到localStorage
+            saveCart() {
+                localStorage.setItem('legoCart', JSON.stringify(this.cartItems));
+            }
+        }
+
+        // 收藏功能 - 使用与商品列表页相同的存储键名
+        class Favorites {
+            constructor() {
+                // 使用与商品列表页相同的存储键名
+                this.favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                this.updateHeaderFavoritesCount();
+            }
+
+            // 添加或移除收藏
+            toggleFavorite(productId) {
+                const index = this.favorites.indexOf(productId);
+
+                if (index > -1) {
+                    // 如果已收藏，则移除
+                    this.favorites.splice(index, 1);
+                    this.saveFavorites();
+                    this.updateHeaderFavoritesCount();
+                    return false;
+                } else {
+                    // 如果未收藏，则添加
+                    this.favorites.push(productId);
+                    this.saveFavorites();
+                    this.updateHeaderFavoritesCount();
+                    return true;
+                }
+            }
+
+            // 保存收藏到localStorage
+            saveFavorites() {
+                localStorage.setItem('favorites', JSON.stringify(this.favorites));
+            }
+
+            // 检查商品是否已收藏
+            isFavorite(productId) {
+                return this.favorites.includes(productId);
+            }
+
+            // 获取收藏列表
+            getFavorites() {
+                return this.favorites.map(id => productsData[id]).filter(Boolean);
+            }
+
+            // 从收藏中移除商品
+            removeFavorite(productId) {
+                const index = this.favorites.indexOf(productId);
+                if (index > -1) {
+                    this.favorites.splice(index, 1);
+                    this.saveFavorites();
+                    this.updateHeaderFavoritesCount();
+                    return true;
+                }
+                return false;
+            }
+
+            // 更新头部收藏数量
+            updateHeaderFavoritesCount() {
+                const badge = document.querySelector('.favorites-count');
+                if (badge) {
+                    badge.textContent = this.favorites.length;
+                }
+            }
+        }
+
+        // 搜索功能
+        class SearchManager {
+            constructor() {
+                this.searchInput = document.getElementById('search-input');
+                this.setupSearch();
+            }
+
+            setupSearch() {
+                // 从URL参数获取搜索词并设置到搜索框
+                const searchTerm = getUrlParameter('search');
+                if (searchTerm) {
+                    this.searchInput.value = searchTerm;
+                }
+
+                // 搜索框事件监听
+                this.searchInput.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        this.performSearch();
+                    }
                 });
-                document.querySelectorAll('.tab-content').forEach(c => {
-                    c.classList.remove('active');
+
+                // 搜索图标点击事件
+                document.querySelector('.search-box i').addEventListener('click', () => {
+                    this.performSearch();
                 });
-                // 为当前标签添加active类
-                this.classList.add('active');
-                // 显示对应内容
-                const tabId = this.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
+            }
+
+            performSearch() {
+                const searchTerm = this.searchInput.value.trim();
+                if (searchTerm) {
+                    // 保存搜索词到localStorage，以便商品列表页使用
+                    localStorage.setItem('searchTerm', searchTerm);
+                    // 跳转到商品列表页
+                    window.location.href = 'index.html?search=' + encodeURIComponent(searchTerm);
+                }
+            }
+        }
+
+        // 渲染商品详情
+        function renderProductDetails(productId) {
+            const product = productsData[productId];
+            if (!product) {
+                // 如果商品不存在，显示错误信息
+                document.querySelector('.product-hero').innerHTML = '<div class="error-message"><h2>商品未找到</h2><p>抱歉，您查找的商品不存在。</p></div>';
+                return;
+            }
+
+            // 更新页面标题
+            document.title = `${product.title} | 乐高官方商城`;
+
+            // 更新页面标题和面包屑
+            document.getElementById('page-title').textContent = product.title;
+            document.getElementById('current-product-crumb').textContent = product.title;
+
+            // 更新产品基本信息
+            document.getElementById('product-title').textContent = product.title;
+            document.getElementById('product-subtitle').textContent = product.subtitle;
+            document.getElementById('product-description').textContent = product.description;
+            document.getElementById('product-id').textContent = `产品编号: ${product.productId}`;
+
+            // 更新价格信息
+            document.getElementById('current-price').textContent = `¥${product.currentPrice}`;
+            if (product.originalPrice) {
+                document.getElementById('original-price').textContent = `¥${product.originalPrice}`;
+                const discount = Math.round((1 - product.currentPrice / product.originalPrice) * 100);
+                document.getElementById('discount-badge').textContent = `节省${discount}%`;
+            } else {
+                document.getElementById('original-price').style.display = 'none';
+                document.getElementById('discount-badge').style.display = 'none';
+            }
+
+            // 更新总价
+            updateTotalPrice();
+
+            // 更新徽章
+            if (product.badge) {
+                document.getElementById('product-badge').textContent = product.badge;
+            } else {
+                document.getElementById('product-badge').style.display = 'none';
+            }
+
+            // 更新评分
+            document.getElementById('rating-value').textContent = product.rating;
+            document.getElementById('review-count').textContent = `(${product.reviewCount} 条评价)`;
+
+            // 生成星级
+            const starsContainer = document.getElementById('product-rating');
+            starsContainer.innerHTML = '';
+            const fullStars = Math.floor(product.rating);
+            const hasHalfStar = product.rating % 1 >= 0.5;
+
+            for (let i = 0; i < fullStars; i++) {
+                const star = document.createElement('i');
+                star.className = 'fas fa-star';
+                starsContainer.appendChild(star);
+            }
+
+            if (hasHalfStar) {
+                const halfStar = document.createElement('i');
+                halfStar.className = 'fas fa-star-half-alt';
+                starsContainer.appendChild(halfStar);
+            }
+
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                const emptyStar = document.createElement('i');
+                emptyStar.className = 'far fa-star';
+                starsContainer.appendChild(emptyStar);
+            }
+
+            // 更新主图
+            document.getElementById('main-product-image').src = product.images[0];
+            document.getElementById('main-product-image').alt = product.title;
+
+            // 生成缩略图
+            const thumbnailContainer = document.getElementById('thumbnail-container');
+            thumbnailContainer.innerHTML = '';
+            product.thumbnails.forEach((thumb, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = index === 0 ? 'thumbnail active' : 'thumbnail';
+                thumbnail.setAttribute('data-image', product.images[index]);
+
+                const img = document.createElement('img');
+                img.src = thumb;
+                img.alt = `${product.title} - 图片${index + 1}`;
+
+                thumbnail.appendChild(img);
+                thumbnailContainer.appendChild(thumbnail);
             });
-        });
 
-        // 添加到购物车功能
-        document.querySelector('.btn-primary').addEventListener('click', function() {
-            const quantity = document.querySelector('.quantity-input').value;
-            const productName = document.querySelector('.product-title').textContent;
-            alert(`已添加 ${quantity} 件 ${productName} 到购物车`);
+            // 生成产品特性
+            const featuresContainer = document.getElementById('product-features');
+            featuresContainer.innerHTML = '';
+            product.features.forEach(feature => {
+                const featureElement = document.createElement('div');
+                featureElement.className = 'feature';
 
-            // 更新购物车数量
-            const cartCount = document.querySelector('.cart-count');
-            cartCount.textContent = parseInt(cartCount.textContent) + parseInt(quantity);
+                const icon = document.createElement('i');
+                icon.className = feature.icon;
+
+                const text = document.createElement('span');
+                text.textContent = feature.text;
+
+                featureElement.appendChild(icon);
+                featureElement.appendChild(text);
+                featuresContainer.appendChild(featureElement);
+            });
+
+            // 更新标签页内容
+            document.getElementById('product-story').textContent = product.story;
+
+            const featuresList = document.getElementById('product-features-list');
+            featuresList.innerHTML = '';
+            product.featureList.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+
+            // 生成规格参数表
+            const specsTable = document.getElementById('specs-table');
+            specsTable.innerHTML = '';
+            product.specifications.forEach(spec => {
+                const row = document.createElement('tr');
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = spec.name;
+
+                const valueCell = document.createElement('td');
+                valueCell.textContent = spec.value;
+
+                row.appendChild(nameCell);
+                row.appendChild(valueCell);
+                specsTable.appendChild(row);
+            });
+
+            // 生成用户评价
+            document.getElementById('reviews-title').textContent = `用户评价 (${product.rating}/5)`;
+            const reviewsContainer = document.getElementById('reviews-container');
+            reviewsContainer.innerHTML = '';
+            product.reviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'review';
+
+                const header = document.createElement('div');
+                header.className = 'review-header';
+
+                const reviewer = document.createElement('div');
+                reviewer.className = 'reviewer';
+                reviewer.textContent = review.reviewer;
+
+                const rating = document.createElement('div');
+                rating.className = 'review-rating';
+
+                for (let i = 0; i < 5; i++) {
+                    const star = document.createElement('i');
+                    if (i < Math.floor(review.rating)) {
+                        star.className = 'fas fa-star';
+                    } else if (i < review.rating) {
+                        star.className = 'fas fa-star-half-alt';
+                    } else {
+                        star.className = 'far fa-star';
+                    }
+                    rating.appendChild(star);
+                }
+
+                header.appendChild(reviewer);
+                header.appendChild(rating);
+
+                const comment = document.createElement('p');
+                comment.textContent = review.comment;
+
+                const date = document.createElement('div');
+                date.className = 'review-date';
+                date.textContent = `发布于 ${review.date}`;
+
+                reviewElement.appendChild(header);
+                reviewElement.appendChild(comment);
+                reviewElement.appendChild(date);
+
+                reviewsContainer.appendChild(reviewElement);
+            });
+
+            // 生成推荐产品
+            const recommendedContainer = document.getElementById('recommended-products');
+            recommendedContainer.innerHTML = '';
+            product.relatedProducts.forEach(relatedId => {
+                const relatedProduct = productsData[relatedId];
+                if (relatedProduct) {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+
+                    productCard.innerHTML = `
+                                    <div class="product-card-image">
+                                        <img src="${relatedProduct.images[0]}" alt="${relatedProduct.title}">
+                                    </div>
+                                    <div class="product-card-content">
+                                        <h3 class="product-card-title">${relatedProduct.title}</h3>
+                                        <div class="product-card-price">¥${relatedProduct.currentPrice}</div>
+                                    </div>
+                                `;
+
+                    // 添加点击事件，跳转到对应商品页面
+                    productCard.addEventListener('click', () => {
+                        window.location.href = `product.html?id=${relatedProduct.id}`;
+                    });
+
+                    recommendedContainer.appendChild(productCard);
+                }
+            });
+
+            // 更新收藏按钮状态
+            const favorites = new Favorites();
+            if (favorites.isFavorite(productId)) {
+                document.getElementById('favorite-btn').innerHTML = '<i class="fas fa-heart"></i> 已收藏';
+                document.getElementById('favorite-btn').classList.add('favorited');
+            } else {
+                document.getElementById('favorite-btn').innerHTML = '<i class="far fa-heart"></i> 收藏';
+                document.getElementById('favorite-btn').classList.remove('favorited');
+            }
+        }
+
+        // 更新总价
+        function updateTotalPrice() {
+            const productId = getUrlParameter('id') || 'star-ring-banner';
+            const product = productsData[productId];
+            const quantity = parseInt(document.querySelector('.quantity-input').value);
+            const totalPrice = product.currentPrice * quantity;
+
+            document.getElementById('total-price').textContent = `¥${totalPrice}`;
+        }
+
+        // 打开收藏模态框
+        function openFavoritesModal() {
+            const favorites = new Favorites();
+            const favoritesList = document.getElementById('favorites-list');
+            const favoritesData = favorites.getFavorites();
+
+            if (favoritesData.length === 0) {
+                favoritesList.innerHTML = `
+                            <div class="empty-favorites">
+                                <i class="far fa-heart"></i>
+                                <p>您还没有收藏任何商品</p>
+                            </div>
+                        `;
+            } else {
+                let html = '';
+                favoritesData.forEach(product => {
+                    html += `
+                                <div class="favorite-item">
+                                    <div class="favorite-item-image">
+                                        <img src="${product.images[0]}" alt="${product.title}">
+                                    </div>
+                                    <div class="favorite-item-details">
+                                        <h4 class="favorite-item-title">${product.title}</h4>
+                                        <div class="favorite-item-price">¥${product.currentPrice}</div>
+                                        <div class="favorite-item-actions">
+                                            <button class="btn-small btn-outline" onclick="window.location.href='product.html?id=${product.id}'">查看详情</button>
+                                            <button class="btn-small btn-danger" data-id="${product.id}">移除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                });
+
+                favoritesList.innerHTML = html;
+
+                // 添加移除按钮事件
+                favoritesList.querySelectorAll('.btn-danger').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productId = e.target.getAttribute('data-id');
+                        const favorites = new Favorites();
+                        favorites.removeFavorite(productId);
+                        openFavoritesModal();
+
+                        // 如果当前页面显示的商品被移除，更新收藏按钮状态
+                        const currentProductId = getUrlParameter('id') || 'star-ring-banner';
+                        if (productId === currentProductId) {
+                            document.getElementById('favorite-btn').innerHTML = '<i class="far fa-heart"></i> 收藏';
+                            document.getElementById('favorite-btn').classList.remove('favorited');
+                        }
+                    });
+                });
+            }
+
+            document.getElementById('favorites-modal').style.display = 'flex';
+        }
+
+        // 关闭收藏模态框
+        function closeFavoritesModal() {
+            document.getElementById('favorites-modal').style.display = 'none';
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 从URL参数获取商品ID
+            const productId = getUrlParameter('id') || 'star-ring-banner';
+
+            // 渲染商品详情
+            renderProductDetails(productId);
+
+            // 初始化购物车
+            const cart = new ShoppingCart();
+
+            // 初始化收藏功能
+            const favorites = new Favorites();
+
+            // 初始化搜索功能
+            const searchManager = new SearchManager();
+
+            // 缩略图切换
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', function () {
+                    // 移除所有active类
+                    document.querySelectorAll('.thumbnail').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    // 为当前缩略图添加active类
+                    this.classList.add('active');
+                    // 更新主图
+                    const newImageSrc = this.getAttribute('data-image');
+                    document.getElementById('main-product-image').src = newImageSrc;
+                });
+            });
+
+            // 数量选择器
+            document.querySelector('.quantity-btn.minus').addEventListener('click', function () {
+                const input = document.querySelector('.quantity-input');
+                let value = parseInt(input.value);
+                if (value > 1) {
+                    input.value = value - 1;
+                    updateTotalPrice();
+                }
+            });
+
+            document.querySelector('.quantity-btn.plus').addEventListener('click', function () {
+                const input = document.querySelector('.quantity-input');
+                let value = parseInt(input.value);
+                input.value = value + 1;
+                updateTotalPrice();
+            });
+
+            // 标签页切换
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function () {
+                    // 移除所有active类
+                    document.querySelectorAll('.tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(c => {
+                        c.classList.remove('active');
+                    });
+                    // 为当前标签添加active类
+                    this.classList.add('active');
+                    // 显示对应内容
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // 添加到购物车功能
+            document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+                const quantity = document.querySelector('.quantity-input').value;
+                const productName = document.querySelector('.product-title').textContent;
+                const productId = getUrlParameter('id') || 'star-ring-banner';
+
+                cart.addToCart(productId, quantity);
+                alert(`已添加 ${quantity} 件 ${productName} 到购物车`);
+            });
+
+            // 收藏按钮功能
+            document.getElementById('favorite-btn').addEventListener('click', function () {
+                const productId = getUrlParameter('id') || 'star-ring-banner';
+                const favorites = new Favorites();
+                const isNowFavorite = favorites.toggleFavorite(productId);
+
+                if (isNowFavorite) {
+                    // 添加到收藏
+                    document.getElementById('favorite-btn').innerHTML = '<i class="fas fa-heart"></i> 已收藏';
+                    document.getElementById('favorite-btn').classList.add('favorited');
+                } else {
+                    // 从收藏中移除
+                    document.getElementById('favorite-btn').innerHTML = '<i class="far fa-heart"></i> 收藏';
+                    document.getElementById('favorite-btn').classList.remove('favorited');
+                }
+            });
+
+            // 顶部收藏图标点击事件
+            document.getElementById('header-favorites-btn').addEventListener('click', function () {
+                openFavoritesModal();
+            });
+
+            // 关闭模态框
+            document.getElementById('modal-close').addEventListener('click', function () {
+                closeFavoritesModal();
+            });
+
+            document.getElementById('close-modal-btn').addEventListener('click', function () {
+                closeFavoritesModal();
+            });
+
+            // 点击模态框外部关闭
+            document.getElementById('favorites-modal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeFavoritesModal();
+                }
+            });
         });
     </script>
 </body>

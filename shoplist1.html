@@ -121,14 +121,16 @@
                 color: var(--text-light);
             }
 
-        .cart-icon {
+        .cart-icon, .favorites-icon {
             position: relative;
             font-size: 20px;
             color: var(--text-dark);
             margin-left: 15px;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .cart-count {
+        .cart-count, .favorites-count {
             position: absolute;
             top: -8px;
             right: -8px;
@@ -315,11 +317,14 @@
                 background-color: #f5f5f5;
             }
 
+        /* 活动筛选标签 - 调整位置确保不遮挡商品 */
         .active-filters {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 15px;
+            margin: 15px 0 30px 0;
+            position: relative;
+            z-index: 5;
         }
 
         .active-filter {
@@ -343,6 +348,8 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
         }
 
         .product-card {
@@ -377,6 +384,12 @@
             overflow: hidden;
             position: relative;
         }
+
+            .product-card-image a {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
 
             .product-card-image img {
                 width: 100%;
@@ -424,6 +437,11 @@
                 color: white;
             }
 
+            .action-btn.favorited {
+                background-color: var(--lego-red);
+                color: white;
+            }
+
         .product-card-content {
             padding: 20px;
         }
@@ -465,6 +483,104 @@
                 color: var(--lego-yellow);
                 margin-right: 3px;
             }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--lego-dark);
+            font-size: 24px;
+        }
+
+        .favorites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+            .favorite-item img {
+                width: 60px;
+                height: 60px;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+
+        .favorite-item-info {
+            flex: 1;
+        }
+
+        .favorite-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .favorite-item-price {
+            color: var(--lego-red);
+            font-weight: bold;
+        }
+
+        .favorite-remove {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+            .favorite-remove:hover {
+                color: var(--lego-red);
+            }
+
+        .empty-favorites {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+        }
 
         /* 分页 */
         .pagination {
@@ -631,6 +747,31 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* 添加到购物车动画 */
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -643,7 +784,7 @@
             <ul class="nav-links">
                 <li><a href="#">产品系列</a></li>
                 <li><a href="#">限定版</a></li>
-                <li><a href="#">众星之环</a></li>
+                <li><a href="./HTMLPage1.html">官方小说</a></li>
                 <li><a href="#">礼品指南</a></li>
                 <li><a href="#">促销活动</a></li>
             </ul>
@@ -655,10 +796,14 @@
                 <div class="user-actions">
                     <i class="far fa-user"></i>
                 </div>
-                <div class="cart-icon">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="cart-count">3</span>
+                <div class="favorites-icon" id="favorites-btn">
+                    <i class="far fa-heart"></i>
+                    <span class="favorites-count">0</span>
                 </div>
+                <a href="shopping trolley.html" class="cart-icon" id="cart-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </a>
             </div>
         </div>
     </header>
@@ -692,17 +837,42 @@
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="series" value="星际探索系列"> 星际探索系列
+                                <input type="checkbox" name="series" value="乐高城市系列" checked> 乐高城市系列
                             </label>
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="series" value="深空舰队系列"> 深空舰队系列
+                                <input type="checkbox" name="series" value="乐高星球大战系列" checked> 乐高星球大战系列
                             </label>
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="series" value="宇宙殖民地系列"> 宇宙殖民地系列
+                                <input type="checkbox" name="series" value="乐高机械组系列" checked> 乐高机械组系列
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <label>
+                                <input type="checkbox" name="series" value="乐高好朋友系列" checked> 乐高好朋友系列
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <label>
+                                <input type="checkbox" name="series" value="乐高创意百变高手系列" checked> 乐高创意百变高手系列
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <label>
+                                <input type="checkbox" name="series" value="乐高漫威系列" checked> 乐高漫威系列
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <label>
+                                <input type="checkbox" name="series" value="乐高迪士尼系列" checked> 乐高迪士尼系列
+                            </label>
+                        </div>
+                        <div class="filter-option">
+                            <label>
+                                <input type="checkbox" name="series" value="乐高哈利波特系列" checked> 乐高哈利波特系列
                             </label>
                         </div>
                         <div class="filter-actions">
@@ -754,7 +924,7 @@
                     <div class="filter-dropdown">
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="age" value="6+"> 6+
+                                <input type="checkbox" name="age" value="6+" checked> 6+
                             </label>
                         </div>
                         <div class="filter-option">
@@ -769,12 +939,12 @@
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="age" value="12+"> 12+
+                                <input type="checkbox" name="age" value="12+" checked> 12+
                             </label>
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="age" value="16+"> 16+
+                                <input type="checkbox" name="age" value="16+" checked> 16+
                             </label>
                         </div>
                         <div class="filter-actions">
@@ -795,12 +965,12 @@
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="stock" value="即将发售"> 即将发售
+                                <input type="checkbox" name="stock" value="即将发售" checked> 即将发售
                             </label>
                         </div>
                         <div class="filter-option">
                             <label>
-                                <input type="checkbox" name="stock" value="限量版"> 限量版
+                                <input type="checkbox" name="stock" value="限量版" checked> 限量版
                             </label>
                         </div>
                         <div class="filter-actions">
@@ -849,6 +1019,21 @@
             </ul>
         </section>
     </main>
+
+    <!-- 收藏模态框 -->
+    <div class="modal" id="favorites-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="modal-title">我的收藏</h2>
+            <div class="favorites-list" id="favorites-list">
+                <!-- 收藏项将动态添加到这里 -->
+            </div>
+            <div class="empty-favorites" id="empty-favorites">
+                <i class="far fa-heart" style="font-size: 48px; margin-bottom: 15px;"></i>
+                <p>您还没有收藏任何商品</p>
+            </div>
+        </div>
+    </div>
 
     <!-- 页脚 -->
     <footer>
@@ -917,7 +1102,8 @@
                 series: "众星之环战旗系列",
                 age: "8+",
                 stock: "有现货",
-                badge: "新品"
+                badge: "新品",
+                url: "./shop1.html?id=star-ring-banner"
             },
             {
                 id: 2,
@@ -932,7 +1118,8 @@
                 series: "众星之环战旗系列",
                 age: "10+",
                 stock: "有现货",
-                badge: "热卖"
+                badge: "热卖",
+                url: "./shop1.html?id=deep-space-ship"
             },
             {
                 id: 3,
@@ -947,7 +1134,8 @@
                 series: "众星之环战旗系列",
                 age: "8+",
                 stock: "有现货",
-                badge: null
+                badge: null,
+                url: "./shop1.html?id=moon-base"
             },
             {
                 id: 4,
@@ -962,7 +1150,8 @@
                 series: "众星之环战旗系列",
                 age: "12+",
                 stock: "限量版",
-                badge: "限量"
+                badge: "限量",
+                url: "./shop1.html?id=mars-rover"
             },
             {
                 id: 5,
@@ -977,7 +1166,8 @@
                 series: "众星之环战旗系列",
                 age: "10+",
                 stock: "有现货",
-                badge: null
+                badge: null,
+                url: "./shop1.html?id=space-station"
             },
             {
                 id: 6,
@@ -992,7 +1182,8 @@
                 series: "众星之环战旗系列",
                 age: "10+",
                 stock: "有现货",
-                badge: "促销"
+                badge: "促销",
+                url: "./shop1.html?id=6"
             },
             {
                 id: 7,
@@ -1007,7 +1198,8 @@
                 series: "众星之环战旗系列",
                 age: "12+",
                 stock: "有现货",
-                badge: null
+                badge: null,
+                url: "./shop1.html?id=7"
             },
             {
                 id: 8,
@@ -1022,16 +1214,292 @@
                 series: "众星之环战旗系列",
                 age: "16+",
                 stock: "限量版",
-                badge: "新品"
+                badge: "新品",
+                url: "./shop1.html?id=8"
+            },
+            {
+                id: 9,
+                name: "乐高城市系列豪华套装",
+                subtitle: "城市系列 · 完整城市体验",
+                price: 899,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/006DB7?text=城市系列",
+                rating: 4.5,
+                reviewCount: 42,
+                pieces: 650,
+                series: "乐高城市系列",
+                age: "6+",
+                stock: "有现货",
+                badge: "新品",
+                url: "./shop1.html?id=city-deluxe"
+            },
+            {
+                id: 10,
+                name: "乐高星球大战千年隼",
+                subtitle: "星球大战系列 · 终极收藏版",
+                price: 1299,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/E60023?text=千年隼",
+                rating: 5,
+                reviewCount: 67,
+                pieces: 1250,
+                series: "乐高星球大战系列",
+                age: "10+",
+                stock: "有现货",
+                badge: "热卖",
+                url: "./shop1.html?id=millennium-falcon"
+            },
+            {
+                id: 11,
+                name: "乐高机械组超级跑车",
+                subtitle: "机械组系列 · 精密工程",
+                price: 599,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=机械组",
+                rating: 4,
+                reviewCount: 28,
+                pieces: 450,
+                series: "乐高机械组系列",
+                age: "8+",
+                stock: "有现货",
+                badge: null,
+                url: "./shop1.html?id=technic-car"
+            },
+            {
+                id: 12,
+                name: "乐高好朋友心湖城",
+                subtitle: "好朋友系列 · 友谊冒险",
+                price: 249,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=好朋友",
+                rating: 4.5,
+                reviewCount: 15,
+                pieces: 185,
+                series: "乐高好朋友系列",
+                age: "6+",
+                stock: "有现货",
+                badge: "限量",
+                url: "./shop1.html?id=friends-heartlake"
+            },
+            {
+                id: 13,
+                name: "乐高创意百变高手书店",
+                subtitle: "创意百变高手系列 · 精致建筑",
+                price: 799,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/006DB7?text=创意百变",
+                rating: 4,
+                reviewCount: 33,
+                pieces: 520,
+                series: "乐高创意百变高手系列",
+                age: "10+",
+                stock: "有现货",
+                badge: null,
+                url: "./shop1.html?id=creator-bookshop"
+            },
+            {
+                id: 14,
+                name: "乐高漫威复仇者大厦",
+                subtitle: "漫威系列 · 超级英雄总部",
+                price: 1099,
+                originalPrice: 1299,
+                image: "https://via.placeholder.com/300x300/FFFFFF/E60023?text=漫威",
+                rating: 4.5,
+                reviewCount: 51,
+                pieces: 980,
+                series: "乐高漫威系列",
+                age: "10+",
+                stock: "有现货",
+                badge: "促销",
+                url: "./shop1.html?id=avengers-tower"
+            },
+            {
+                id: 15,
+                name: "乐高迪士尼城堡",
+                subtitle: "迪士尼系列 · 魔法王国",
+                price: 1599,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=迪士尼",
+                rating: 5,
+                reviewCount: 24,
+                pieces: 1350,
+                series: "乐高迪士尼系列",
+                age: "12+",
+                stock: "有现货",
+                badge: null,
+                url: "./shop1.html?id=disney-castle"
+            },
+            {
+                id: 16,
+                name: "乐高哈利波特霍格沃茨",
+                subtitle: "哈利波特系列 · 魔法学校",
+                price: 3299,
+                originalPrice: null,
+                image: "https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=哈利波特",
+                rating: 4.5,
+                reviewCount: 9,
+                pieces: 2200,
+                series: "乐高哈利波特系列",
+                age: "16+",
+                stock: "限量版",
+                badge: "新品",
+                url: "./shop1.html?id=hogwarts-castle"
             }
         ];
 
+        // 收藏功能
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const favoritesBtn = document.getElementById('favorites-btn');
+        const favoritesModal = document.getElementById('favorites-modal');
+        const favoritesList = document.getElementById('favorites-list');
+        const emptyFavorites = document.getElementById('empty-favorites');
+        const modalClose = document.querySelector('.modal-close');
+
+        // 购物车功能
+        let cartItems = JSON.parse(localStorage.getItem('legoCart')) || [];
+
+        // 更新收藏徽章
+        function updateFavoritesBadge() {
+            const badge = document.querySelector('.favorites-count');
+            badge.textContent = favorites.length;
+        }
+
+        // 更新购物车徽章
+        function updateCartBadge() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // 添加到购物车
+        function addToCart(productId, quantity = 1) {
+            const existingItem = cartItems.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += parseInt(quantity);
+            } else {
+                cartItems.push({
+                    id: productId,
+                    quantity: parseInt(quantity)
+                });
+            }
+
+            localStorage.setItem('legoCart', JSON.stringify(cartItems));
+            updateCartBadge();
+
+            // 显示添加成功提示
+            showAddToCartMessage(productId);
+        }
+
+        // 显示添加到购物车消息
+        function showAddToCartMessage(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                // 创建临时提示消息
+                const message = document.createElement('div');
+                message.style.cssText = `
+                        position: fixed;
+                        top: 100px;
+                        right: 20px;
+                        background: #4CAF50;
+                        color: white;
+                        padding: 15px 20px;
+                        border-radius: 5px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                        z-index: 1000;
+                        animation: slideInRight 0.3s ease;
+                    `;
+                message.textContent = `已添加 ${product.name} 到购物车`;
+
+                document.body.appendChild(message);
+
+                // 3秒后移除消息
+                setTimeout(() => {
+                    message.style.animation = 'slideOutRight 0.3s ease';
+                    setTimeout(() => {
+                        if (message.parentNode) {
+                            message.parentNode.removeChild(message);
+                        }
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // 渲染收藏列表
+        function renderFavoritesList() {
+            favoritesList.innerHTML = '';
+
+            if (favorites.length === 0) {
+                emptyFavorites.style.display = 'block';
+                return;
+            }
+
+            emptyFavorites.style.display = 'none';
+
+            favorites.forEach(item => {
+                const favoriteItem = document.createElement('div');
+                favoriteItem.className = 'favorite-item';
+                favoriteItem.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="favorite-item-info">
+                                <div class="favorite-item-title">${item.title}</div>
+                                <div class="favorite-item-price">¥${item.price}</div>
+                            </div>
+                            <button class="favorite-remove" data-id="${item.id}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                favoritesList.appendChild(favoriteItem);
+            });
+
+            // 添加移除收藏事件
+            document.querySelectorAll('.favorite-remove').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    removeFromFavorites(id);
+                });
+            });
+        }
+
+        // 添加到收藏
+        function addToFavorites(id, title, price, image) {
+            if (!favorites.some(item => item.id === id)) {
+                favorites.push({ id, title, price, image });
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                updateFavoritesBadge();
+
+                // 更新按钮状态
+                const btn = document.querySelector(`.action-btn[data-id="${id}"]`);
+                if (btn) {
+                    btn.classList.add('favorited');
+                    btn.querySelector('i').classList.remove('far');
+                    btn.querySelector('i').classList.add('fas');
+                }
+            }
+        }
+
+        // 从收藏中移除
+        function removeFromFavorites(id) {
+            favorites = favorites.filter(item => item.id !== id);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesBadge();
+            renderFavoritesList();
+
+            // 更新按钮状态
+            const btn = document.querySelector(`.action-btn[data-id="${id}"]`);
+            if (btn) {
+                btn.classList.remove('favorited');
+                btn.querySelector('i').classList.remove('fas');
+                btn.querySelector('i').classList.add('far');
+            }
+        }
+
         // 当前筛选条件和排序
         let currentFilters = {
-            series: ["众星之环战旗系列"],
+            series: ["众星之环战旗系列", "乐高城市系列", "乐高星球大战系列", "乐高机械组系列", "乐高好朋友系列", "乐高创意百变高手系列", "乐高漫威系列", "乐高迪士尼系列", "乐高哈利波特系列"],
             price: "all",
-            age: ["8+", "10+"],
-            stock: ["有现货"]
+            age: ["6+", "8+", "10+", "12+", "16+"],
+            stock: ["有现货", "即将发售", "限量版"]
         };
         let currentSort = "recommended";
         let currentPage = 1;
@@ -1047,6 +1515,8 @@
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function () {
+            updateFavoritesBadge();
+            updateCartBadge();
             renderProducts();
             setupEventListeners();
             updateActiveFilters();
@@ -1142,6 +1612,24 @@
                     alert('搜索功能: ' + this.value);
                 }
             });
+
+            // 收藏模态框
+            favoritesBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                renderFavoritesList();
+                favoritesModal.style.display = 'flex';
+            });
+
+            modalClose.addEventListener('click', () => {
+                favoritesModal.style.display = 'none';
+            });
+
+            // 点击模态框外部关闭
+            favoritesModal.addEventListener('click', (e) => {
+                if (e.target === favoritesModal) {
+                    favoritesModal.style.display = 'none';
+                }
+            });
         }
 
         // 更新筛选条件
@@ -1176,7 +1664,7 @@
             const inputs = filterGroup.querySelectorAll('input');
             inputs.forEach(input => {
                 if (input.type === 'checkbox') {
-                    input.checked = false;
+                    input.checked = true;
                 } else if (input.type === 'radio') {
                     if (input.value === 'all') {
                         input.checked = true;
@@ -1186,12 +1674,23 @@
 
             // 设置默认值
             if (filterGroup.id === 'series-filter') {
-                filterGroup.querySelector('input[value="众星之环战旗系列"]').checked = true;
+                const allSeries = ["众星之环战旗系列", "乐高城市系列", "乐高星球大战系列", "乐高机械组系列", "乐高好朋友系列", "乐高创意百变高手系列", "乐高漫威系列", "乐高迪士尼系列", "乐高哈利波特系列"];
+                allSeries.forEach(series => {
+                    const checkbox = filterGroup.querySelector(`input[value="${series}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
             } else if (filterGroup.id === 'age-filter') {
-                filterGroup.querySelector('input[value="8+"]').checked = true;
-                filterGroup.querySelector('input[value="10+"]').checked = true;
+                const allAges = ["6+", "8+", "10+", "12+", "16+"];
+                allAges.forEach(age => {
+                    const checkbox = filterGroup.querySelector(`input[value="${age}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
             } else if (filterGroup.id === 'stock-filter') {
-                filterGroup.querySelector('input[value="有现货"]').checked = true;
+                const allStocks = ["有现货", "即将发售", "限量版"];
+                allStocks.forEach(stock => {
+                    const checkbox = filterGroup.querySelector(`input[value="${stock}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
             }
 
             // 关闭筛选菜单
@@ -1272,11 +1771,11 @@
                 let priceHTML = `<div class="product-card-price">¥${product.price}</div>`;
                 if (product.originalPrice) {
                     priceHTML = `
-                            <div class="product-card-price">
-                                <span>¥${product.price}</span>
-                                <span style="text-decoration: line-through; color: var(--text-light); margin-left: 8px;">¥${product.originalPrice}</span>
-                            </div>
-                        `;
+                                        <div class="product-card-price">
+                                            <span>¥${product.price}</span>
+                                            <span style="text-decoration: line-through; color: var(--text-light); margin-left: 8px;">¥${product.originalPrice}</span>
+                                        </div>
+                                    `;
                 }
 
                 let badgeHTML = '';
@@ -1300,47 +1799,111 @@
                     starsHTML += '<i class="far fa-star"></i>';
                 }
 
+                // 检查是否已收藏
+                const isFavorited = favorites.some(item => item.id === product.id);
+                const heartIcon = isFavorited ? 'fas fa-heart' : 'far fa-heart';
+                const favoriteClass = isFavorited ? 'favorited' : '';
+
                 productCard.innerHTML = `
-                        ${badgeHTML}
-                        <div class="product-card-image">
-                            <img src="${product.image}" alt="${product.name}">
-                            <div class="product-card-actions">
-                                <button class="action-btn"><i class="far fa-heart"></i></button>
-                                <button class="action-btn"><i class="fas fa-search"></i></button>
-                            </div>
-                        </div>
-                        <div class="product-card-content">
-                            <h3 class="product-card-title">${product.name}</h3>
-                            <p class="product-card-subtitle">${product.subtitle}</p>
-                            ${priceHTML}
-                            <div class="product-card-meta">
-                                <div class="product-rating">
-                                    ${starsHTML}
-                                    <span>(${product.reviewCount})</span>
-                                </div>
-                                <div class="product-pieces">${product.pieces}片</div>
-                            </div>
-                        </div>
-                    `;
+                                    ${badgeHTML}
+                                    <div class="product-card-image">
+                                        <a href="${product.url}" title="查看${product.name}详情">
+                                            <img src="${product.image}" alt="${product.name}">
+                                        </a>
+                                        <div class="product-card-actions">
+                                            <button class="action-btn ${favoriteClass}" data-id="${product.id}" data-title="${product.name}" data-price="${product.price}" data-image="${product.image}">
+                                                <i class="${heartIcon}"></i>
+                                            </button>
+                                            <button class="action-btn" data-id="${product.id}" data-title="${product.name}" data-price="${product.price}">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </button>
+                                            <button class="action-btn">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="product-card-content">
+                                        <h3 class="product-card-title">${product.name}</h3>
+                                        <p class="product-card-subtitle">${product.subtitle}</p>
+                                        ${priceHTML}
+                                        <div class="product-card-meta">
+                                            <div class="product-rating">
+                                                ${starsHTML}
+                                                <span>(${product.reviewCount})</span>
+                                            </div>
+                                            <div class="product-pieces">${product.pieces}片</div>
+                                        </div>
+                                    </div>
+                                `;
 
                 productsGrid.appendChild(productCard);
             });
 
-            // 添加收藏功能
+            // 添加收藏功能 - 修改为点击整个按钮
             document.querySelectorAll('.action-btn .fa-heart').forEach(heart => {
-                heart.addEventListener('click', function () {
-                    const productCard = this.closest('.product-card');
-                    const productTitle = productCard.querySelector('.product-card-title').textContent;
+                heart.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const actionBtn = this.closest('.action-btn');
+                    const productId = parseInt(actionBtn.getAttribute('data-id'));
+                    const product = products.find(p => p.id === productId);
 
                     if (this.classList.contains('far')) {
-                        this.classList.remove('far');
-                        this.classList.add('fas');
-                        alert('已将 ' + productTitle + ' 添加到收藏夹');
+                        addToFavorites(product.id, product.name, product.price, product.image);
                     } else {
-                        this.classList.remove('fas');
-                        this.classList.add('far');
-                        alert('已将 ' + productTitle + ' 从收藏夹移除');
+                        removeFromFavorites(product.id);
                     }
+                });
+            });
+
+            // 添加收藏功能 - 点击整个按钮也可以触发
+            document.querySelectorAll('.action-btn .fa-heart').forEach(heart => {
+                const actionBtn = heart.closest('.action-btn');
+                actionBtn.addEventListener('click', function (e) {
+                    // 确保点击的是按钮本身，而不是子元素
+                    if (e.target === this) {
+                        const productId = parseInt(this.getAttribute('data-id'));
+                        const product = products.find(p => p.id === productId);
+
+                        if (this.classList.contains('favorited')) {
+                            removeFromFavorites(product.id);
+                        } else {
+                            addToFavorites(product.id, product.name, product.price, product.image);
+                        }
+                    }
+                });
+            });
+
+            // 添加到购物车功能
+            document.querySelectorAll('.action-btn .fa-cart-plus').forEach(cart => {
+                cart.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const actionBtn = this.closest('.action-btn');
+                    const productId = parseInt(actionBtn.getAttribute('data-id'));
+                    addToCart(productId, 1);
+                });
+            });
+
+            // 添加到购物车功能 - 点击整个按钮也可以触发
+            document.querySelectorAll('.action-btn .fa-cart-plus').forEach(cart => {
+                const actionBtn = cart.closest('.action-btn');
+                actionBtn.addEventListener('click', function (e) {
+                    // 确保点击的是按钮本身，而不是子元素
+                    if (e.target === this) {
+                        const productId = parseInt(this.getAttribute('data-id'));
+                        addToCart(productId, 1);
+                    }
+                });
+            });
+
+            // 添加放大镜功能
+            document.querySelectorAll('.action-btn .fa-search').forEach(search => {
+                search.addEventListener('click', function () {
+                    const productCard = this.closest('.product-card');
+                    const productTitle = productCard.querySelector('.product-card-title').textContent;
+                    const productImage = productCard.querySelector('.product-card-image img').src;
+
+                    // 在实际应用中，这里应该打开一个模态窗口显示大图
+                    alert('查看 ' + productTitle + ' 的大图');
                 });
             });
         }
@@ -1349,8 +1912,18 @@
         function updateActiveFilters() {
             activeFiltersContainer.innerHTML = '';
 
+            // 只有当筛选不是默认全选时才显示筛选标签
+            const isDefaultSeries = JSON.stringify(currentFilters.series) === JSON.stringify(["众星之环战旗系列", "乐高城市系列", "乐高星球大战系列", "乐高机械组系列", "乐高好朋友系列", "乐高创意百变高手系列", "乐高漫威系列", "乐高迪士尼系列", "乐高哈利波特系列"]);
+            const isDefaultAge = JSON.stringify(currentFilters.age) === JSON.stringify(["6+", "8+", "10+", "12+", "16+"]);
+            const isDefaultStock = JSON.stringify(currentFilters.stock) === JSON.stringify(["有现货", "即将发售", "限量版"]);
+            const isDefaultPrice = currentFilters.price === "all";
+
+            if (isDefaultSeries && isDefaultAge && isDefaultStock && isDefaultPrice) {
+                return; // 所有筛选都是默认值，不显示任何标签
+            }
+
             // 系列筛选标签
-            if (currentFilters.series.length > 0) {
+            if (!isDefaultSeries && currentFilters.series.length > 0) {
                 currentFilters.series.forEach(series => {
                     const filterTag = document.createElement('div');
                     filterTag.className = 'active-filter';
@@ -1360,7 +1933,7 @@
             }
 
             // 价格筛选标签
-            if (currentFilters.price !== 'all') {
+            if (!isDefaultPrice && currentFilters.price !== 'all') {
                 let priceText = '';
                 switch (currentFilters.price) {
                     case '0-500': priceText = '¥0 - ¥500'; break;
@@ -1376,7 +1949,7 @@
             }
 
             // 年龄筛选标签
-            if (currentFilters.age.length > 0) {
+            if (!isDefaultAge && currentFilters.age.length > 0) {
                 currentFilters.age.forEach(age => {
                     const filterTag = document.createElement('div');
                     filterTag.className = 'active-filter';
@@ -1386,7 +1959,7 @@
             }
 
             // 库存状态筛选标签
-            if (currentFilters.stock.length > 0) {
+            if (!isDefaultStock && currentFilters.stock.length > 0) {
                 currentFilters.stock.forEach(stock => {
                     const filterTag = document.createElement('div');
                     filterTag.className = 'active-filter';

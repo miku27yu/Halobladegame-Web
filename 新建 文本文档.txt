@@ -11,3 +11,204 @@
 商品链接 - 如果需要添加商品详情页链接，可以在每个商品卡片外部添加 <a href="商品详情页URL">...</a>
 
 这个页面设计保持了乐高官网的简洁奢华风格，同时提供了完整的商品浏览和筛选体验。
+
+
+
+1. 添加新商品
+在productsData对象中添加新的商品数据，格式如下：
+
+
+"product-id": {
+    id: "product-id", // 唯一标识符
+    title: "商品标题",
+    subtitle: "商品副标题",
+    description: "商品描述",
+    rating: 4.5, // 评分(0-5)
+    reviewCount: 100, // 评价数量
+    productId: "75321", // 产品编号
+    currentPrice: 1299, // 当前价格
+    originalPrice: 1599, // 原价(可选)
+    badge: "新品", // 徽章文本(可选)
+    images: [
+        "图片URL1",
+        "图片URL2",
+        // 更多图片...
+    ],
+    thumbnails: [
+        "缩略图URL1",
+        "缩略图URL2",
+        // 更多缩略图...
+    ],
+    features: [
+        { icon: "fas fa-shipping-fast", text: "免费配送 (订单满¥399)" },
+        // 更多特性...
+    ],
+    story: "产品故事内容",
+    featureList: [
+        "特点1",
+        "特点2",
+        // 更多特点...
+    ],
+    specifications: [
+        { name: "规格名称", value: "规格值" },
+        // 更多规格...
+    ],
+    reviews: [
+        {
+            reviewer: "评论者名称",
+            rating: 5, // 评分(0-5)
+            comment: "评论内容",
+            date: "2023年11月5日"
+        },
+        // 更多评论...
+    ],
+    relatedProducts: ["related-product-id1", "related-product-id2"] // 相关商品ID
+}
+2. 修改现有商品
+直接在productsData对象中找到对应的商品ID，修改其属性值即可。
+
+3. 商品链接格式
+要链接到特定商品页面，使用以下URL格式：
+
+text
+product.html?id=product-id
+例如：
+
+product.html?id=star-ring-banner (众星之环战旗乐高包)
+
+product.html?id=deep-space-ship (深空探索者星际飞船)
+
+4. 注意事项
+确保每个商品有唯一的id
+
+images和thumbnails数组中的图片数量应相同
+
+relatedProducts数组中的商品ID必须在productsData中存在
+
+如果商品没有原价或徽章，可以省略originalPrice或badge属性
+
+通过这种方式，您可以轻松管理所有商品信息，而无需修改HTML结构。只需在JavaScript数据对象中添加或修改商品数据即可。
+
+
+1. 添加新的筛选类别
+在filter-sort-bar部分添加新的筛选组：
+
+html
+<div class="filter-group" id="pieces-filter">
+    <div class="filter-label">
+        积木数量 <i class="fas fa-chevron-down"></i>
+    </div>
+    <div class="filter-dropdown">
+        <div class="filter-option">
+            <label>
+                <input type="radio" name="pieces" value="all" checked> 所有数量
+            </label>
+        </div>
+        <div class="filter-option">
+            <label>
+                <input type="radio" name="pieces" value="0-500"> 0 - 500片
+            </label>
+        </div>
+        <div class="filter-option">
+            <label>
+                <input type="radio" name="pieces" value="500-1000"> 500 - 1000片
+            </label>
+        </div>
+        <!-- 更多选项 -->
+        <div class="filter-actions">
+            <button class="filter-btn apply" data-filter="pieces">应用</button>
+            <button class="filter-btn reset">重置</button>
+        </div>
+    </div>
+</div>
+2. 在JavaScript中添加对应的筛选逻辑
+javascript
+// 在currentFilters对象中添加新属性
+let currentFilters = {
+    series: [...],
+    price: "all",
+    age: [...],
+    stock: [...],
+    pieces: "all" // 新增
+};
+
+// 在updateFilters函数中添加处理逻辑
+function updateFilters(filterType) {
+    switch (filterType) {
+        // ... 其他case
+        case 'pieces':
+            const selectedPieces = document.querySelector('input[name="pieces"]:checked');
+            currentFilters.pieces = selectedPieces ? selectedPieces.value : 'all';
+            break;
+    }
+    // ... 其余代码
+}
+
+// 在getFilteredProducts函数中添加筛选逻辑
+function getFilteredProducts() {
+    let filtered = products.filter(product => {
+        // ... 其他筛选条件
+        
+        // 积木数量筛选
+        if (currentFilters.pieces !== 'all') {
+            const piecesRange = currentFilters.pieces;
+            if (piecesRange === '0-500' && product.pieces > 500) return false;
+            if (piecesRange === '500-1000' && (product.pieces <= 500 || product.pieces > 1000)) return false;
+            // 更多范围
+        }
+        
+        return true;
+    });
+    // ... 其余代码
+}
+3. 添加新的商品数据
+在products数组中添加新的商品对象：
+
+javascript
+{
+    id: 17, // 确保ID唯一
+    name: "新商品名称",
+    subtitle: "系列 · 描述",
+    price: 价格,
+    originalPrice: 原价或null,
+    image: "图片URL",
+    rating: 评分,
+    reviewCount: 评论数,
+    pieces: 积木片数,
+    series: "所属系列",
+    age: "适用年龄",
+    stock: "库存状态",
+    badge: "徽章文字或null",
+    url: "商品详情页链接"
+}
+4. 更新系列筛选选项
+如果添加了新的系列，需要在系列筛选器中添加对应的选项：
+
+html
+<div class="filter-option">
+    <label>
+        <input type="checkbox" name="series" value="新系列名称" checked> 新系列名称
+    </label>
+</div>
+5. 更新默认筛选值
+在currentFilters对象中更新默认值：
+
+javascript
+let currentFilters = {
+    series: ["现有系列", "新系列名称", ...],
+    // ... 其他筛选条件
+};
+6. 重置筛选组函数
+在resetFilterGroup函数中添加对新筛选组的重置逻辑：
+
+javascript
+function resetFilterGroup(filterGroup) {
+    // ... 现有代码
+    
+    if (filterGroup.id === 'pieces-filter') {
+        // 重置pieces筛选
+        document.querySelector('input[name="pieces"][value="all"]').checked = true;
+    }
+    
+    // ... 其余代码
+}
