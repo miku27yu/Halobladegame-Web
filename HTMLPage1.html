@@ -217,7 +217,7 @@
 
         /* 英雄区域样式 */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./picture/map.png');
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./picture/map.jpg');
             background-size: cover;
             background-position: center;
             color: var(--text-light);
@@ -259,6 +259,17 @@
                 transform: translateY(-3px);
                 box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             }
+            .more-characters {
+                width: 100%;
+                text-align: center;
+                margin-top: 2.5rem;
+                margin-bottom: 1rem;
+            }
+            .more-characters .btn {
+                display: inline-block;      /* 恢复成与原按钮一致的显示方式 */
+                width: 80%;                 /* 宽度占父容器的80%，自动比屏幕窄 */
+                max-width: 600px;           /* 大屏上限 */
+}
 
         /* 内容区域样式 */
         .content-section {
@@ -586,7 +597,7 @@
                 </div>
             </div>
             <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/zw11.png')"></div>
+                <div class="chapter-img" style="background-image: url('./picture/zw11.jpg')"></div>
                 <div class="chapter-content">
                     <h3>第一章：混血龙裔</h3>
                     <p>塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下。天空的色彩像是混合在雨水中脱落了一般，只剩下朦胧的灰色。</p>
@@ -594,7 +605,7 @@
                 </div>
             </div>
             <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/zw12.png')"></div>
+                <div class="chapter-img" style="background-image: url('./picture/zw12.jpg')"></div>
                 <div class="chapter-content">
                     <h3>第二章："渎职之罪"</h3>
                     <p>裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。</p>
@@ -639,7 +650,7 @@
         <h2 class="section-title">主要人物</h2>
         <div class="characters-grid">
             <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c1.jpeg') "></div>
+                <div class="character-img" style="background-image: url('./picture/c1.jpg'); height: 340px; ";></div>
                 <div class="character-content">
                     <h3>艾卡纳罗</h3>
                     <p>
@@ -648,27 +659,30 @@
                 </div>
             </div>
             <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c2.jpeg') "></div>
+                <div class="character-img" style="background-image: url('./picture/c2.jpeg') ; height: 340px;";></div>
                 <div class="character-content">
                     <h3>青川弘一</h3>
                     <p>“惊霆”青川弘一，猎影者执行部远东局总长，五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，岩山大将军。继承古老家格的惊霆王爵同时身负伟大命运和深重诅咒，在遍历大陆的浪人生涯中他将在每一个十字路口做出黑暗或光明的艰难抉择，始终以手中之剑印证心中之道。</p>
                 </div>
             </div>
             <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c3.jpeg')"></div>
+                <div class="character-img" style="background-image: url('./picture/c3.jpeg'); height: 340px;";></div>
                 <div class="character-content">
                     <h3>穆越</h3>
                     <p>“溯风神剑”穆越，栖桐台执行部南洋局总长，五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，清州公。崇高、强大和无私精神在菁英一代年轻执行官中的化身，自幼受到沉重责任束缚的他从未真正将任何与己相关的事物放在首位，即便身心俱疲也始终得体且坚韧地用言辞与刀剑同任何异己抗争。</p>
                 </div>
             </div>
             <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c4.jpeg')"></div>
+                <div class="character-img" style="background-image: url('./picture/c4.jpeg'); height: 340px;";></div>
                 <div class="character-content">
                     <h3>凯伊兰·费雅图瑞</h3>
                     <p>“银辉”凯伊兰·费雅图瑞，风暴公使执行部五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，艾多雷斯帝国公主。相比于凌厉的能力锋芒，优雅美丽的外表只是这位年轻兰希族公主最微不足道的特质。在了却权斗驳杂后，她如今更倾向于将热爱和忠诚投注于挚友艾卡纳罗和其团队的伟大事业中。</p>
                 </div>
             </div>
-        </div>
+            </div>
+            <div class="more-characters">
+            <a href="./character1.html" class="btn">更多角色</a>
+            </div>
     </section>
 
     <!-- 短篇故事区域 -->
