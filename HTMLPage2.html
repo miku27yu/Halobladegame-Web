@@ -4,891 +4,124 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halobladegame</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --lego-red: #E10E23;
-            --lego-yellow: #FFCE00;
-            --lego-blue: #006DB7;
-            --lego-dark: #000000;
-            --lego-light: #F5F5F5;
-            --luxury-gold: #C9A96E;
-            --luxury-dark: #2D2D2D;
-            --luxury-light: #F8F5F0;
-            --text-dark: #333333;
-            --text-light: #777777;
-            --border-light: #E5E5E5;
-            --white: #FFFFFF;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-
-        body {
-            background-color: var(--lego-light);
-            color: #333;
-            line-height: 1.6;
-        }
-
-        /* 顶部导航 */
-        .top-nav {
-            background-color: var(--lego-red);
-            color: white;
-            padding: 10px 0;
-            font-size: 14px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .top-nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .top-nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-            .top-nav-links a {
-                color: white;
-                text-decoration: none;
-            }
-
-                .top-nav-links a:hover {
-                    text-decoration: underline;
-                }
-
-        /* 主导航 */
-        .main-nav {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-            .main-nav .container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px 20px;
-            }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-            .logo img {
-                height: 40px;
-            }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-            .nav-links a {
-                color: var(--lego-dark);
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 16px;
-                position: relative;
-            }
-
-                .nav-links a:hover::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -5px;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background-color: var(--lego-yellow);
-                }
-
-        .nav-actions {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: #f5f5f5;
-            border-radius: 20px;
-            padding: 8px 15px;
-            position: relative;
-        }
-
-            .search-bar input {
-                border: none;
-                background: transparent;
-                outline: none;
-                width: 180px;
-            }
-
-            .search-bar i {
-                color: #666;
-            }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-top: 10px;
-            display: none;
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .search-result-item {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-            .search-result-item:hover {
-                background-color: #f9f9f9;
-            }
-
-            .search-result-item img {
-                width: 40px;
-                height: 40px;
-                object-fit: cover;
-                border-radius: 5px;
-            }
-
-        .nav-icon {
-            font-size: 20px;
-            color: #333;
-            position: relative;
-            text-decoration: none;
-        }
-
-            .nav-icon .badge {
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background-color: var(--lego-red);
-                color: white;
-                border-radius: 50%;
-                width: 18px;
-                height: 18px;
-                font-size: 12px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
-            }
-
-            .nav-icon:hover .badge {
-                transform: scale(1.2);
-                background-color: var(--lego-yellow);
-                color: var(--lego-dark);
-            }
-
-        /* 主横幅 - 轮播 */
-        .hero-carousel {
-            position: relative;
-            height: 500px;
-            overflow: hidden;
-        }
-
-        .carousel-slides {
-            display: flex;
-            width: 300%;
-            height: 100%;
-            transition: transform 0.8s ease;
-        }
-
-        .carousel-slide {
-            width: 33.333%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-            .carousel-slide::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
-            }
-
-        .carousel-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            color: white;
-            max-width: 600px;
-            padding: 0 20px;
-        }
-
-            .carousel-content h1 {
-                font-size: 48px;
-                margin-bottom: 20px;
-                text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-                animation: fadeInUp 1s ease;
-            }
-
-            .carousel-content p {
-                font-size: 20px;
-                margin-bottom: 30px;
-                animation: fadeInUp 1s ease 0.2s both;
-            }
-
-            .carousel-content .btn {
-                animation: fadeInUp 1s ease 0.4s both;
-            }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-            .carousel-dot.active {
-                background-color: white;
-            }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: background-color 0.3s ease;
-        }
-
-            .carousel-nav:hover {
-                background-color: rgba(255,255,255,0.4);
-            }
-
-        .carousel-prev {
-            left: 20px;
-        }
-
-        .carousel-next {
-            right: 20px;
-        }
-
-        /* 按钮 */
-        .btn {
-            display: inline-block;
-            background-color: var(--lego-yellow);
-            color: var(--lego-dark);
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-            .btn:hover {
-                background-color: #ffdb4d;
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }
-
-        /* 产品分类 */
-        .categories {
-            padding: 60px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
-            color: var(--lego-dark);
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .category-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-            .category-card:hover {
-                transform: translateY(-10px);
-            }
-
-        .category-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .category-content {
-            padding: 20px;
-            text-align: center;
-        }
-
-            .category-content h3 {
-                margin-bottom: 10px;
-                font-size: 18px;
-            }
-
-        .favorite-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.8);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #666;
-            transition: all 0.3s ease;
-        }
-
-            .favorite-btn:hover, .favorite-btn.active {
-                background: var(--lego-red);
-                color: white;
-            }
-
-        .quick-add-btn {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: var(--lego-blue);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-            .quick-add-btn:hover {
-                background: var(--lego-dark);
-                transform: scale(1.1);
-            }
-
-        .category-card:hover .quick-add-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 特色系列 */
-        .featured {
-            padding: 60px 0;
-            background-color: white;
-        }
-
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .featured-card {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .featured-img {
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .featured-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white;
-            padding: 20px;
-        }
-
-            .featured-content h3 {
-                font-size: 22px;
-                margin-bottom: 10px;
-            }
-
-        /* 模态框 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 30px;
-            position: relative;
-            animation: modalFadeIn 0.3s ease;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .modal-title {
-            margin-bottom: 20px;
-            color: var(--lego-dark);
-            font-size: 24px;
-        }
-
-        .favorites-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .favorite-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-
-            .favorite-item img {
-                width: 60px;
-                height: 60px;
-                object-fit: cover;
-                border-radius: 5px;
-            }
-
-        .favorite-item-info {
-            flex: 1;
-        }
-
-        .favorite-item-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .favorite-item-price {
-            color: var(--lego-red);
-            font-weight: bold;
-        }
-
-        .favorite-remove {
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
-            font-size: 18px;
-            transition: color 0.3s ease;
-        }
-
-            .favorite-remove:hover {
-                color: var(--lego-red);
-            }
-
-        .empty-favorites {
-            text-align: center;
-            padding: 40px 0;
-            color: #666;
-        }
-
-        /* 页脚 */
-        footer {
-            background-color: var(--lego-dark);
-            color: white;
-            padding: 60px 0 20px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--lego-yellow);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-            .footer-links li {
-                margin-bottom: 10px;
-            }
-
-            .footer-links a {
-                color: #ccc;
-                text-decoration: none;
-            }
-
-                .footer-links a:hover {
-                    color: white;
-                    text-decoration: underline;
-                }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-            .social-icons a {
-                color: white;
-                font-size: 20px;
-            }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 14px;
-            color: #999;
-        }
-
-        /* 动画 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideOutRight {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-carousel {
-                height: 400px;
-            }
-
-            .carousel-content h1 {
-                font-size: 36px;
-            }
-
-            .carousel-content p {
-                font-size: 16px;
-            }
-
-            .search-bar input {
-                width: 120px;
-            }
-
-            .carousel-nav {
-                width: 40px;
-                height: 40px;
-            }
-        }
-    </style>
+    <title>众星之环战棋 · Halobladegame</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/haloblade.css">
 </head>
-<body>
-    <!-- 顶部导航 -->
-    <div class="top-nav">
+<body class="shop">
+    <!-- 顶栏 -->
+    <div class="top-strip">
         <div class="container">
-            <div class="top-nav-links">
-                <a href="#">乐高会员</a>
-                <a href="#">乐高创意</a>
-                <a href="#">乐高教育</a>
-            </div>
-            <div class="top-nav-links">
+            <span><i class="fas fa-star"></i> 众星之环战棋 · 全新系列包现已发售</span>
+            <span>
                 <a href="#">帮助中心</a>
                 <a href="#">商店定位</a>
-                <a href="#">中文/CNY</a>
-            </div>
+                <a href="#">中文 / CNY</a>
+            </span>
         </div>
     </div>
 
     <!-- 主导航 -->
-    <nav class="main-nav">
-        <div class="container">
-            <div class="logo">
-                <img src="https://www.lego.com/cdn/cs/set/assets/blt0a6c1aa99e7b2b98/logo-lego-2023.png" alt="LEGO">
-            </div>
-            <div class="nav-links">
-                <a href="./shoplist1.html">产品</a>
-                <a href="./shoplist1.html">系列</a>
-                <a href="./shoplist1.html">促销</a>
-                <a href="#">圣物</a>
-                <a href="#">比赛</a>
-                <a href="./HTMLPage1.html">正文</a>
-            </div>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">
+                <span class="brand-mark"><i class="fas fa-chess-knight"></i></span>
+                <span class="brand-text">众星之环战棋<span class="brand-sub">HALOBLADEGAME</span></span>
+            </a>
+            <nav class="nav-links" id="nav-links">
+                <a href="HTMLPage2.html" data-nav="HTMLPage2.html">首页</a>
+                <a href="shoplist1.html" data-nav="shoplist1.html">产品</a>
+                <a href="shoplist1.html" data-nav="shoplist1.html">系列</a>
+                <a href="shoplist1.html" data-nav="shoplist1.html">促销</a>
+                <a href="HTMLPage1.html">正文</a>
+            </nav>
             <div class="nav-actions">
-                <div class="search-bar">
+                <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="搜索乐高产品...">
-                    <div class="search-results"></div>
+                    <input type="text" id="search-input" placeholder="搜索战棋产品...">
+                    <div class="search-results" id="search-results"></div>
                 </div>
-                <a href="#" class="nav-icon"><i class="far fa-user"></i></a>
-                <a href="#" class="nav-icon" id="favorites-btn">
-                    <i class="far fa-heart"></i>
-                    <span class="badge">0</span>
-                </a>
-                <a href="shopping trolley.html" class="nav-icon" id="cart-btn">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span class="badge" id="cart-count">0</span>
-                </a>
+                <a href="#" class="nav-icon" title="账户"><i class="far fa-user"></i></a>
+                <button class="nav-icon" id="favorites-btn" title="我的收藏"><i class="far fa-heart"></i><span class="badge" data-fav-count>0</span></button>
+                <a href="shopping trolley.html" class="nav-icon" title="购物车"><i class="fas fa-shopping-bag"></i><span class="badge" data-cart-count>0</span></a>
+                <button class="nav-burger" id="nav-burger" aria-label="菜单"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- 主横幅 - 轮播 -->
+    <!-- 轮播 -->
     <section class="hero-carousel">
-        <div class="carousel-slides">
-            <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+        <div class="carousel-slides" id="carousel-slides">
+            <div class="carousel-slide" style="background-image: url('./picture/main4.png')">
                 <div class="carousel-content">
-                    <h1>探索无限创意世界</h1>
-                    <p>用乐高积木激发想象力，创造属于你的独特故事</p>
-                    <a href="./shoplist1.html" class="btn">立即探索</a>
+                    <h1>探索众星之环战棋世界</h1>
+                    <p>以源流与剑为名，打造属于你的战棋阵容</p>
+                    <a href="./shoplist1.html" class="btn btn-gold btn-lg">立即探索</a>
                 </div>
             </div>
-            <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1606059104343-43ce0f4d8a8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+            <div class="carousel-slide" style="background-image: url('./picture/chosen-blood.jpg')">
                 <div class="carousel-content">
-                    <h1>全新乐高星球大战系列</h1>
-                    <p>重现史诗级太空冒险，与绝地武士并肩作战</p>
-                    <a href="./shoplist1.html" class="btn">立即探索</a>
+                    <h1>王选系列 · 稀有收藏卡</h1>
+                    <p>被选中的血脉，星环纹路随光流转</p>
+                    <a href="./shop1.html?id=the-chosen-blood" class="btn btn-gold btn-lg">查看详情</a>
                 </div>
             </div>
-            <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1635350734815-2985d569d0e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+            <div class="carousel-slide" style="background-image: url('./picture/land-cannon.jpg')">
                 <div class="carousel-content">
-                    <h1>乐高机械组震撼登场</h1>
-                    <p>探索工程与机械原理，打造精密机械装置</p>
-                    <a href="./shoplist1.html" class="btn">立即探索</a>
+                    <h1>陆行加农 · 重装登场</h1>
+                    <p>火力覆盖，攻坚防守的中流砥柱</p>
+                    <a href="./shop1.html?id=land-cannon" class="btn btn-gold btn-lg">查看详情</a>
                 </div>
             </div>
         </div>
-        <button class="carousel-nav carousel-prev">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="carousel-nav carousel-next">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-        <div class="carousel-dots">
+        <button class="carousel-nav carousel-prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-nav carousel-next"><i class="fas fa-chevron-right"></i></button>
+        <div class="carousel-dots" id="carousel-dots">
             <div class="carousel-dot active"></div>
             <div class="carousel-dot"></div>
             <div class="carousel-dot"></div>
         </div>
     </section>
 
-    <!-- 产品分类 -->
-    <section class="categories">
+    <!-- 热门分类 -->
+    <section class="section">
         <div class="container">
-            <h2 class="section-title">热门产品分类</h2>
-            <div class="category-grid">
-                <div class="category-card">
-                    <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <button class="favorite-btn" data-id="1" data-title="乐高城市系列" data-price="299" data-image="https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="quick-add-btn" data-id="1" data-title="乐高城市系列" data-price="299">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
-                    <div class="category-content">
-                        <h3>乐高城市系列</h3>
-                        <p>构建属于你的城市</p>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1606059104343-43ce0f4d8a8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <button class="favorite-btn" data-id="2" data-title="乐高星球大战" data-price="599" data-image="https://images.unsplash.com/photo-1606059104343-43ce0f4d8a8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="quick-add-btn" data-id="2" data-title="乐高星球大战" data-price="599">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
-                    <div class="category-content">
-                        <h3>乐高星球大战</h3>
-                        <p>重现史诗级太空冒险</p>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1635350734815-2985d569d0e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <button class="favorite-btn" data-id="3" data-title="乐高机械组" data-price="799" data-image="https://images.unsplash.com/photo-1635350734815-2985d569d0e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="quick-add-btn" data-id="3" data-title="乐高机械组" data-price="799">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
-                    <div class="category-content">
-                        <h3>乐高机械组</h3>
-                        <p>探索工程与机械原理</p>
-                    </div>
-                </div>
-                <div class="category-card">
-                    <div class="category-img" style="background-image: url('https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <button class="favorite-btn" data-id="4" data-title="乐高好朋友" data-price="199" data-image="https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="quick-add-btn" data-id="4" data-title="乐高好朋友" data-price="199">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
-                    <div class="category-content">
-                        <h3>乐高好朋友</h3>
-                        <p>心湖城的有趣冒险</p>
-                    </div>
-                </div>
+            <h2 class="section-title is-deco">热门系列</h2>
+            <p class="section-subtitle">从稀有收藏卡到战术单位，构建你的专属战局。</p>
+            <div class="product-grid" id="featured-grid">
+                <!-- 由 JS 渲染 -->
             </div>
         </div>
     </section>
 
     <!-- 特色系列 -->
-    <section class="featured">
+    <section class="section" style="background: var(--bg-soft);">
         <div class="container">
-            <h2 class="section-title">特色系列</h2>
-            <div class="featured-grid">
-                <div class="featured-card">
-                    <div class="featured-img" style="background-image: url('https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <div class="featured-content">
-                        <h3>乐高创意百变高手系列</h3>
-                        <p>挑战复杂模型，展示你的搭建技巧</p>
+            <h2 class="section-title is-deco">特色系列</h2>
+            <p class="section-subtitle">收藏家与指挥官的共同选择。</p>
+            <div class="card-grid" id="series-grid">
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/chosen-blood.jpg'); height: 260px;"></div>
+                    <div class="card-body">
+                        <h3>王选系列</h3>
+                        <p>被选中的血脉，见证星环选召的瞬间。</p>
+                        <div class="card-foot"><a href="./shoplist1.html" class="btn btn-outline btn-sm">查看系列</a></div>
                     </div>
                 </div>
-                <div class="featured-card">
-                    <div class="featured-img" style="background-image: url('https://images.unsplash.com/photo-1606059104343-43ce0f4d8a8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <div class="featured-content">
-                        <h3>乐高漫威超级英雄</h3>
-                        <p>与超级英雄一起拯救世界</p>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/wings-nights.jpg'); height: 260px;"></div>
+                    <div class="card-body">
+                        <h3>战术单位</h3>
+                        <p>风暴使者、翼夜骑士与陆行加农，掌控战场。</p>
+                        <div class="card-foot"><a href="./shoplist1.html" class="btn btn-outline btn-sm">查看系列</a></div>
                     </div>
                 </div>
-                <div class="featured-card">
-                    <div class="featured-img" style="background-image: url('https://images.unsplash.com/photo-1635350734815-2985d569d0e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')"></div>
-                    <div class="featured-content">
-                        <h3>乐高迪士尼系列</h3>
-                        <p>重现经典迪士尼魔法时刻</p>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/christopher-romion.jpg'); height: 260px;"></div>
+                    <div class="card-body">
+                        <h3>指挥官角色卡</h3>
+                        <p>专属技能，运筹帷幄决胜千里。</p>
+                        <div class="card-foot"><a href="./shoplist1.html" class="btn btn-outline btn-sm">查看系列</a></div>
                     </div>
                 </div>
             </div>
@@ -896,42 +129,24 @@
     </section>
 
     <!-- 页脚 -->
-    <footer>
+    <footer class="site-footer dark">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-column">
+                <div class="footer-col">
                     <h4>产品</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">所有产品</a></li>
-                        <li><a href="#">新品上市</a></li>
-                        <li><a href="#">热门产品</a></li>
-                        <li><a href="#">乐高主题</a></li>
-                        <li><a href="#">乐高创意</a></li>
-                    </ul>
+                    <ul><li><a href="shoplist1.html">所有产品</a></li><li><a href="shoplist1.html">新品上市</a></li><li><a href="shoplist1.html">热门产品</a></li><li><a href="shoplist1.html">战棋主题</a></li></ul>
                 </div>
-                <div class="footer-column">
-                    <h4>关于乐高</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">关于我们</a></li>
-                        <li><a href="#">可持续发展</a></li>
-                        <li><a href="#">新闻中心</a></li>
-                        <li><a href="#">乐高职业</a></li>
-                        <li><a href="#">乐高基金会</a></li>
-                    </ul>
+                <div class="footer-col">
+                    <h4>关于</h4>
+                    <ul><li><a href="#">关于我们</a></li><li><a href="#">品牌故事</a></li><li><a href="#">新闻中心</a></li><li><a href="HTMLPage1.html">官方小说</a></li></ul>
                 </div>
-                <div class="footer-column">
+                <div class="footer-col">
                     <h4>支持</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">联系我们</a></li>
-                        <li><a href="#">寻找积木</a></li>
-                        <li><a href="#">搭建说明</a></li>
-                        <li><a href="#">替换零件</a></li>
-                        <li><a href="#">配送信息</a></li>
-                    </ul>
+                    <ul><li><a href="#">联系我们</a></li><li><a href="#">搭建说明</a></li><li><a href="#">替换零件</a></li><li><a href="#">配送信息</a></li></ul>
                 </div>
-                <div class="footer-column">
+                <div class="footer-col">
                     <h4>关注我们</h4>
-                    <p>获取最新乐高资讯和创意灵感</p>
+                    <p>获取最新战棋资讯与创意灵感</p>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-weibo"></i></a>
                         <a href="#"><i class="fab fa-weixin"></i></a>
@@ -940,499 +155,137 @@
                     </div>
                 </div>
             </div>
-            <div class="copyright">
-                <p>LEGO, the LEGO logo, the Minifigure, and the Brick and Knob configurations are trademarks of the LEGO Group. ©2023 The LEGO Group. All rights reserved.</p>
+            <div class="footer-bottom">
+                <span>© 2023 Halobladegame 众星之环战棋. 保留所有权利。</span>
+                <span>HALOBLADEGAME</span>
             </div>
         </div>
     </footer>
 
-    <!-- 收藏模态框 -->
+    <!-- 收藏弹窗 -->
     <div class="modal" id="favorites-modal">
         <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <h2 class="modal-title">我的收藏</h2>
-            <div class="favorites-list" id="favorites-list">
-                <!-- 收藏项将动态添加到这里 -->
-            </div>
-            <div class="empty-favorites" id="empty-favorites">
-                <i class="far fa-heart" style="font-size: 48px; margin-bottom: 15px;"></i>
-                <p>您还没有收藏任何商品</p>
-            </div>
+            <button class="modal-close" data-modal-close>&times;</button>
+            <h3 class="modal-title">我的收藏</h3>
+            <div id="favorites-list"></div>
         </div>
     </div>
 
+    <script src="./js/data.js"></script>
+    <script src="./js/haloblade.js"></script>
     <script>
-        // 产品数据 - 与商品列表页同步
-        const products = [
-            {
-                id: 1,
-                name: "众星之环战棋乐高包 型号A",
-                subtitle: "星际探索系列 · 限量版收藏品",
-                price: 899,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/006DB7?text=战棋乐高包1",
-                rating: 4.5,
-                reviewCount: 42,
-                pieces: 650,
-                series: "众星之环战棋系列",
-                age: "8+",
-                stock: "有现货",
-                badge: "新品",
-                url: "./shop1.html?id=star-ring-banner"
-            },
-            {
-                id: 2,
-                name: "众星之环战棋乐高包 型号B",
-                subtitle: "星际探索系列 · 旗舰版",
-                price: 1299,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/E60023?text=战棋乐高包2",
-                rating: 5,
-                reviewCount: 67,
-                pieces: 1250,
-                series: "众星之环战棋系列",
-                age: "10+",
-                stock: "有现货",
-                badge: "热卖",
-                url: "./shop1.html?id=deep-space-ship"
-            },
-            {
-                id: 3,
-                name: "众星之环战棋乐高包 型号C",
-                subtitle: "星际探索系列 · 基础版",
-                price: 599,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=战棋乐高包3",
-                rating: 4,
-                reviewCount: 28,
-                pieces: 450,
-                series: "众星之环战棋系列",
-                age: "8+",
-                stock: "有现货",
-                badge: null,
-                url: "./shop1.html?id=moon-base"
-            },
-            {
-                id: 4,
-                name: "众星之环战棋乐高包 型号D",
-                subtitle: "星际探索系列 · 黄金限量版",
-                price: 2499,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=战棋乐高包4",
-                rating: 4.5,
-                reviewCount: 15,
-                pieces: 1850,
-                series: "众星之环战棋系列",
-                age: "12+",
-                stock: "限量版",
-                badge: "限量",
-                url: "./shop1.html?id=mars-rover"
-            },
-            {
-                id: 5,
-                name: "众星之环战棋乐高包 型号E",
-                subtitle: "星际探索系列 · 战斗套装",
-                price: 799,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/006DB7?text=战棋乐高包5",
-                rating: 4,
-                reviewCount: 33,
-                pieces: 520,
-                series: "众星之环战棋系列",
-                age: "10+",
-                stock: "有现货",
-                badge: null,
-                url: "./shop1.html?id=space-station"
-            },
-            {
-                id: 6,
-                name: "众星之环战棋乐高包 型号F",
-                subtitle: "星际探索系列 · 精英版",
-                price: 1099,
-                originalPrice: 1299,
-                image: "https://via.placeholder.com/300x300/FFFFFF/E60023?text=战棋乐高包6",
-                rating: 4.5,
-                reviewCount: 51,
-                pieces: 980,
-                series: "众星之环战棋系列",
-                age: "10+",
-                stock: "有现货",
-                badge: "促销",
-                url: "./shop1.html?id=6"
-            },
-            {
-                id: 7,
-                name: "众星之环战棋乐高包 型号G",
-                subtitle: "星际探索系列 · 指挥官套装",
-                price: 1599,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/1A1A1A?text=战棋乐高包7",
-                rating: 5,
-                reviewCount: 24,
-                pieces: 1350,
-                series: "众星之环战棋系列",
-                age: "12+",
-                stock: "有现货",
-                badge: null,
-                url: "./shop1.html?id=7"
-            },
-            {
-                id: 8,
-                name: "众星之环战棋乐高包 型号H",
-                subtitle: "星际探索系列 · 终极收藏版",
-                price: 3299,
-                originalPrice: null,
-                image: "https://via.placeholder.com/300x300/FFFFFF/FFDE00?text=战棋乐高包8",
-                rating: 4.5,
-                reviewCount: 9,
-                pieces: 2200,
-                series: "众星之环战棋系列",
-                age: "16+",
-                stock: "限量版",
-                badge: "新品",
-                url: "./shop1.html?id=8"
-            }
-        ];
+        (function () {
+            /* ---- 渲染热门产品（前4个） ---- */
+            var featured = HB_DATA.products.slice(0, 4);
+            var grid = document.getElementById('featured-grid');
+            grid.innerHTML = featured.map(function (p) {
+                var faved = HB.store.isFavorite(p.id);
+                return '<div class="product-card" data-url="' + p.url + '">' +
+                    '<div class="product-card-media"><img src="' + p.image + '" alt="' + HB.util.escapeHtml(p.name) + '">' +
+                    (p.badge ? '<span class="badge-pill ' + (p.badge === '限量' ? 'is-gold' : 'is-red') + ' product-card-badge">' + p.badge + '</span>' : '') +
+                    '<div class="product-card-actions">' +
+                    '<button class="action-btn fav-btn ' + (faved ? 'favorited' : '') + '" data-id="' + p.id + '" title="收藏"><i class="' + (faved ? 'fas' : 'far') + ' fa-heart"></i></button>' +
+                    '<button class="action-btn add-btn" data-id="' + p.id + '" title="加入购物车"><i class="fas fa-cart-plus"></i></button>' +
+                    '</div></div>' +
+                    '<div class="product-card-body">' +
+                    '<h3 class="product-card-title">' + HB.util.escapeHtml(p.name) + '</h3>' +
+                    '<div class="product-card-meta"><span class="stars">' + HB.util.stars(p.rating) + '</span><span>' + p.rating + '</span></div>' +
+                    '<div class="product-card-price">' + HB.util.money(p.price) +
+                    (p.originalPrice ? '<span class="original">' + HB.util.money(p.originalPrice) + '</span>' : '') +
+                    '</div></div></div>';
+            }).join('');
 
-        // 收藏功能
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        const favoritesBtn = document.getElementById('favorites-btn');
-        const favoritesModal = document.getElementById('favorites-modal');
-        const favoritesList = document.getElementById('favorites-list');
-        const emptyFavorites = document.getElementById('empty-favorites');
-        const modalClose = document.querySelector('.modal-close');
-
-        // 更新收藏徽章
-        function updateFavoritesBadge() {
-            const badge = document.querySelector('#favorites-btn .badge');
-            badge.textContent = favorites.length;
-        }
-
-        // 渲染收藏列表
-        function renderFavoritesList() {
-            favoritesList.innerHTML = '';
-
-            if (favorites.length === 0) {
-                emptyFavorites.style.display = 'block';
-                return;
-            }
-
-            emptyFavorites.style.display = 'none';
-
-            favorites.forEach(item => {
-                const favoriteItem = document.createElement('div');
-                favoriteItem.className = 'favorite-item';
-                favoriteItem.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}">
-                        <div class="favorite-item-info">
-                            <div class="favorite-item-title">${item.title}</div>
-                            <div class="favorite-item-price">¥${item.price}</div>
-                        </div>
-                        <button class="favorite-remove" data-id="${item.id}">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                favoritesList.appendChild(favoriteItem);
-            });
-
-            // 添加移除收藏事件
-            document.querySelectorAll('.favorite-remove').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const id = parseInt(this.getAttribute('data-id'));
-                    removeFromFavorites(id);
-                });
-            });
-        }
-
-        // 添加到收藏
-        function addToFavorites(id, title, price, image) {
-            if (!favorites.some(item => item.id === id)) {
-                favorites.push({ id, title, price, image });
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                updateFavoritesBadge();
-
-                // 更新按钮状态
-                const btn = document.querySelector(`.favorite-btn[data-id="${id}"]`);
-                if (btn) {
-                    btn.classList.add('active');
-                    btn.innerHTML = '<i class="fas fa-heart"></i>';
+            grid.addEventListener('click', function (e) {
+                var card = e.target.closest('.product-card');
+                if (!card) return;
+                if (e.target.closest('.fav-btn')) {
+                    var id = e.target.closest('.fav-btn').getAttribute('data-id');
+                    HB.store.toggleFavorite(id);
+                    renderFeatured();
+                    return;
                 }
-            }
-        }
-
-        // 从收藏中移除
-        function removeFromFavorites(id) {
-            favorites = favorites.filter(item => item.id !== id);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoritesBadge();
-            renderFavoritesList();
-
-            // 更新按钮状态
-            const btn = document.querySelector(`.favorite-btn[data-id="${id}"]`);
-            if (btn) {
-                btn.classList.remove('active');
-                btn.innerHTML = '<i class="far fa-heart"></i>';
-            }
-        }
-
-        // 初始化收藏按钮状态
-        function initFavoriteButtons() {
-            document.querySelectorAll('.favorite-btn').forEach(btn => {
-                const id = parseInt(btn.getAttribute('data-id'));
-                if (favorites.some(item => item.id === id)) {
-                    btn.classList.add('active');
-                    btn.innerHTML = '<i class="fas fa-heart"></i>';
+                if (e.target.closest('.add-btn')) {
+                    var pid = e.target.closest('.add-btn').getAttribute('data-id');
+                    var prod = HB_DATA.productMap[pid];
+                    HB.store.addToCart(pid, 1);
+                    HB.toast.success('已添加「' + prod.name + '」到购物车');
+                    return;
                 }
-
-                btn.addEventListener('click', function () {
-                    const id = parseInt(this.getAttribute('data-id'));
-                    const title = this.getAttribute('data-title');
-                    const price = this.getAttribute('data-price');
-                    const image = this.getAttribute('data-image');
-
-                    if (this.classList.contains('active')) {
-                        removeFromFavorites(id);
-                    } else {
-                        addToFavorites(id, title, price, image);
-                    }
-                });
+                window.location.href = card.getAttribute('data-url');
             });
-        }
 
-        // 购物车功能
-        let cartItems = JSON.parse(localStorage.getItem('legoCart')) || [];
-
-        // 更新购物车徽章
-        function updateCartBadge() {
-            const cartCount = document.getElementById('cart-count');
-            const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-            cartCount.textContent = totalItems;
-        }
-
-        // 添加到购物车
-        function addToCart(productId, quantity = 1) {
-            const existingItem = cartItems.find(item => item.id === productId);
-
-            if (existingItem) {
-                existingItem.quantity += parseInt(quantity);
-            } else {
-                cartItems.push({
-                    id: productId,
-                    quantity: parseInt(quantity)
+            function renderFeatured() {
+                HB.store.syncFavBadges();
+                /* 简单重绘收藏按钮状态 */
+                HB.util.$$('.fav-btn', grid).forEach(function (btn) {
+                    var id = btn.getAttribute('data-id');
+                    var faved = HB.store.isFavorite(id);
+                    btn.classList.toggle('favorited', faved);
+                    btn.innerHTML = '<i class="' + (faved ? 'fas' : 'far') + ' fa-heart"></i>';
                 });
             }
 
-            localStorage.setItem('legoCart', JSON.stringify(cartItems));
-            updateCartBadge();
+            /* ---- 搜索 ---- */
+            var searchInput = document.getElementById('search-input');
+            var searchResults = document.getElementById('search-results');
+            searchInput.addEventListener('input', function () {
+                var q = this.value.trim().toLowerCase();
+                if (!q) { searchResults.style.display = 'none'; return; }
+                var results = HB_DATA.products.filter(function (p) {
+                    return p.name.toLowerCase().indexOf(q) > -1 || p.subtitle.toLowerCase().indexOf(q) > -1;
+                });
+                if (!results.length) { searchResults.style.display = 'none'; return; }
+                searchResults.innerHTML = results.map(function (p) {
+                    return '<div class="search-result-item" data-url="' + p.url + '">' +
+                        '<img src="' + p.image + '" alt="">' +
+                        '<div style="flex:1; min-width:0;"><div class="search-result-title">' + HB.util.escapeHtml(p.name) + '</div>' +
+                        '<div style="font-size:12px; color:var(--crimson); font-weight:700;">' + HB.util.money(p.price) + '</div></div></div>';
+                }).join('');
+                searchResults.style.display = 'block';
+                HB.util.$$('.search-result-item', searchResults).forEach(function (el) {
+                    el.addEventListener('click', function () { window.location.href = el.getAttribute('data-url'); });
+                });
+            });
+            document.addEventListener('click', function (e) { if (!e.target.closest('.search-box')) searchResults.style.display = 'none'; });
 
-            // 显示添加成功提示
-            showAddToCartMessage(productId);
-        }
-
-        // 显示添加到购物车消息
-        function showAddToCartMessage(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                // 创建临时提示消息
-                const message = document.createElement('div');
-                message.style.cssText = `
-                        position: fixed;
-                        top: 100px;
-                        right: 20px;
-                        background: #4CAF50;
-                        color: white;
-                        padding: 15px 20px;
-                        border-radius: 5px;
-                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                        z-index: 1000;
-                        animation: slideInRight 0.3s ease;
-                    `;
-                message.textContent = `已添加 ${product.name} 到购物车`;
-
-                document.body.appendChild(message);
-
-                // 3秒后移除消息
-                setTimeout(() => {
-                    message.style.animation = 'slideOutRight 0.3s ease';
-                    setTimeout(() => {
-                        if (message.parentNode) {
-                            message.parentNode.removeChild(message);
-                        }
-                    }, 300);
-                }, 3000);
+            /* ---- 轮播 ---- */
+            var slides = document.getElementById('carousel-slides');
+            var dots = HB.util.$$('.carousel-dot');
+            var current = 0;
+            var timer = setInterval(next, 5000);
+            function go(i) {
+                current = (i + dots.length) % dots.length;
+                slides.style.transform = 'translateX(-' + current * 100 + '%)';
+                dots.forEach(function (d, k) { d.classList.toggle('active', k === current); });
             }
-        }
+            function next() { go(current + 1); }
+            dots.forEach(function (d, i) { d.addEventListener('click', function () { clearInterval(timer); go(i); timer = setInterval(next, 5000); }); });
+            HB.util.$('.carousel-prev').addEventListener('click', function () { clearInterval(timer); go(current - 1); timer = setInterval(next, 5000); });
+            HB.util.$('.carousel-next').addEventListener('click', function () { clearInterval(timer); go(current + 1); timer = setInterval(next, 5000); });
 
-        // 初始化快速添加到购物车按钮
-        function initQuickAddButtons() {
-            document.querySelectorAll('.quick-add-btn').forEach(btn => {
-                btn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const id = parseInt(this.getAttribute('data-id'));
-                    const title = this.getAttribute('data-title');
-                    addToCart(id, 1);
+            /* ---- 收藏弹窗 ---- */
+            function renderFavorites() {
+                var list = document.getElementById('favorites-list');
+                var ids = HB.store.getFavorites();
+                if (!ids.length) {
+                    list.innerHTML = '<div class="empty-state"><i class="far fa-heart"></i><p>您还没有收藏任何商品</p></div>';
+                    return;
+                }
+                list.innerHTML = ids.map(function (id) {
+                    var p = HB_DATA.productMap[id];
+                    if (!p) return '';
+                    return '<div class="fav-item"><img src="' + p.image + '" alt="">' +
+                        '<div class="fav-item-info"><div class="fav-item-title">' + HB.util.escapeHtml(p.name) + '</div>' +
+                        '<div class="fav-item-price">' + HB.util.money(p.price) + '</div>' +
+                        '<a href="' + p.url + '" class="btn btn-outline btn-sm" style="margin-top:6px;">查看详情</a></div>' +
+                        '<button class="remove-item" data-id="' + id + '" title="移除"><i class="fas fa-times"></i></button></div>';
+                }).join('');
+                HB.util.$$('.remove-item', list).forEach(function (btn) {
+                    btn.addEventListener('click', function () { HB.store.removeFavorite(btn.getAttribute('data-id')); renderFavorites(); renderFeatured(); });
                 });
-            });
-        }
-
-        // 搜索功能
-        const searchInput = document.querySelector('.search-bar input');
-        const searchResults = document.querySelector('.search-results');
-
-        searchInput.addEventListener('input', function () {
-            const query = this.value.toLowerCase().trim();
-
-            if (query.length === 0) {
-                searchResults.style.display = 'none';
-                return;
             }
-
-            const filteredProducts = products.filter(product =>
-                product.name.toLowerCase().includes(query) ||
-                product.subtitle.toLowerCase().includes(query)
-            );
-
-            renderSearchResults(filteredProducts);
-        });
-
-        function renderSearchResults(results) {
-            searchResults.innerHTML = '';
-
-            if (results.length === 0) {
-                searchResults.style.display = 'none';
-                return;
-            }
-
-            results.forEach(product => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'search-result-item';
-                resultItem.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}">
-                        <div>
-                            <div style="font-weight: bold;">${product.name}</div>
-                            <div style="color: var(--lego-red); font-weight: bold;">¥${product.price}</div>
-                        </div>
-                    `;
-                resultItem.addEventListener('click', function () {
-                    searchInput.value = product.name;
-                    searchResults.style.display = 'none';
-                    // 在实际应用中，这里可以跳转到产品详情页
-                    alert(`跳转到 ${product.name} 详情页`);
-                });
-                searchResults.appendChild(resultItem);
-            });
-
-            searchResults.style.display = 'block';
-        }
-
-        // 点击页面其他区域关闭搜索结果
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('.search-bar')) {
-                searchResults.style.display = 'none';
-            }
-        });
-
-        // 轮播功能
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const dots = document.querySelectorAll('.carousel-dot');
-        const prevBtn = document.querySelector('.carousel-prev');
-        const nextBtn = document.querySelector('.carousel-next');
-        const slidesContainer = document.querySelector('.carousel-slides');
-
-        function showSlide(index) {
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
-
-            currentSlide = index;
-            slidesContainer.style.transform = `translateX(-${currentSlide * 33.333}%)`;
-
-            // 更新指示点
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        }
-
-        // 自动轮播
-        let slideInterval = setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 5000);
-
-        // 点击指示点切换
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => {
-                clearInterval(slideInterval);
-                showSlide(i);
-                slideInterval = setInterval(() => {
-                    showSlide(currentSlide + 1);
-                }, 5000);
-            });
-        });
-
-        // 上一张/下一张
-        prevBtn.addEventListener('click', () => {
-            clearInterval(slideInterval);
-            showSlide(currentSlide - 1);
-            slideInterval = setInterval(() => {
-                showSlide(currentSlide + 1);
-            }, 5000);
-        });
-
-        nextBtn.addEventListener('click', () => {
-            clearInterval(slideInterval);
-            showSlide(currentSlide + 1);
-            slideInterval = setInterval(() => {
-                showSlide(currentSlide + 1);
-            }, 5000);
-        });
-
-        // 收藏模态框
-        favoritesBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            renderFavoritesList();
-            favoritesModal.style.display = 'flex';
-        });
-
-        modalClose.addEventListener('click', () => {
-            favoritesModal.style.display = 'none';
-        });
-
-        // 点击模态框外部关闭
-        favoritesModal.addEventListener('click', (e) => {
-            if (e.target === favoritesModal) {
-                favoritesModal.style.display = 'none';
-            }
-        });
-
-        // 初始化
-        document.addEventListener('DOMContentLoaded', function () {
-            updateFavoritesBadge();
-            updateCartBadge();
-            initFavoriteButtons();
-            initQuickAddButtons();
-
-            // 按钮悬停效果
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-3px)';
-                });
-                button.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-
-            // 卡片悬停效果
-            const cards = document.querySelectorAll('.category-card, .featured-card');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-10px)';
-                });
-                card.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
+            document.getElementById('favorites-btn').addEventListener('click', function () { renderFavorites(); HB.openModal('favorites-modal'); });
+        })();
     </script>
 </body>
 </html>

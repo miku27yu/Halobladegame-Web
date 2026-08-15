@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -6,762 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>正文 - 《众星之环》</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary-blue: #1a365d;
-            --secondary-blue: #2d4a7a;
-            --accent-blue: #4a6fa5;
-            --light-blue: #a0c1d1;
-            --text-dark: #2d3748;
-            --text-light: #f7fafc;
-            --background-light: #f5f7fa;
-            --gold: #d4af37;
-            --silver: #c0c0c0;
-        }
-
-        /* 夜间模式变量 */
-        .dark-mode {
-            --primary-blue: #0f1a2f;
-            --secondary-blue: #1e2f4f;
-            --accent-blue: #3a5785;
-            --light-blue: #6a8ea8;
-            --text-dark: #e2e8f0;
-            --text-light: #f7fafc;
-            --background-light: #121826;
-            --gold: #d4af37;
-            --silver: #c0c0c0;
-        }
-
-        body {
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            line-height: 1.7;
-            min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* 导航栏 */
-        .main-nav {
-            background-color: var(--primary-blue);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: background-color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .main-nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-            .logo h1 {
-                color: var(--text-light);
-                font-size: 24px;
-                margin-left: 10px;
-                font-weight: 300;
-                letter-spacing: 1px;
-                transition: color 0.3s ease;
-            }
-
-            .logo i {
-                color: var(--light-blue);
-                font-size: 28px;
-                transition: color 0.3s ease;
-            }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-        }
-
-            .nav-links a {
-                color: var(--text-light);
-                text-decoration: none;
-                font-weight: 400;
-                font-size: 16px;
-                position: relative;
-                transition: all 0.3s ease;
-                padding: 5px 0;
-            }
-
-                .nav-links a:hover {
-                    color: var(--light-blue);
-                }
-
-                .nav-links a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 0;
-                    height: 1px;
-                    background-color: var(--light-blue);
-                    transition: width 0.3s ease;
-                }
-
-                .nav-links a:hover::after {
-                    width: 100%;
-                }
-
-        .nav-actions {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .nav-icon {
-            font-size: 18px;
-            color: var(--text-light);
-            transition: color 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-            .nav-icon:hover {
-                color: var(--light-blue);
-            }
-
-        /* 书签角标 */
-        .bookmark-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #e53e3e;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* 章节标题区域 */
-        .chapter-header {
-            background: linear-gradient(rgba(26, 54, 93, 0.85), rgba(26, 54, 93, 0.9)), url('./picture/map.jpg');
-            background-size: cover;
-            background-position: center;
-            color: var(--text-light);
-            padding: 80px 0 40px;
-            text-align: center;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .chapter-header {
-            background: linear-gradient(rgba(15, 26, 47, 0.85), rgba(15, 26, 47, 0.9)), url('./picture/map.jpg');
-            background-size: cover;
-        }
-
-        .chapter-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
-        }
-
-        .chapter-title {
-            font-size: 42px;
-            margin-bottom: 15px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
-        .chapter-subtitle {
-            font-size: 18px;
-            opacity: 0.9;
-            font-weight: 300;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* 章节选择器  */
-.chapter-selector-container {
-    margin: 25px auto 0;
-    max-width: 400px;
-    position: relative;
-}
-
-.chapter-selector-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 16px;
-    color: var(--light-blue);
-}
-/* 自定义下拉 */
-.custom-select {
-    position: relative;
-    width: 100%;
-    font-size: 16px;
-    user-select: none;
-}
-/* 触发器 */
-.select-trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px 16px;
-    background-color: rgba(255, 255, 255, 0.9);
-    color: var(--primary-blue);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-}
-
-.select-trigger:hover {
-    background-color: white;
-    border-color: rgba(255, 255, 255, 0.8);
-}
-
-.select-trigger:focus {
-    outline: none;
-    border-color: var(--light-blue);
-    box-shadow: 0 0 0 2px rgba(160, 193, 209, 0.5);
-}
-/* 下拉箭头*/
-.select-trigger .arrow {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    transition: transform 0.2s;
-}
-/* 展开时箭头旋转 */
-.custom-select.open .select-trigger .arrow {
-    transform: rotate(180deg);
-}
-/* 下拉选项面板 */
-.options-container {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin: 4px 0 0 0;
-    padding: 0;
-    list-style: none;
-    background-color: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    z-index: 1000; 
-    /* ★ 最多显示 8 个选项，溢出滚动 */
-    max-height: 22em;          /* 可通过调整该值微调显示行数 */
-    overflow-y: auto;   
-    /* 美化滚动条 */
-    scrollbar-width: thin;
-    scrollbar-color: var(--light-blue) transparent;
-}
-
-.options-container::-webkit-scrollbar {
-    width: 6px;
-}
-.options-container::-webkit-scrollbar-thumb {
-    background-color: var(--light-blue);
-    border-radius: 3px;
-}
-
-.custom-select.open .options-container {
-    display: block;
-}
-/* 单个选项 */
-.options-container li {
-    padding: 12px 16px;
-    font-size: 16px;
-    line-height: 1.4;
-    color: var(--primary-blue);
-    cursor: pointer;
-    transition: background-color 0.15s;
-    white-space: nowrap;
-}
-
-.options-container li:hover {
-    background-color: rgba(160, 193, 209, 0.15);
-}
-
-.options-container li.active {
-    background-color: var(--light-blue);
-    color: #fff;
-    font-weight: 500;
-}
-/*深色模式适配*/
-.dark-mode .select-trigger {
-    background-color: rgba(26, 54, 93, 0.9);
-    color: var(--text-light);
-}
-
-.dark-mode .select-trigger:hover {
-    background-color: rgba(26, 54, 93, 1);
-}
-
-.dark-mode .select-trigger .arrow {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a0c1d1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-}
-
-.dark-mode .options-container {
-    background-color: rgba(26, 54, 93, 0.95);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.dark-mode .options-container li {
-    color: var(--text-light);
-}
-
-.dark-mode .options-container li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.dark-mode .options-container li.active {
-    background-color: var(--light-blue);
-    color: #fff;
-}
-        /* 书签切换开关 */
-        .bookmark-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 15px;
-            gap: 8px;
-        }
-
-        .toggle-label {
-            font-size: 14px;
-            color: var(--light-blue);
-            cursor: pointer;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 20px;
-        }
-
-            .toggle-switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(255, 255, 255, 0.2);
-            transition: .4s;
-            border-radius: 20px;
-        }
-
-            .toggle-slider:before {
-                position: absolute;
-                content: "";
-                height: 16px;
-                width: 16px;
-                left: 2px;
-                bottom: 2px;
-                background-color: white;
-                transition: .4s;
-                border-radius: 50%;
-            }
-
-        input:checked + .toggle-slider {
-            background-color: var(--light-blue);
-        }
-
-            input:checked + .toggle-slider:before {
-                transform: translateX(20px);
-            }
-
-        /* 章节内容 */
-        .chapter-content {
-            padding: 60px 0;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .content-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
-            padding: 50px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .content-container {
-            background-color: #1a2435;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-        }
-
-        .content-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent-blue), var(--light-blue));
-        }
-
-        .chapter-text {
-            font-size: 18px;
-            line-height: 1.8;
-            color: var(--text-dark);
-            transition: color 0.3s ease;
-        }
-
-            .chapter-text p {
-                margin-bottom: 24px;
-                text-align: justify;
-            }
-
-                .chapter-text p:first-child::first-letter {
-                    font-size: 48px;
-                    float: left;
-                    line-height: 1;
-                    margin-right: 8px;
-                    color: var(--accent-blue);
-                    font-weight: 300;
-                }
-
-        .quote {
-            border-left: 3px solid var(--light-blue);
-            padding-left: 20px;
-            margin: 30px 0;
-            font-style: italic;
-            color: var(--secondary-blue);
-            transition: all 0.3s ease;
-        }
-
-        .dark-mode .quote {
-            color: #8fa8c7;
-        }
-
-        /* 章节导航 */
-        .chapter-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
-            padding: 0 20px;
-        }
-
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 25px;
-            background-color: var(--primary-blue);
-            color: var(--text-light);
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            font-weight: 400;
-        }
-
-            .nav-btn:hover {
-                background-color: var(--secondary-blue);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }
-
-        /* 书签弹窗 */
-        .bookmark-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .bookmark-modal-content {
-            background-color: white;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 20px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-        }
-
-        .dark-mode .bookmark-modal-content {
-            background-color: #1a2435;
-        }
-
-        .bookmark-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .dark-mode .bookmark-modal-header {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .bookmark-modal-title {
-            font-size: 20px;
-            color: var(--primary-blue);
-        }
-
-        .dark-mode .bookmark-modal-title {
-            color: var(--light-blue);
-        }
-
-        .bookmark-modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-
-        .dark-mode .bookmark-modal-close {
-            color: var(--text-light);
-        }
-
-        .bookmark-list {
-            list-style: none;
-        }
-
-        .bookmark-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dark-mode .bookmark-item {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .bookmark-item:hover {
-            background-color: rgba(0,0,0,0.03);
-        }
-
-        .dark-mode .bookmark-item:hover {
-            background-color: rgba(255,255,255,0.05);
-        }
-
-        .bookmark-item:last-child {
-            border-bottom: none;
-        }
-
-        .bookmark-item-info {
-            flex: 1;
-        }
-
-        .bookmark-item-title {
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .bookmark-item-subtitle {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .dark-mode .bookmark-item-subtitle {
-            color: #aaa;
-        }
-
-        .bookmark-item-remove {
-            background: none;
-            border: none;
-            color: #e53e3e;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 5px;
-            border-radius: 3px;
-            transition: background-color 0.2s;
-        }
-
-            .bookmark-item-remove:hover {
-                background-color: rgba(229, 62, 62, 0.1);
-            }
-
-        .no-bookmarks {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-
-        .dark-mode .no-bookmarks {
-            color: #aaa;
-        }
-
-        /* 页脚 */
-        footer {
-            background-color: var(--primary-blue);
-            color: var(--text-light);
-            padding: 60px 0 20px;
-            margin-top: 60px;
-            transition: background-color 0.3s ease;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--light-blue);
-            font-weight: 400;
-            letter-spacing: 1px;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-            .footer-links li {
-                margin-bottom: 10px;
-            }
-
-            .footer-links a {
-                color: #cbd5e0;
-                text-decoration: none;
-                transition: color 0.3s ease;
-                font-weight: 300;
-            }
-
-                .footer-links a:hover {
-                    color: var(--text-light);
-                }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-            .social-icons a {
-                color: var(--text-light);
-                font-size: 18px;
-                transition: color 0.3s ease;
-            }
-
-                .social-icons a:hover {
-                    color: var(--light-blue);
-                }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 14px;
-            color: #a0aec0;
-            font-weight: 300;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .chapter-title {
-                font-size: 32px;
-            }
-
-            .content-container {
-                padding: 30px 20px;
-            }
-
-            .chapter-text {
-                font-size: 16px;
-            }
-
-            .chapter-nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .nav-btn {
-                justify-content: center;
-            }
-
-            .chapter-selector-container {
-                max-width: 300px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./css/haloblade.css">
 </head>
-<body>
-    <!-- 主导航 -->
-    <nav class="main-nav">
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-stars"></i>
-                <h1>众星之环</h1>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">首页</a>
-                <a href="./HTMLPage1.html#content">正文</a>
-                <a href="./HTMLPage1.html#setting">设定</a>
-                <a href="./HTMLPage1.html#characters">人物</a>
-                <a href="./HTMLPage1.html#stories">短篇</a>
-            </div>
+<body class="novel">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">
+                <span class="brand-mark"><i class="fas fa-dragon"></i></span>
+                <span class="brand-text">众星之环<span class="brand-sub">HALOBLADEGAME</span></span>
+            </a>
+            <nav class="nav-links" id="nav-links">
+                <a href="HTMLPage1.html" data-nav="HTMLPage1.html">首页</a>
+                <a href="chapter1.html" data-nav="chapter1.html">正文</a>
+                <a href="premise.html" data-nav="premise.html">设定</a>
+                <a href="character1.html" data-nav="character1.html">人物</a>
+                <a href="chapter3.html" data-nav="chapter3.html">短篇</a>
+                <a href="HTMLPage2.html" class="nav-cta">前往战棋</a>
+            </nav>
             <div class="nav-actions">
-                <a href="#" class="nav-icon" id="bookmark-toggle">
+                <a href="#" class="nav-icon" id="bookmark-toggle" title="书签">
                     <i class="far fa-bookmark"></i>
                     <span class="bookmark-badge" id="bookmark-count">0</span>
                 </a>
-                <a href="#" class="nav-icon" id="theme-toggle"><i class="fas fa-sun"></i></a>
+                <button class="nav-icon" data-theme-toggle title="切换昼夜"><i class="fas fa-moon"></i></button>
+                <button class="nav-burger" id="nav-burger" aria-label="菜单"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-    </nav>
+    </header>
 
     <!-- 章节标题区域 -->
     <section class="chapter-header">
@@ -771,15 +42,11 @@
 
             <!-- 章节选择器 -->
             <div class="chapter-selector-container">
-    <label class="chapter-selector-label">选择章节</label>
-    <div class="custom-select" id="chapter-select-wrapper">
-        <div class="select-trigger" id="chapter-trigger">
-            <span class="trigger-text">请选择章节</span>
-            <span class="arrow"></span>
-        </div>
-        <ul class="options-container" id="chapter-options"></ul>
-    </div>
-</div>
+                <label for="chapter-select" class="chapter-selector-label">选择章节</label>
+                <select id="chapter-select" class="chapter-select" size="1">
+                    <!-- 章节选项将由JavaScript动态生成 -->
+                </select>
+            </div>
 
                 <!-- 书签章节切换开关 -->
                 <div class="bookmark-toggle">
@@ -788,6 +55,13 @@
                         <input type="checkbox" id="bookmark-only-toggle">
                         <span class="toggle-slider"></span>
                     </label>
+                </div>
+
+                <!-- 本章节加入书签 -->
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn btn-gold" id="bookmark-current-btn">
+                        <i class="far fa-bookmark"></i> <span id="bookmark-current-label">本章节加入书签</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -865,50 +139,24 @@
         </div>
     </div>
 
-    <!-- 页脚 -->
-    <footer>
+    <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-column">
-                    <h4>关于我们</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">作品介绍</a></li>
-                        <li><a href="#">作者简介</a></li>
-                        <li><a href="#">创作历程</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>阅读资源</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">全部章节</a></li>
-                        <li><a href="#">设定集</a></li>
-                        <li><a href="#">角色图鉴</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>社区互动</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">读者讨论区</a></li>
-                        <li><a href="#">同人作品</a></li>
-                        <li><a href="#">读者问答</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>关注我们</h4>
-                    <p>获取最新更新和创作幕后</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-weibo"></i></a>
-                        <a href="#"><i class="fab fa-weixin"></i></a>
-                        <a href="#"><i class="fab fa-qq"></i></a>
-                    </div>
+                <div class="footer-col"><h4>关于我们</h4><ul><li><a href="#">作品介绍</a></li><li><a href="#">作者简介</a></li><li><a href="#">创作历程</a></li></ul></div>
+                <div class="footer-col"><h4>阅读资源</h4><ul><li><a href="chapter1.html">全部章节</a></li><li><a href="premise.html">设定集</a></li><li><a href="character1.html">角色图鉴</a></li></ul></div>
+                <div class="footer-col"><h4>社区互动</h4><ul><li><a href="#">读者讨论区</a></li><li><a href="#">同人作品</a></li><li><a href="#">读者问答</a></li></ul></div>
+                <div class="footer-col"><h4>关注我们</h4><p>获取最新更新和创作幕后</p>
+                    <div class="social-icons"><a href="#"><i class="fab fa-weibo"></i></a><a href="#"><i class="fab fa-weixin"></i></a><a href="#"><i class="fab fa-qq"></i></a></div>
                 </div>
             </div>
-            <div class="copyright">
-                <p>© 2023 《众星之环》官方小说站. 保留所有权利。</p>
+            <div class="footer-bottom">
+                <span>© 2023 《众星之环》官方小说站. 保留所有权利。</span>
+                <span><i class="fas fa-dragon" style="color: var(--gold-2);"></i> HALOBLADEGAME</span>
             </div>
         </div>
     </footer>
 
+    <script src="./js/haloblade.js"></script>
     <script>
         // 章节数据
         const chapters = {
@@ -1043,8 +291,6 @@
         // 章节顺序
         const chapterOrder = ["prologue", "chapter1", "chapter2", "chapter3", "chapter4","chapter5","chapter6","chapter7","chapter8","chapter8_2",
         "chapter9","chapter10","chapter11","chapter12","glossary1","chapter13","chapter14","chapter15","chapter16","chapter17","chapter_x"];
-        // 自定义章节选择器 DOM 引用
-        let chapterWrapper, chapterTrigger, chapterTriggerText, chapterOptionsContainer;
         // 书签管理
         let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
         let currentChapterId = chapterOrder[0];
@@ -1120,7 +366,8 @@
         // 更新书签图标状态
         function updateBookmarkIcon(chapterId) {
             const bookmarkIcon = document.querySelector('#bookmark-toggle i');
-            if (bookmarks.includes(chapterId)) {
+            const isBookmarked = bookmarks.includes(chapterId);
+            if (isBookmarked) {
                 bookmarkIcon.classList.remove('far');
                 bookmarkIcon.classList.add('fas');
             } else {
@@ -1130,6 +377,22 @@
 
             // 更新书签数量角标
             document.getElementById('bookmark-count').textContent = bookmarks.length;
+
+            // 更新"本章节加入书签"按钮
+            const currentBtn = document.getElementById('bookmark-current-btn');
+            if (currentBtn) {
+                const btnIcon = currentBtn.querySelector('i');
+                const btnLabel = document.getElementById('bookmark-current-label');
+                if (isBookmarked) {
+                    btnIcon.className = 'fas fa-bookmark';
+                    btnLabel.textContent = '本章节已加入书签';
+                    currentBtn.classList.add('is-on');
+                } else {
+                    btnIcon.className = 'far fa-bookmark';
+                    btnLabel.textContent = '本章节加入书签';
+                    currentBtn.classList.remove('is-on');
+                }
+            }
         }
 
         // 切换书签状态
@@ -1230,157 +493,58 @@
             document.getElementById('bookmark-modal').style.display = 'none';
         }
 
-        // 更新章节选择器选项
-        // ========== 自定义章节选择器逻辑 ==========
+        // 更新章节选择器选项（与短篇页共用同一套原生 select 逻辑）
+        function updateChapterSelectOptions(bookmarkOnly = false) {
+            const select = document.getElementById('chapter-select');
+            select.innerHTML = '';
 
-/**
- * 核心：生成下拉列表并控制滚动
- * @param {boolean} bookmarkOnly - 是否仅显示书签章节
- */
-function populateCustomSelect(bookmarkOnly = false) {
-    const chaptersToShow = bookmarkOnly
-        ? chapterOrder.filter(id => bookmarks.includes(id))
-        : chapterOrder;
+            const chaptersToShow = bookmarkOnly ?
+                chapterOrder.filter(id => bookmarks.includes(id)) :
+                chapterOrder;
 
-    chapterOptionsContainer.innerHTML = '';
+            chaptersToShow.forEach(chapterId => {
+                const chapter = chapters[chapterId];
+                const option = document.createElement('option');
+                option.value = chapterId;
+                option.textContent = chapter.title;
+                select.appendChild(option);
+            });
 
-    // 如果没有可用章节，显示提示并返回
-    if (chaptersToShow.length === 0) {
-        chapterTriggerText.textContent = '无可用章节';
-        return;
-    }
-
-    // 确保当前章节在显示列表中，否则自动切到第一个
-    if (!chaptersToShow.includes(currentChapterId)) {
-        loadChapter(chaptersToShow[0]);
-        return; // loadChapter 会再次调用本函数更新
-    }
-
-    const currentIndex = chaptersToShow.indexOf(currentChapterId);
-
-    // 生成选项
-    chaptersToShow.forEach((chapterId, index) => {
-        const chapter = chapters[chapterId];
-        const li = document.createElement('li');
-        li.textContent = chapter.title;
-        li.dataset.chapterId = chapterId;
-        li.dataset.index = index;
-
-        if (index === currentIndex) {
-            li.classList.add('active');
-        }
-
-        li.addEventListener('click', () => {
-            if (chapterId === currentChapterId) {
-                chapterWrapper.classList.remove('open');
-                return;
-            }
-            loadChapter(chapterId);
-            chapterWrapper.classList.remove('open');
-        });
-
-        chapterOptionsContainer.appendChild(li);
-    });
-
-    // 更新触发器显示文字
-    chapterTriggerText.textContent = chapters[currentChapterId].title;
-
-    // 计算滚动位置：让当前章节尽量出现在第一个可见位置
-    const itemHeight = 46; // 单行高度(px)，可微调
-    const visibleCount = 8;
-    const total = chaptersToShow.length;
-    let startIndex = currentIndex;
-    if (currentIndex + visibleCount > total) {
-        startIndex = Math.max(0, total - visibleCount);
-    }
-    chapterOptionsContainer.scrollTop = startIndex * itemHeight;
-}
-
-/**
- * 更新当前选中状态（仅高亮和触发器文字，不重新生成列表）
- */
-function updateChapterSelect(chapterId) {
-    // 更新触发器文字
-    if (chapters[chapterId]) {
-        chapterTriggerText.textContent = chapters[chapterId].title;
-    }
-
-    // 更新列表中的高亮
-    const allOptions = chapterOptionsContainer.querySelectorAll('li');
-    allOptions.forEach(li => {
-        if (li.dataset.chapterId === chapterId) {
-            li.classList.add('active');
-        } else {
-            li.classList.remove('active');
-        }
-    });
-
-    // 重新调整滚动位置
-    const chaptersToShow = Array.from(allOptions).map(li => li.dataset.chapterId);
-    const currentIndex = chaptersToShow.indexOf(chapterId);
-    if (currentIndex !== -1) {
-        const itemHeight = 46;
-        const total = chaptersToShow.length;
-        let startIndex = currentIndex;
-        if (currentIndex + 8 > total) {
-            startIndex = Math.max(0, total - 8);
-        }
-        chapterOptionsContainer.scrollTop = startIndex * itemHeight;
-    }
-}
-
-/**
- * 更新选项（供书签过滤切换、书签增减时调用）
- */
-function updateChapterSelectOptions(bookmarkOnly = false) {
-    populateCustomSelect(bookmarkOnly);
-}
-
-/**
- * 初始化自定义章节选择器
- */
-function initChapterSelect() {
-    // ★ 在这里获取元素，保证 DOM 已加载
-    chapterWrapper = document.getElementById('chapter-select-wrapper');
-    chapterTrigger = document.getElementById('chapter-trigger');
-    chapterTriggerText = document.querySelector('#chapter-trigger .trigger-text');
-    chapterOptionsContainer = document.getElementById('chapter-options');
-    // 初始填充
-    populateCustomSelect(false);
-    // 触发器点击展开/关闭
-    chapterTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        chapterWrapper.classList.toggle('open');
-        if (chapterWrapper.classList.contains('open')) {
-            // 每次打开重新校准滚动位置
-            const options = chapterOptionsContainer.querySelectorAll('li');
-            if (options.length === 0) return;
-            const ids = Array.from(options).map(li => li.dataset.chapterId);
-            const idx = ids.indexOf(currentChapterId);
-            if (idx !== -1) {
-                const total = ids.length;
-                let startIdx = idx;
-                if (idx + 8 > total) startIdx = Math.max(0, total - 8);
-                chapterOptionsContainer.scrollTop = startIdx * 46;
+            // 确保当前章节被选中
+            if (chaptersToShow.includes(currentChapterId)) {
+                select.value = currentChapterId;
+            } else if (chaptersToShow.length > 0) {
+                // 如果当前章节不在书签中，选择第一个书签章节
+                loadChapter(chaptersToShow[0]);
             }
         }
-    });
 
-    // 点击外部关闭下拉
-    document.addEventListener('click', (e) => {
-        if (!chapterWrapper.contains(e.target)) {
-            chapterWrapper.classList.remove('open');
+        // 更新章节选择框状态
+        function updateChapterSelect(chapterId) {
+            const select = document.getElementById('chapter-select');
+            if (select) select.value = chapterId;
         }
-    });
 
-    // 书签过滤开关事件（保留原逻辑）
-    const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
-    if (bookmarkOnlyToggle) {
-        bookmarkOnlyToggle.addEventListener('change', function () {
-            updateChapterSelectOptions(this.checked);
-        });
-    }
-}
+        // 初始化章节选择框（原生 select，选择后自动收起）
+        function initChapterSelect() {
+            const select = document.getElementById('chapter-select');
+
+            // 初始填充所有章节
+            updateChapterSelectOptions();
+
+            // 添加change事件监听
+            select.addEventListener('change', function () {
+                loadChapter(this.value);
+            });
+
+            // 书签章节切换开关事件
+            const bookmarkOnlyToggle = document.getElementById('bookmark-only-toggle');
+            if (bookmarkOnlyToggle) {
+                bookmarkOnlyToggle.addEventListener('change', function () {
+                    updateChapterSelectOptions(this.checked);
+                });
+            }
+        }
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function () {
             // 初始化章节选择框
@@ -1396,6 +560,11 @@ function initChapterSelect() {
             // 书签图标点击事件 - 切换当前章节的书签状态
             document.getElementById('bookmark-toggle').addEventListener('click', function (e) {
                 e.preventDefault();
+                toggleBookmark(currentChapterId);
+            });
+
+            // "本章节加入书签"按钮点击事件
+            document.getElementById('bookmark-current-btn').addEventListener('click', function () {
                 toggleBookmark(currentChapterId);
             });
 
@@ -1426,52 +595,6 @@ function initChapterSelect() {
                 }
             });
 
-            // 主题切换功能
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = themeToggle.querySelector('i');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-
-            if (currentTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
-
-            themeToggle.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.body.classList.toggle('dark-mode');
-
-                if (document.body.classList.contains('dark-mode')) {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-
-            // 导航按钮悬停效果
-            const navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(btn => {
-                btn.addEventListener('mouseenter', function () {
-                    this.style.transform = 'translateY(-2px)';
-                });
-                btn.addEventListener('mouseleave', function () {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-
-            // 为导航链接添加活跃状态
-            const currentPage = window.location.pathname.split('/').pop();
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPage) {
-                    link.style.color = 'var(--light-blue)';
-                    link.style.fontWeight = '500';
-                }
-            });
         });
     </script>
 </body>

@@ -1,987 +1,285 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>《众星之环》官方小说站</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* 基础样式重置 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary-blue: #006DB7; /* 与左上蓝色区域接近的色调 */
-            --secondary-blue: #4d9de0;
-            --light-blue: #a0d2ff;
-            --dark-blue: #0a4a7a;
-            --text-dark: #333;
-            --text-light: #fff;
-            --background-light: #f5f5f5;
-            --section-padding: 60px 20px;
-            --section-alt-bg: #f0f8ff;
-        }
-
-        /* 夜间模式变量 */
-        .dark-mode {
-            --primary-blue: #0a3a5c;
-            --secondary-blue: #2d6da3;
-            --light-blue: #5a8fc2;
-            --dark-blue: #051e33;
-            --text-dark: #e0e0e0;
-            --text-light: #f0f0f0;
-            --background-light: #121212;
-            --section-alt-bg: #1a2a3a;
-        }
-
-        body {
-            background-color: var(--background-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* 导航栏样式 */
-        header {
-            background-color: var(--primary-blue);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-            .logo h1 {
-                color: var(--text-light);
-                font-size: 24px;
-                margin-left: 10px;
-                transition: color 0.3s ease;
-            }
-
-            .logo i {
-                color: var(--light-blue);
-                font-size: 28px;
-                transition: color 0.3s ease;
-            }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-            .nav-links a {
-                color: var(--text-light);
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 16px;
-                padding: 8px 12px;
-                border-radius: 4px;
-                transition: all 0.3s ease;
-            }
-
-                .nav-links a:hover {
-                    background-color: rgba(255, 255, 255, 0.2);
-                }
-
-                /* 特殊样式：前往战棋按钮 */
-                .nav-links a.battle-flag {
-                    background-color: rgba(255, 255, 255, 0.15);
-                    border: 1px solid rgba(255, 255, 255, 0.3);
-                }
-
-                    .nav-links a.battle-flag:hover {
-                        background-color: rgba(255, 255, 255, 0.25);
-                        transform: translateY(-2px);
-                    }
-
-        .nav-actions {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .search-container {
-            position: relative;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 8px 15px;
-            transition: all 0.3s ease;
-        }
-
-            .search-bar input {
-                border: none;
-                background: transparent;
-                outline: none;
-                width: 180px;
-                color: var(--text-light);
-            }
-
-                .search-bar input::placeholder {
-                    color: rgba(255, 255, 255, 0.7);
-                }
-
-            .search-bar i {
-                color: rgba(255, 255, 255, 0.7);
-                cursor: pointer;
-            }
-
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-        }
-
-        .dark-mode .search-results {
-            background-color: #2a2a2a;
-            color: var(--text-dark);
-        }
-
-        .search-result-item {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .dark-mode .search-result-item {
-            border-bottom: 1px solid #444;
-        }
-
-        .search-result-item:hover {
-            background-color: #f5f5f5;
-        }
-
-        .dark-mode .search-result-item:hover {
-            background-color: #3a3a3a;
-        }
-
-        .search-result-item:last-child {
-            border-bottom: none;
-        }
-
-        .search-result-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .search-result-preview {
-            font-size: 0.9em;
-            color: #666;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .dark-mode .search-result-preview {
-            color: #aaa;
-        }
-
-        .nav-icon {
-            font-size: 20px;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        /* 英雄区域样式 */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./picture/map.jpg');
-            background-size: cover;
-            background-position: center;
-            color: var(--text-light);
-            padding: 100px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h2 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--secondary-blue);
-            color: var(--text-light);
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-            .btn:hover {
-                background-color: var(--light-blue);
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            }
-            .more-characters {
-                width: 100%;
-                text-align: center;
-                margin-top: 2.5rem;
-                margin-bottom: 1rem;
-            }
-            .more-characters .btn {
-                display: inline-block;      /* 恢复成与原按钮一致的显示方式 */
-                width: 80%;                 /* 宽度占父容器的80%，自动比屏幕窄 */
-                max-width: 600px;           /* 大屏上限 */
-}
-
-        /* 内容区域样式 */
-        .content-section {
-            padding: var(--section-padding);
-            max-width: 1200px;
-            margin: 0 auto;
-            transition: background-color 0.3s ease;
-        }
-
-        .section-alt-bg {
-            background-color: var(--section-alt-bg);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 32px;
-            color: var(--dark-blue);
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .dark-mode .section-title {
-            color: var(--light-blue);
-        }
-
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background-color: var(--secondary-blue);
-            margin: 10px auto;
-            transition: background-color 0.3s ease;
-        }
-
-        /* 章节网格样式 */
-        .chapters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .chapter-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .dark-mode .chapter-card {
-            background-color: #2a2a2a;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .chapter-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .chapter-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center top;
-        }
-
-        .chapter-content {
-            padding: 20px;
-        }
-
-            .chapter-content h3 {
-                margin-bottom: 10px;
-                font-size: 18px;
-                color: var(--dark-blue);
-                transition: color 0.3s ease;
-            }
-
-        .dark-mode .chapter-content h3 {
-            color: var(--light-blue);
-        }
-
-        .chapter-content p {
-            transition: color 0.3s ease;
-        }
-
-        /* 设定区域样式 */
-        .setting-content {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-            transition: background-color 0.3s ease;
-        }
-
-        .dark-mode .setting-content {
-            background-color: #2a2a2a;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .setting-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .setting-item {
-            background-color: var(--background-light);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary-blue);
-            transition: background-color 0.3s ease;
-        }
-
-        .dark-mode .setting-item {
-            background-color: #333;
-        }
-
-        .setting-item h4 {
-            margin-bottom: 10px;
-            color: var(--dark-blue);
-            transition: color 0.3s ease;
-        }
-
-        .dark-mode .setting-item h4 {
-            color: var(--light-blue);
-        }
-
-        .setting-item p {
-            transition: color 0.3s ease;
-        }
-
-        /* 人物展示样式 */
-        .characters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .character-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .dark-mode .character-card {
-            background-color: #2a2a2a;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .character-img {
-            height: 250px;
-            background-size: cover;
-            background-position: center top;
-        }
-
-        .character-content {
-            padding: 20px;
-        }
-
-            .character-content h3 {
-                margin-bottom: 10px;
-                color: var(--dark-blue);
-                transition: color 0.3s ease;
-            }
-
-        .dark-mode .character-content h3 {
-            color: var(--light-blue);
-        }
-
-        .character-content p {
-            transition: color 0.3s ease;
-        }
-
-        /* 页脚样式 */
-        footer {
-            background-color: var(--dark-blue);
-            color: var(--text-light);
-            padding: 60px 20px 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--light-blue);
-            transition: color 0.3s ease;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-            .footer-links li {
-                margin-bottom: 10px;
-            }
-
-            .footer-links a {
-                color: #ccc;
-                text-decoration: none;
-                transition: color 0.3s ease;
-            }
-
-                .footer-links a:hover {
-                    color: white;
-                    text-decoration: underline;
-                }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-            .social-icons a {
-                color: white;
-                font-size: 20px;
-                transition: color 0.3s ease;
-            }
-
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 14px;
-            color: #999;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .nav-links {
-                gap: 15px;
-            }
-
-                .nav-links a {
-                    font-size: 14px;
-                    padding: 6px 10px;
-                }
-
-            .search-bar input {
-                width: 120px;
-            }
-
-            .hero h2 {
-                font-size: 36px;
-            }
-
-            .hero p {
-                font-size: 16px;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/haloblade.css">
 </head>
-<body>
-    <!-- 导航栏 -->
-    <header>
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-stars"></i>
-                <h1>众星之环</h1>
-            </div>
-            <nav class="nav-links">
-                <a href="#content">正文</a>
-                <a href="#setting">设定</a>
-                <a href="#characters">人物</a>
-                <a href="#stories">短篇</a>
-                <!-- 新增的"前往战棋"链接 -->
-                <a href="./HTMLPage2.html" class="battle-flag">前往战棋</a>
+<body class="novel">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">
+                <span class="brand-mark"><i class="fas fa-dragon"></i></span>
+                <span class="brand-text">众星之环<span class="brand-sub">HALOBLADEGAME</span></span>
+            </a>
+            <nav class="nav-links" id="nav-links">
+                <a href="HTMLPage1.html" data-nav="HTMLPage1.html">首页</a>
+                <a href="chapter1.html" data-nav="chapter1.html">正文</a>
+                <a href="premise.html" data-nav="premise.html">设定</a>
+                <a href="character1.html" data-nav="character1.html">人物</a>
+                <a href="chapter3.html" data-nav="chapter3.html">短篇</a>
+                <a href="HTMLPage2.html" class="nav-cta">前往战棋</a>
             </nav>
             <div class="nav-actions">
-                <div class="search-container">
-                    <div class="search-bar">
-                        <input type="text" id="search-input" placeholder="搜索...">
-                        <i class="fas fa-search" id="search-icon"></i>
-                    </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="搜索章节 / 人物 / 设定...">
                     <div class="search-results" id="search-results"></div>
                 </div>
-                <a href="#" class="nav-icon" id="theme-toggle"><i class="fas fa-sun"></i></a>
-                <a href="#" class="nav-icon"><i class="far fa-user"></i></a>
+                <button class="nav-icon" data-theme-toggle title="切换昼夜"><i class="fas fa-moon"></i></button>
+                <button class="nav-burger" id="nav-burger" aria-label="菜单"><i class="fas fa-bars"></i></button>
             </div>
         </div>
     </header>
 
-    <!-- 英雄区域 -->
-    <section class="hero">
-        <div class="hero-content">
-            <h2>众星之环</h2>
+    <!-- 英雄区 -->
+    <section class="hero" style="background-image: url('./picture/map.jpg')">
+        <div class="container">
+            <span class="eyebrow">EPIC FANTASY</span>
+            <h1>众星之环</h1>
             <p>光荣与牺牲，织就埃兰图尔无边的命运。</p>
-            <a href="#content" class="btn">开始阅读</a>
-        </div>
-    </section>
-
-    <!-- 正文内容区域 -->
-    <section id="content" class="content-section">
-        <h2 class="section-title">小说正文</h2>
-        <div class="chapters-grid">
-            <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/zw10.png')"></div>
-                <div class="chapter-content">
-                    <h3>序章：转封之日</h3>
-                    <p>数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
-                    <a href="./chapter1.html" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
-                </div>
-            </div>
-            <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/zw11.jpg')"></div>
-                <div class="chapter-content">
-                    <h3>第一章：混血龙裔</h3>
-                    <p>塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下。天空的色彩像是混合在雨水中脱落了一般，只剩下朦胧的灰色。</p>
-                    <a href="./chapter1.html?chapter=chapter1" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
-                </div>
-            </div>
-            <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/zw12.jpg')"></div>
-                <div class="chapter-content">
-                    <h3>第二章："渎职之罪"</h3>
-                    <p>裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。</p>
-                    <a href="./chapter1.html?chapter=chapter2" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
-                </div>
+            <div class="btn-row">
+                <a href="#content" class="btn btn-gold btn-lg"><i class="fas fa-book-open"></i> 开始阅读</a>
+                <a href="#setting" class="btn btn-ghost btn-lg">探索设定</a>
             </div>
         </div>
     </section>
 
-    <!-- 设定区域 -->
-    <section id="setting" class="content-section section-alt-bg">
-        <h2 class="section-title">世界观设定</h2>
-        <div class="setting-content">
-            <h3>埃兰图尔</h3>
-            <p>一个谱写不朽之荣耀的大地，人类刚刚从深渊一般的战争中醒来，执行官们正背负着牺牲，维持那稳固而脆弱的秩序。然而，各国无法染指之地，正欲奏响星环的哀歌。</p>
-
-            <div class="setting-grid" style="margin-top: 30px;">
-                <div class="setting-item">
-                    <h4>乌提卡帝国</h4>
-                    <p>
-                        如今东大陆四国文明共同的先祖、人类文明发展史的至高巅峰、不可复制的伟大奇迹——乌提卡帝国。乌提卡帝国的雏形奠立于文明上古时代的末期。彼时东大陆诸部族基本完成了领地划分，强弱兼并，留下的是实力最为强悍的阿达岚部族、塔梵部族、亚卡汶部族和焱部族。
-                    </p>
+    <!-- 正文 -->
+    <section id="content" class="section">
+        <div class="container">
+            <h2 class="section-title is-deco">小说正文</h2>
+            <p class="section-subtitle">从序章出发，踏入源流与剑的史诗。</p>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/zw10.png')"></div>
+                    <div class="card-body">
+                        <span class="badge-pill is-blue">序章</span>
+                        <h3 style="margin-top:10px;">转封之日</h3>
+                        <p>数千年前，乌提卡人相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。</p>
+                        <div class="card-foot">
+                            <span class="badge-pill">正文</span>
+                            <a href="./chapter1.html" class="btn btn-outline btn-sm">阅读</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="setting-item">
-                    <h4>神秘术</h4>
-                    <p>现代神秘术是古典神秘术，物质技术和现代科学的结合。本质上是通过意识引导来使用源流，实现元素生成与操控，增幅和附魔等等效果每个人都拥有神秘术的才能，他们中的佼佼者组织了“术士联席会”</p>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/zw11.jpg')"></div>
+                    <div class="card-body">
+                        <span class="badge-pill is-blue">第一章</span>
+                        <h3 style="margin-top:10px;">混血龙裔</h3>
+                        <p>塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下，只剩下朦胧的灰色。</p>
+                        <div class="card-foot">
+                            <span class="badge-pill">正文</span>
+                            <a href="./chapter1.html?chapter=chapter1" class="btn btn-outline btn-sm">阅读</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="setting-item">
-                    <h4>执行局</h4>
-                    <p>央都新秩序建立以来，世界各国一直寻求一种尽可能避免战争的国际对抗方案。同时为了应对长期威胁人类的奇美拉威胁，各国执行局应运而生。为这些部门工作的人称为执行官，他们特色鲜明，但均以对抗奇美拉和替代本国军事力量参与国际争端为旨。</p>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/zw12.jpg')"></div>
+                    <div class="card-body">
+                        <span class="badge-pill is-blue">第二章</span>
+                        <h3 style="margin-top:10px;">“渎职之罪”</h3>
+                        <p>裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。</p>
+                        <div class="card-foot">
+                            <span class="badge-pill">正文</span>
+                            <a href="./chapter1.html?chapter=chapter2" class="btn btn-outline btn-sm">阅读</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="setting-item">
-                    <h4>奇美拉</h4>
-                    <p>千年内人类最大的威胁，那些来自落陷时代的亵渎法术创造了这些臃肿、扭曲、疯狂的半人生物；但各国早已掌握另一可怕事实——那些有智慧的、外形高度类人的高阶奇美拉正在组织整个部族。</p>
-                </div>
+            </div>
+            <div style="text-align:center; margin-top: 30px;">
+                <a href="./chapter1.html" class="btn btn-primary"><i class="fas fa-book-open"></i> 阅读全文</a>
             </div>
         </div>
     </section>
 
-    <!-- 人物介绍区域 -->
-    <section id="characters" class="content-section">
-        <h2 class="section-title">主要人物</h2>
-        <div class="characters-grid">
-            <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c1.jpg'); height: 340px; ";></div>
-                <div class="character-content">
-                    <h3>艾卡纳罗</h3>
-                    <p>
-                        “奎隆之刃”塔尔-艾卡纳罗，猎影者执行部与栖桐台执行部双选的五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，年轻的异种之灾、异端之祸。身为龙裔与焱族共同血脉的后代，其继承了乌提卡帝国先祖的骄傲与力量，在如今黑云压城的局势之下，誓要带领崭新的执行局与黑暗之主决一死战。
-                    </p>
+    <!-- 设定 -->
+    <section id="setting" class="section" style="background: var(--bg-soft);">
+        <div class="container">
+            <h2 class="section-title is-deco">世界观设定</h2>
+            <p class="section-subtitle">埃兰图尔——一个谱写不朽之荣耀的大地。</p>
+            <div class="panel" style="margin-bottom: 26px;">
+                <h3 style="color: var(--primary-2); margin-bottom: 10px;">埃兰图尔</h3>
+                <p style="color: var(--ink-soft);">人类刚刚从深渊一般的战争中醒来，执行官们正背负着牺牲，维持那稳固而脆弱的秩序。然而，各国无法染指之地，正欲奏响星环的哀歌。</p>
+            </div>
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                <div class="panel" style="border-left: 3px solid var(--primary-2);">
+                    <h4 style="color: var(--primary-2); margin-bottom: 8px;">乌提卡帝国</h4>
+                    <p style="font-size:14px; color:var(--ink-soft);">东大陆四国文明共同的先祖、人类文明发展史的至高巅峰。其雏形奠立于上古时代末期，由阿达岚、塔梵、亚卡汶与焱诸部族强弱兼并而来。</p>
+                </div>
+                <div class="panel" style="border-left: 3px solid var(--gold-2);">
+                    <h4 style="color: var(--gold); margin-bottom: 8px;">神秘术</h4>
+                    <p style="font-size:14px; color:var(--ink-soft);">古典神秘术、物质技术与现代科学的结合。通过意识引导使用源流，实现元素生成与操控、增幅与附魔。佼佼者组织了“术士联席会”。</p>
+                </div>
+                <div class="panel" style="border-left: 3px solid var(--primary-2);">
+                    <h4 style="color: var(--primary-2); margin-bottom: 8px;">执行局</h4>
+                    <p style="font-size:14px; color:var(--ink-soft);">为应对奇美拉威胁与避免战争而生的国际部门。为其工作的人称为执行官，均以对抗奇美拉、替代本国军事力量参与国际争端为旨。</p>
+                </div>
+                <div class="panel" style="border-left: 3px solid var(--crimson);">
+                    <h4 style="color: var(--crimson); margin-bottom: 8px;">奇美拉</h4>
+                    <p style="font-size:14px; color:var(--ink-soft);">千年内人类最大的威胁。落陷时代的亵渎法术创造了这些臃肿、扭曲的半人生物；而高阶奇美拉正在组织整个部族。</p>
                 </div>
             </div>
-            <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c2.jpeg') ; height: 340px;";></div>
-                <div class="character-content">
-                    <h3>青川弘一</h3>
-                    <p>“惊霆”青川弘一，猎影者执行部远东局总长，五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，岩山大将军。继承古老家格的惊霆王爵同时身负伟大命运和深重诅咒，在遍历大陆的浪人生涯中他将在每一个十字路口做出黑暗或光明的艰难抉择，始终以手中之剑印证心中之道。</p>
-                </div>
+            <div style="text-align:center; margin-top: 30px;">
+                <a href="premise.html" class="btn btn-primary"><i class="fas fa-archive"></i> 查看完整设定档案</a>
             </div>
-            <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c3.jpeg'); height: 340px;";></div>
-                <div class="character-content">
-                    <h3>穆越</h3>
-                    <p>“溯风神剑”穆越，栖桐台执行部南洋局总长，五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，清州公。崇高、强大和无私精神在菁英一代年轻执行官中的化身，自幼受到沉重责任束缚的他从未真正将任何与己相关的事物放在首位，即便身心俱疲也始终得体且坚韧地用言辞与刀剑同任何异己抗争。</p>
-                </div>
-            </div>
-            <div class="character-card">
-                <div class="character-img" style="background-image: url('./picture/c4.jpeg'); height: 340px;";></div>
-                <div class="character-content">
-                    <h3>凯伊兰·费雅图瑞</h3>
-                    <p>“银辉”凯伊兰·费雅图瑞，风暴公使执行部五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，艾多雷斯帝国公主。相比于凌厉的能力锋芒，优雅美丽的外表只是这位年轻兰希族公主最微不足道的特质。在了却权斗驳杂后，她如今更倾向于将热爱和忠诚投注于挚友艾卡纳罗和其团队的伟大事业中。</p>
-                </div>
-            </div>
-            </div>
-            <div class="more-characters">
-            <a href="./character1.html" class="btn">更多角色</a>
-            </div>
+        </div>
     </section>
 
-    <!-- 短篇故事区域 -->
-    <section id="stories" class="content-section section-alt-bg">
-        <h2 class="section-title">短篇故事</h2>
-        <div class="chapters-grid">
-            <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/s1.png')"></div>
-                <div class="chapter-content">
-                    <h3>不是历史教授者</h3>
-                    <p>“历史也是随着潮流变化的，纪小姐。”</p>
-                    <a href="./chapter3.html" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+    <!-- 人物 -->
+    <section id="characters" class="section">
+        <div class="container">
+            <h2 class="section-title is-deco">主要人物</h2>
+            <p class="section-subtitle">追猎者刃卫的菁英执行官们。</p>
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/c1.jpg'); height: 320px;"></div>
+                    <div class="card-body">
+                        <h3>艾卡纳罗</h3>
+                        <p>“奎隆之刃”，龙裔与焱族血脉的后代，誓要带领崭新的执行局与黑暗之主决一死战。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/c2.jpeg'); height: 320px;"></div>
+                    <div class="card-body">
+                        <h3>青川弘一</h3>
+                        <p>“惊霆”，岩山大将军，始终以手中之剑印证心中之道。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/c3.jpeg'); height: 320px;"></div>
+                    <div class="card-body">
+                        <h3>穆越</h3>
+                        <p>“溯风神剑”，清州公，菁英一代年轻执行官中的化身。</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/c4.jpeg'); height: 320px;"></div>
+                    <div class="card-body">
+                        <h3>凯伊兰·费雅图瑞</h3>
+                        <p>“银辉”，艾多雷斯帝国公主，将忠诚投注于挚友的伟大事业。</p>
+                    </div>
                 </div>
             </div>
-            <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/s2.png')"></div>
-                <div class="chapter-content">
-                    <h3>走过的地方</h3>
-                    <p>青川弘一终于回到了那条石子路。他此前刻意把速度放的很慢</p>
-                    <a href="./chapter3.html?chapter=s2" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
-                </div>
+            <div style="text-align:center; margin-top: 30px;">
+                <a href="./character1.html" class="btn btn-primary"><i class="fas fa-users"></i> 更多角色</a>
             </div>
-            <div class="chapter-card">
-                <div class="chapter-img" style="background-image: url('./picture/s3.png')"></div>
-                <div class="chapter-content">
-                    <h3>断章：上一世代</h3>
-                    <p>央都国际执行官联合会，全球巡查第一小组。</p>
-                    <a href="./chapter3.html?chapter=s3" class="btn" style="padding: 8px 15px; font-size: 14px; margin-top: 10px; display: inline-block;">阅读</a>
+        </div>
+    </section>
+
+    <!-- 短篇 -->
+    <section id="stories" class="section" style="background: var(--bg-soft);">
+        <div class="container">
+            <h2 class="section-title is-deco">短篇故事</h2>
+            <p class="section-subtitle">散落于正传之外的星火。</p>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/s1.png')"></div>
+                    <div class="card-body">
+                        <h3>不是历史教授者</h3>
+                        <p>“历史也是随着潮流变化的，纪小姐。”</p>
+                        <div class="card-foot">
+                            <a href="./chapter3.html" class="btn btn-outline btn-sm">阅读</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/s2.png')"></div>
+                    <div class="card-body">
+                        <h3>走过的地方</h3>
+                        <p>青川弘一终于回到了那条石子路。他此前刻意把速度放的很慢。</p>
+                        <div class="card-foot">
+                            <a href="./chapter3.html?chapter=s2" class="btn btn-outline btn-sm">阅读</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-media" style="background-image: url('./picture/s3.png')"></div>
+                    <div class="card-body">
+                        <h3>断章：上一世代</h3>
+                        <p>央都国际执行官联合会，全球巡查第一小组。</p>
+                        <div class="card-foot">
+                            <a href="./chapter3.html?chapter=s3" class="btn btn-outline btn-sm">阅读</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 页脚 -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h4>关于我们</h4>
-                <ul class="footer-links">
-                    <li><a href="#">作品介绍</a></li>
-                    <li><a href="#">作者简介</a></li>
-                    <li><a href="#">创作历程</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>阅读资源</h4>
-                <ul class="footer-links">
-                    <li><a href="#">全部章节</a></li>
-                    <li><a href="#">设定集</a></li>
-                    <li><a href="#">角色图鉴</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>社区互动</h4>
-                <ul class="footer-links">
-                    <li><a href="#">读者讨论区</a></li>
-                    <li><a href="#">同人作品</a></li>
-                    <li><a href="#">读者问答</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>关注我们</h4>
-                <p>获取最新更新和创作幕后</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-weibo"></i></a>
-                    <a href="#"><i class="fab fa-weixin"></i></a>
-                    <a href="#"><i class="fab fa-qq"></i></a>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>关于我们</h4>
+                    <ul><li><a href="#">作品介绍</a></li><li><a href="#">作者简介</a></li><li><a href="#">创作历程</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>阅读资源</h4>
+                    <ul><li><a href="chapter1.html">全部章节</a></li><li><a href="premise.html">设定集</a></li><li><a href="character1.html">角色图鉴</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>社区互动</h4>
+                    <ul><li><a href="#">读者讨论区</a></li><li><a href="#">同人作品</a></li><li><a href="#">读者问答</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <p>获取最新更新和创作幕后</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="copyright">
-            <p>© 2023 《众星之环》官方小说站. 保留所有权利。</p>
+            <div class="footer-bottom">
+                <span>© 2023 《众星之环》官方小说站. 保留所有权利。</span>
+                <span><i class="fas fa-dragon" style="color: var(--gold-2);"></i> HALOBLADEGAME</span>
+            </div>
         </div>
     </footer>
 
+    <script src="./js/data.js"></script>
+    <script src="./js/haloblade.js"></script>
     <script>
-        // 主题切换功能
-        document.addEventListener('DOMContentLoaded', function () {
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = themeToggle.querySelector('i');
+        (function () {
+            var searchInput = document.getElementById('search-input');
+            var searchResults = document.getElementById('search-results');
 
-            // 检查本地存储的主题偏好
-            const currentTheme = localStorage.getItem('theme') || 'light';
-
-            // 应用保存的主题
-            if (currentTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
-
-            // 主题切换事件
-            themeToggle.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                document.body.classList.toggle('dark-mode');
-
-                if (document.body.classList.contains('dark-mode')) {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-
-            // 平滑滚动
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
-            // 导航栏高亮
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-links a');
-
-            window.addEventListener('scroll', function () {
-                let current = '';
-
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (scrollY >= (sectionTop - 100)) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-
-            // 为"前往战棋"链接添加点击事件（如果需要特殊处理）
-            document.querySelector('a.battle-flag').addEventListener('click', function (e) {
-                // 可以在这里添加任何特殊逻辑
-                console.log('前往战棋链接被点击');
-                // 如果需要阻止默认行为并添加特殊逻辑，可以取消下面的注释
-                // e.preventDefault();
-                // 自定义逻辑...
-            });
-
-            // 搜索功能
-            const searchInput = document.getElementById('search-input');
-            const searchResults = document.getElementById('search-results');
-            const searchIcon = document.getElementById('search-icon');
-
-            // 搜索数据
-            const searchData = [
-                {
-                    title: "序章：转封之日",
-                    content: "数千年前，乌提卡人(Utikerien)相信大地和天空都拥有各自的记忆。它们至高的意志就体现在世间万物陆离的命运之中。",
-                    url: "./chapter1.html",
-                    type: "章节"
-                },
-                {
-                    title: "第一章：混血龙裔",
-                    content: "塔尔-艾卡纳罗的沉默已经持续了很久。窗外的细雨停了又下。天空的色彩像是混合在雨水中脱落了一般，只剩下朦胧的灰色。",
-                    url: "./chapter1.html?chapter=chapter1",
-                    type: "章节"
-                },
-                {
-                    title: "第二章：渎职之罪",
-                    content: "裴赫杜恩-塔里楠面无表情地挥手遣散了十二个小时前慌忙组建的参谋部。",
-                    url: "./chapter1.html?chapter=chapter2",
-                    type: "章节"
-                },
-                {
-                    title: "埃兰图尔",
-                    content: "一个谱写不朽之荣耀的大地，人类刚刚从深渊一般的战争中醒来，执行官们正背负着牺牲，维持那稳固而脆弱的秩序。然而，各国无法染指之地，正欲奏响星环的哀歌。",
-                    url: "#setting",
-                    type: "设定"
-                },
-                {
-                    title: "乌提卡帝国",
-                    content: "如今东大陆四国文明共同的先祖、人类文明发展史的至高巅峰、不可复制的伟大奇迹——乌提卡帝国。乌提卡帝国的雏形奠立于文明上古时代的末期。彼时东大陆诸部族基本完成了领地划分，强弱兼并，留下的是实力最为强悍的阿达岚部族、塔梵部族、亚卡汶部族和焱部族。",
-                    url: "#setting",
-                    type: "设定"
-                },
-                {
-                    title: "神秘术",
-                    content: "现代神秘术是古典神秘术，物质技术和现代科学的结合。本质上是通过意识引导来使用源流，实现元素生成与操控，增幅和附魔等等效果每个人都拥有神秘术的才能，他们中的佼佼者组织了“术士联席会”",
-                    url: "#setting",
-                    type: "设定"
-                },
-                {
-                    title: "执行局",
-                    content: "央都新秩序建立以来，世界各国一直寻求一种尽可能避免战争的国际对抗方案。同时为了应对长期威胁人类的奇美拉威胁，各国执行局应运而生。为这些部门工作的人称为执行官，他们特色鲜明，但均以对抗奇美拉和替代本国军事力量参与国际争端为旨。",
-                    url: "#setting",
-                    type: "设定"
-                },
-                {
-                    title: "奇美拉",
-                    content: "千年内人类最大的威胁，那些来自落陷时代的亵渎法术创造了这些臃肿、扭曲、疯狂的半人生物；但各国早已掌握另一可怕事实——那些有智慧的、外形高度类人的高阶奇美拉正在组织整个部族。",
-                    url: "#setting",
-                    type: "设定"
-                },
-                {
-                    title: "艾卡纳罗",
-                    content: "“奎隆之刃”塔尔-艾卡纳罗，猎影者执行部与栖桐台执行部双选的五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，年轻的异种之灾、异端之祸。身为龙裔与焱族共同血脉的后代，其继承了乌提卡帝国先祖的骄傲与力量，在如今黑云压城的局势之下，誓要带领崭新的执行局与黑暗之主决一死战。",
-                    url: "#characters",
-                    type: "人物"
-                },
-                {
-                    title: "青川弘一",
-                    content: "“惊霆”青川弘一，猎影者执行部远东局总长，五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，岩山大将军。继承古老家格的惊霆王爵同时身负伟大命运和深重诅咒，在遍历大陆的浪人生涯中他将在每一个十字路口做出黑暗或光明的艰难抉择，始终以手中之剑印证心中之道。",
-                    url: "#characters",
-                    type: "人物"
-                },
-                {
-                    title: "穆越",
-                    content: "“溯风神剑”穆越，栖桐台执行部南洋局总长，五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，清州公。崇高、强大和无私精神在菁英一代年轻执行官中的化身，自幼受到沉重责任束缚的他从未真正将任何与己相关的事物放在首位，即便身心俱疲也始终得体且坚韧地用言辞与刀剑同任何异己抗争。",
-                    url: "#characters",
-                    type: "人物"
-                },
-                {
-                    title: "凯伊兰·费雅图瑞",
-                    content: "“银辉”凯伊兰·费雅图瑞，风暴公使执行部五阶执行官，王爵级中阶，追猎者刃卫荣誉头衔拥有者，艾多雷斯帝国公主。相比于凌厉的能力锋芒，优雅美丽的外表只是这位年轻兰希族公主最微不足道的特质。在了却权斗驳杂后，她如今更倾向于将热爱和忠诚投注于挚友艾卡纳罗和其团队的伟大事业中。",
-                    url: "#characters",
-                    type: "人物"
-                },
-                {
-                    title: "不是历史教授者",
-                    content: "“历史也是随着潮流变化的，纪小姐。”",
-                    url: "#stories",
-                    type: "短篇"
-                },
-                {
-                    title: "短篇：走过的地方",
-                    content: "青川弘一终于回到了那条石子路。他此前刻意把速度放的很慢",
-                    url: "#stories",
-                    type: "短篇"
-                },
-                {
-                    title: "断章：上一世代",
-                    content: "央都国际执行官联合会，全球巡查第一小组。",
-                    url: "#stories",
-                    type: "短篇"
-                }
-            ];
-
-            // 搜索功能
             function performSearch() {
-                const query = searchInput.value.trim().toLowerCase();
+                var query = searchInput.value.trim().toLowerCase();
+                if (!query) { searchResults.style.display = 'none'; return; }
 
-                if (query.length === 0) {
-                    searchResults.style.display = 'none';
-                    return;
-                }
+                var results = HB_DATA.novelSearch.filter(function (item) {
+                    return item.title.toLowerCase().indexOf(query) > -1 || item.content.toLowerCase().indexOf(query) > -1;
+                });
 
-                const results = searchData.filter(item =>
-                    item.title.toLowerCase().includes(query) ||
-                    item.content.toLowerCase().includes(query)
-                );
-
-                if (results.length === 0) {
+                if (!results.length) {
                     searchResults.innerHTML = '<div class="search-result-item">未找到相关结果</div>';
                 } else {
-                    searchResults.innerHTML = results.map(item => `
-                            <div class="search-result-item" data-url="${item.url}">
-                                <div class="search-result-title">${item.title} <span style="font-size: 0.8em; color: #888;">[${item.type}]</span></div>
-                                <div class="search-result-preview">${item.content}</div>
-                            </div>
-                        `).join('');
+                    searchResults.innerHTML = results.map(function (item) {
+                        return '<div class="search-result-item" data-url="' + HB.util.escapeHtml(item.url) + '">' +
+                            '<div style="flex:1; min-width:0;">' +
+                            '<div class="search-result-title">' + HB.util.escapeHtml(item.title) +
+                            ' <span class="search-result-tag">[' + item.type + ']</span></div>' +
+                            '<div class="search-result-preview">' + HB.util.escapeHtml(item.content) + '</div>' +
+                            '</div></div>';
+                    }).join('');
                 }
-
                 searchResults.style.display = 'block';
 
-                // 添加结果点击事件
-                document.querySelectorAll('.search-result-item').forEach(item => {
-                    item.addEventListener('click', function () {
-                        const url = this.getAttribute('data-url');
-                        if (url.startsWith('#')) {
-                            // 页面内跳转
-                            const targetElement = document.querySelector(url);
-                            if (targetElement) {
-                                window.scrollTo({
-                                    top: targetElement.offsetTop - 80,
-                                    behavior: 'smooth'
-                                });
-                            }
+                HB.util.$$('.search-result-item', searchResults).forEach(function (el) {
+                    el.addEventListener('click', function () {
+                        var url = el.getAttribute('data-url');
+                        if (url.charAt(0) === '#') {
+                            var target = document.querySelector(url);
+                            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         } else {
-                            // 外部链接
                             window.location.href = url;
                         }
                         searchResults.style.display = 'none';
@@ -990,24 +288,22 @@
                 });
             }
 
-            // 搜索事件监听
             searchInput.addEventListener('input', performSearch);
-            searchIcon.addEventListener('click', performSearch);
-
-            // 点击搜索图标或按回车键执行搜索
-            searchInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-
-            // 点击页面其他区域关闭搜索结果
+            searchInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') performSearch(); });
             document.addEventListener('click', function (e) {
-                if (!e.target.closest('.search-container')) {
-                    searchResults.style.display = 'none';
-                }
+                if (!e.target.closest('.search-box')) searchResults.style.display = 'none';
             });
-        });
+
+            /* 平滑滚动（含 sticky 头部偏移） */
+            HB.util.$$('a[href^="#"]').forEach(function (a) {
+                a.addEventListener('click', function (e) {
+                    var id = this.getAttribute('href');
+                    if (id === '#') return;
+                    var target = document.querySelector(id);
+                    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                });
+            });
+        })();
     </script>
 </body>
 </html>
