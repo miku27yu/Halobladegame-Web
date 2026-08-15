@@ -111,24 +111,31 @@
             var split = document.getElementById('portal-split');
             var LEFT_URL = './HTMLPage1.html';
             var RIGHT_URL = './HTMLPage2.html';
+            var isMobile = window.matchMedia('(max-width: 768px)').matches;
 
             function sideOf(e) {
                 var rect = split.getBoundingClientRect();
                 var x = e.clientX - rect.left;
                 var y = e.clientY - rect.top;
+                if (isMobile) {
+                    /* 移动端：上半=小说，下半=战棋 */
+                    return y < rect.height / 2;
+                }
                 /* 反斜对角线（右上→左下）：x/W + y/H < 1 视为左上侧 */
                 return (x / rect.width + y / rect.height) < 1;
             }
 
             if (split) {
-                split.addEventListener('mousemove', function (e) {
-                    var left = sideOf(e);
-                    split.classList.toggle('left-hover', left);
-                    split.classList.toggle('right-hover', !left);
-                });
-                split.addEventListener('mouseleave', function () {
-                    split.classList.remove('left-hover', 'right-hover');
-                });
+                if (!isMobile) {
+                    split.addEventListener('mousemove', function (e) {
+                        var left = sideOf(e);
+                        split.classList.toggle('left-hover', left);
+                        split.classList.toggle('right-hover', !left);
+                    });
+                    split.addEventListener('mouseleave', function () {
+                        split.classList.remove('left-hover', 'right-hover');
+                    });
+                }
                 split.addEventListener('click', function (e) {
                     window.location.href = sideOf(e) ? LEFT_URL : RIGHT_URL;
                 });

@@ -1640,14 +1640,23 @@ body.shop .fav-item-price { color: var(--crimson); }
     .nav-links a { padding: 13px 14px; border-radius: 10px; }
     .nav-links a.nav-cta { margin-left: 0; }
     .nav-burger { display: grid; place-items: center; }
-    .search-box input { width: 150px; }
-    .search-box input:focus { width: 190px; }
+    /* 移动端头部紧凑化：隐藏搜索框与占位账户图标，缩小品牌与图标 */
+    .site-header .search-box { display: none; }
+    .site-header .nav-actions { gap: 6px; }
+    .site-header .nav-icon { width: 36px; height: 36px; }
+    .brand-text { font-size: 17px; }
+    .brand-mark { width: 34px; height: 34px; font-size: 17px; }
+    .brand-sub { display: none; }
+    body.shop .nav-icon[title="账户"] { display: none; }
     .portal-grid { grid-template-columns: 1fr; gap: 22px; }
     .portal-top { padding: 16px 20px; }
     .diagonal-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 160px); min-height: 0; }
     .diagonal-option { clip-path: none !important; }
     .reader-nav { flex-direction: column; }
     .reader-nav .btn { width: 100%; }
+    .chapter-nav { flex-direction: column; }
+    .chapter-nav .nav-btn { width: 100%; justify-content: center; }
+    .chapter-text { font-size: 16px; }
     .footer-bottom { justify-content: center; text-align: center; }
     .character-card-flip { width: 240px; height: 306px; }
     .filter-bar { align-items: stretch; }
@@ -1782,14 +1791,24 @@ body.novel .site-header .search-box > i { color: rgba(255, 255, 255, 0.7); }
 .portal-split.right-hover .split-content-left { top: 5%; left: 5%; opacity: 0.6; }
 
 @media (max-width: 768px) {
-    .portal-center { top: 14%; }
-    .portal-split { position: relative; display: flex; flex-direction: column; inset: auto; min-height: 60vh; }
+    .portal-center { top: 13%; }
+    .portal-center .eyebrow { display: none; }
+    .portal-center h1 { font-size: 34px; margin: 4px 0; }
+    .portal-center p { display: none; }
+    .portal-top { padding: 14px 18px; }
+    .portal-title { font-size: 16px; }
+    .portal-title i { font-size: 18px; }
+    .portal-split { position: absolute; inset: 0; z-index: 1; }
     .split-pane.split-left { clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%) !important; }
     .split-pane.split-right { clip-path: polygon(0 100%, 100% 100%, 100% 50%, 0 50%) !important; }
     .border-effect { display: none; }
-    .split-content-left { top: 14% !important; left: 7% !important; }
-    .split-content-right { bottom: 14% !important; right: 7% !important; }
-    .split-content h2 { font-size: 26px !important; }
-    .split-content p { font-size: 14px !important; }
+    .split-content { max-width: 100%; text-align: center; }
+    .split-content-left { top: 24% !important; left: 0 !important; right: 0 !important; }
+    .split-content-right { bottom: 24% !important; right: 0 !important; left: 0 !important; }
+    .split-content i { font-size: 28px; margin-bottom: 6px; }
+    .split-content h2 { font-size: 22px !important; margin-bottom: 6px; }
+    .split-content p { font-size: 12px !important; margin-bottom: 10px; max-width: 300px; margin-left: auto; margin-right: auto; }
+    .split-cta { font-size: 12px; padding: 6px 14px; }
     .split-content-left, .split-content-right { opacity: 1 !important; }
+    .portal-footnote { display: none; }
 }
