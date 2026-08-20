@@ -30,18 +30,8 @@
 
         <!-- 左上/右下斜线二分：整侧为一个按钮，悬停扩张并挤压另一侧 -->
         <div class="portal-split" id="portal-split">
-            <div class="split-pane split-left" id="split-left">
-                <div class="border-effect fx-circle fx-novel" style="top: 13%; left: 3%; width: 150px; height: 150px; background-image: url('./picture/c1.jpg');"></div>
-                <div class="border-effect fx-circle fx-novel" style="top: 5%; left: 15%; width: 92px; height: 92px; background-image: url('./picture/c2.jpeg'); transform: rotate(7deg);"></div>
-                <div class="border-effect fx-round fx-novel" style="top: 21%; left: 1%; width: 108px; height: 136px; background-image: url('./picture/c3.jpeg'); transform: rotate(-7deg);"></div>
-                <div class="border-effect fx-circle fx-novel" style="top: 2%; left: 6%; width: 78px; height: 78px; background-image: url('./picture/c4.jpeg'); transform: rotate(-5deg);"></div>
-            </div>
-            <div class="split-pane split-right" id="split-right">
-                <div class="border-effect fx-round fx-shop" style="bottom: 12%; right: 3%; width: 148px; height: 148px; background-image: url('./picture/chosen-blood.jpg');"></div>
-                <div class="border-effect fx-round fx-shop" style="bottom: 5%; right: 14%; width: 98px; height: 124px; background-image: url('./picture/land-cannon.jpg'); transform: rotate(-6deg);"></div>
-                <div class="border-effect fx-circle fx-shop" style="bottom: 20%; right: 2%; width: 96px; height: 96px; background-image: url('./picture/wings-nights.jpg'); transform: rotate(6deg);"></div>
-                <div class="border-effect fx-round fx-shop" style="bottom: 3%; right: 6%; width: 82px; height: 82px; background-image: url('./picture/storm-bringers.jpg'); transform: rotate(5deg);"></div>
-            </div>
+            <div class="split-pane split-left" id="split-left"><!-- 人物虚影由 JS 生成 --></div>
+            <div class="split-pane split-right" id="split-right"><!-- 剑刃与投影由 JS 生成 --></div>
 
             <div class="split-content split-content-left">
                 <i class="fas fa-book-open"></i>
@@ -138,6 +128,77 @@
                 }
                 split.addEventListener('click', function (e) {
                     window.location.href = sideOf(e) ? LEFT_URL : RIGHT_URL;
+                });
+            }
+
+            /* ---- 两侧装饰：图片本体 + 同位置黑灰影子（同一动画不同速度 = 差速立体） ---- */
+            function buildUnits(pane, items, shapeClass) {
+                items.forEach(function (it) {
+                    var unit = document.createElement('div');
+                    unit.className = 'fx-unit ' + shapeClass;
+                    if (it.top !== undefined) unit.style.top = it.top;
+                    if (it.left !== undefined) unit.style.left = it.left;
+                    if (it.bottom !== undefined) unit.style.bottom = it.bottom;
+                    if (it.right !== undefined) unit.style.right = it.right;
+                    unit.style.width = (typeof it.w === 'number') ? it.w + 'px' : it.w;
+                    unit.style.height = (typeof it.h === 'number') ? it.h + 'px' : it.h;
+                    unit.style.transitionDelay = it.delay + 's';
+                    if (it.rot) unit.style.setProperty('--rot', it.rot);
+
+                    var shadow = document.createElement('div');
+                    shadow.className = 'fx-shadow-fig';
+                    shadow.style.backgroundImage = "url('" + it.img + "')";
+                    unit.appendChild(shadow);
+
+                    var body = document.createElement('div');
+                    body.className = 'fx-fig ' + it.cls;
+                    body.style.backgroundImage = "url('" + it.img + "')";
+                    unit.appendChild(body);
+
+                    pane.appendChild(unit);
+                });
+            }
+
+            var leftPane = document.getElementById('split-left');
+            if (leftPane) {
+                buildUnits(leftPane, [
+                    { img: './picture/c7.jpg',  cls: 'portrait',       top: '3%',   left: '0%',    w: '5.2vw', h: '5.2vw', rot: '-12deg', delay: 0.05 },
+                    { img: './picture/c5.jpg',  cls: 'portrait',       top: '16%',  left: '0.5%',  w: '6vw',   h: '6vw',   rot: '-15deg', delay: 0.15 },
+                    { img: './picture/c4.jpg',  cls: 'portrait',       top: '0%',   left: '6%',    w: '6.4vw', h: '6.4vw', rot: '-4deg',  delay: 0.25 },
+                    { img: './picture/c3.jpg',  cls: 'portrait',       top: '15%',  left: '19%',   w: '6vw',   h: '6vw',   rot: '10deg',  delay: 0.35 },
+                    { img: './picture/c2.jpg',  cls: 'portrait',       top: '0.5%', left: '22%',   w: '6vw',   h: '6vw',   rot: '5deg',   delay: 0.45 },
+                    { img: './picture/c6.jpg',  cls: 'portrait',       top: '9%',   left: '27.5%', w: '5.4vw', h: '5.4vw', rot: '14deg',  delay: 0.55 },
+                    { img: './picture/c1.jpg',  cls: 'portrait-front', top: '5.5%', left: '12%',   w: '7.6vw', h: '7.6vw', rot: '-3deg',  delay: 0.65 }
+                ], 'fx-unit-portrait');
+            }
+
+            var rightPane = document.getElementById('split-right');
+            if (rightPane) {
+                buildUnits(rightPane, [
+                    { img: './picture/christopher-romion.jpg', cls: 'card-front', bottom: '6%',  right: '12%', w: 140, h: 150, rot: '3deg',   delay: 0.05 },
+                    { img: './picture/chosen-blood.jpg',      cls: 'card',       bottom: '4%',  right: '24%', w: 104, h: 130, rot: '-10deg', delay: 0.15 },
+                    { img: './picture/land-cannon.jpg',       cls: 'card',       bottom: '12%', right: '3%',  w: 118, h: 130, rot: '8deg',   delay: 0.25 },
+                    { img: './picture/wings-nights.jpg',      cls: 'card',       bottom: '1%',  right: '33%', w: 84,  h: 112, rot: '-17deg', delay: 0.35 },
+                    { img: './picture/storm-bringers.jpg',    cls: 'card',       bottom: '17%', right: '15%', w: 92,  h: 118, rot: '13deg',  delay: 0.45 },
+                    { img: './picture/tactical-advancer.jpg', cls: 'card',       bottom: '9%',  right: '-5%', w: 110, h: 130, rot: '-7deg',  delay: 0.55 },
+                    { img: './picture/dyxz.jpg',              cls: 'card',       bottom: '-9%', right: '26%', w: 86,  h: 110, rot: '18deg',  delay: 0.65 }
+                ], 'fx-unit-card');
+
+                var gleams = [
+                    { bottom: '3%',  right: '24%', w: 160, rot: '26deg',  delay: 0.7 },
+                    { bottom: '14%', right: '1%',  w: 130, rot: '-30deg', delay: 0.9 },
+                    { bottom: '22%', right: '10%', w: 140, rot: '10deg',  delay: 1.1 },
+                    { bottom: '9%',  right: '33%', w: 100, rot: '-12deg', delay: 1.3 }
+                ];
+                gleams.forEach(function (g) {
+                    var el = document.createElement('div');
+                    el.className = 'fx-gleam';
+                    el.style.bottom = g.bottom;
+                    el.style.right = g.right;
+                    el.style.width = g.w + 'px';
+                    el.style.transform = 'rotate(' + g.rot + ')';
+                    el.style.animationDelay = g.delay + 's';
+                    rightPane.appendChild(el);
                 });
             }
         })();
