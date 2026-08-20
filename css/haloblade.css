@@ -1738,24 +1738,73 @@ body.novel .site-header .search-box > i { color: rgba(255, 255, 255, 0.7); }
 .portal-split.right-hover .split-right { clip-path: polygon(100% 100%, 10% 100%, 100% 10%); background: rgba(10, 12, 28, 0.94); }
 .portal-split.right-hover .split-left { clip-path: polygon(0 0, 10% 0, 0 10%); opacity: 0.8; }
 
-/* 大图边框特效（悬停扩张时浮现）：数量/大小/形状自由，呼应主题 */
-.border-effect {
+/* 分层浮现特效（悬停扩张时浮现）：所有装饰图为「本体 + 同位置黑灰影子」，同一动画不同速度（差速立体） */
+.fx-unit {
     position: absolute;
     opacity: 0;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    z-index: 2;
     pointer-events: none;
+    z-index: 2;
+    transform: rotate(var(--rot, 0deg));
+    transition: opacity 0.9s ease;
+}
+.fx-unit-portrait { border-radius: 50%; overflow: hidden; }
+.fx-unit-card { border-radius: 12px; overflow: hidden; }
+
+.fx-fig, .fx-shadow-fig {
+    position: absolute;
+    inset: 0;
     background-size: cover;
     background-position: center;
-    border: 1px solid rgba(255, 255, 255, 0.42);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
 }
-.fx-circle { border-radius: 50%; }
-.fx-round { border-radius: 16px; }
-.fx-novel { border-color: rgba(160, 210, 255, 0.6); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 18px rgba(77, 157, 224, 0.35); }
-.fx-shop { border-color: rgba(240, 168, 174, 0.6); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 18px rgba(225, 85, 84, 0.35); }
-.portal-split.left-hover .split-left .border-effect,
-.portal-split.right-hover .split-right .border-effect { opacity: 0.9; }
+.fx-fig { z-index: 2; }
+/* 黑灰影子：同一图片、同一位置，图层在下 */
+.fx-shadow-fig {
+    z-index: 1;
+    filter: grayscale(1) brightness(0.22) blur(3px);
+    opacity: 0.85;
+}
+
+/* 左侧人物（清晰原图，蓝光晕 / 柔和投影；虚影 = 黑灰影子的差速立体） */
+.fx-fig.portrait-front { filter: drop-shadow(0 0 16px rgba(77, 157, 224, 0.5)); }
+.fx-fig.portrait { filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5)); }
+/* 右侧卡牌（红金光晕 + 投影） */
+.fx-fig.card-front { filter: drop-shadow(0 0 16px rgba(225, 85, 84, 0.45)); }
+.fx-fig.card { filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55)); }
+
+/* 悬停：整体淡入；本体与影子做同一漂浮动画、不同速度（差速立体） */
+.portal-split.left-hover .split-left .fx-unit,
+.portal-split.right-hover .split-right .fx-unit { opacity: 1; }
+/* 左侧人物：向下漂浮（避免脸部移出圆形裁切） */
+.portal-split.left-hover .split-left .fx-fig { animation: fx-float-down 4s ease-in-out 0.9s infinite; }
+.portal-split.left-hover .split-left .fx-shadow-fig { animation: fx-float-down 6.5s ease-in-out 0.9s infinite; }
+@keyframes fx-float-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(11px); }
+}
+/* 右侧卡牌：向上漂浮 */
+.portal-split.right-hover .split-right .fx-fig { animation: fx-float 4s ease-in-out 0.9s infinite; }
+.portal-split.right-hover .split-right .fx-shadow-fig { animation: fx-float 6.5s ease-in-out 0.9s infinite; }
+@keyframes fx-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-11px); }
+}
+
+/* 刀光：冷色光刃 */
+.fx-gleam {
+    position: absolute;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(222, 234, 246, 0.92), #fff, rgba(222, 234, 246, 0.92), transparent);
+    box-shadow: 0 0 10px rgba(214, 228, 242, 0.8), 0 0 22px rgba(160, 210, 255, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+.portal-split.right-hover .split-right .fx-gleam { animation: gleam 2.4s ease-in-out infinite; }
+@keyframes gleam {
+    0%, 100% { opacity: 0.15; }
+    30%, 55% { opacity: 0.9; }
+}
 
 /* 内容 */
 .split-content { position: absolute; pointer-events: none; transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); max-width: 360px; z-index: 3; }
@@ -1801,7 +1850,7 @@ body.novel .site-header .search-box > i { color: rgba(255, 255, 255, 0.7); }
     .portal-split { position: absolute; inset: 0; z-index: 1; }
     .split-pane.split-left { clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%) !important; }
     .split-pane.split-right { clip-path: polygon(0 100%, 100% 100%, 100% 50%, 0 50%) !important; }
-    .border-effect { display: none; }
+    .fx-unit, .fx-gleam { display: none; }
     .split-content { max-width: 100%; text-align: center; }
     .split-content-left { top: 24% !important; left: 0 !important; right: 0 !important; }
     .split-content-right { bottom: 24% !important; right: 0 !important; left: 0 !important; }
